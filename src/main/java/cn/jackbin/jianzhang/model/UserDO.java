@@ -23,41 +23,23 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("lin_user")
-public class UserDO implements Serializable {
+@TableName("tb_user")
+public class UserDO extends BaseDo implements Serializable{
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    /**
-     * 用户名，唯一
-     */
+    // 用户名，唯一
     private String username;
 
-    /**
-     * 用户昵称
-     */
+    // 用户昵称
     private String nickname;
 
-    /**
-     * 头像url
-     */
+    // 头像url
     private String avatar;
 
-    /**
-     * 邮箱
-     */
+    // 邮箱
     private String email;
-
-    @JsonIgnore
-    private Date createTime;
-
-    @JsonIgnore
-    private Date updateTime;
-
-    @JsonIgnore
-    @TableLogic
-    private Date deleteTime;
 }
