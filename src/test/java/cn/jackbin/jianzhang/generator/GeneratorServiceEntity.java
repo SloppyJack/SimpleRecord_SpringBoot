@@ -1,9 +1,9 @@
 package cn.jackbin.jianzhang.generator;
 
 import com.baomidou.mybatisplus.annotation.DbType;
-import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
+import com.baomidou.mybatisplus.generator.config.GlobalConfig;
 import com.baomidou.mybatisplus.generator.config.PackageConfig;
 import com.baomidou.mybatisplus.generator.config.StrategyConfig;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
@@ -26,19 +26,23 @@ public class GeneratorServiceEntity {
 
     private void generateByTables(boolean serviceNameStartWithI, String packageName, String... tableNames) {
         GlobalConfig config = new GlobalConfig();
-        String dbUrl = "jdbc:mysql://localhost:3306/jianzhang";
+        String dbUrl = "jdbc:mysql://localhost:3306/jianzhang?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=UTF8";
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
         dataSourceConfig.setDbType(DbType.MYSQL)
                 .setUrl(dbUrl)
                 .setUsername("root")
                 .setPassword("root")
-                .setDriverName("com.mysql.jdbc.Driver");
+                .setDriverName("com.mysql.cj.jdbc.Driver");
         StrategyConfig strategyConfig = new StrategyConfig();
         strategyConfig
                 .setCapitalMode(true)
                 .setEntityLombokModel(false)
                 .setNaming(NamingStrategy.underline_to_camel)
                 .setInclude(tableNames);//修改替换成你需要的表名，多个表名传数组
+        config.setActiveRecord(false)
+                .setAuthor("K神带你飞")
+                .setOutputDir("d:\\codeGen")
+                .setFileOverride(true);
         if (!serviceNameStartWithI) {
             config.setServiceName("%sService");
         }
