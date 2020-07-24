@@ -1,7 +1,7 @@
 package cn.jackbin.jianzhang.entity;
 
-import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
@@ -37,11 +37,12 @@ public class CommonLogDO implements Serializable {
 
     private String permission;
 
-    private LocalDateTime createTime;
 
-    private LocalDateTime updateTime;
+    private Date createTime;
 
-    private LocalDateTime deleteTime;
+    private Date updateTime;
+
+    private Date deleteTime;
 
 
 }

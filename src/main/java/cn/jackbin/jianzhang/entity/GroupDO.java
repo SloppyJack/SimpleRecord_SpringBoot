@@ -1,7 +1,7 @@
 package cn.jackbin.jianzhang.entity;
 
-import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
@@ -35,11 +35,11 @@ public class GroupDO implements Serializable {
      */
     private String info;
 
-    private LocalDateTime createTime;
+    private Date createTime;
 
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
-    private LocalDateTime deleteTime;
+    private Date deleteTime;
 
 
 }

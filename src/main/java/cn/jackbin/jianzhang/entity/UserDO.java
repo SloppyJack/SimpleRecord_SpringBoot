@@ -1,7 +1,7 @@
 package cn.jackbin.jianzhang.entity;
 
-import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -47,11 +47,11 @@ public class UserDO implements Serializable {
      */
     private String email;
 
-    private LocalDateTime createTime;
+    private Date createTime;
 
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
-    private LocalDateTime deleteTime;
+    private Date deleteTime;
 
 
 }
