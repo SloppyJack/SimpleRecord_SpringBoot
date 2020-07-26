@@ -43,6 +43,12 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- 在springBoot2.3版本后需要自己引入javax.validation -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
         <!-- lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
