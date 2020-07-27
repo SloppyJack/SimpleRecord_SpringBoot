@@ -2,6 +2,7 @@ package cn.jackbin.jianzhang.common.config;
 
 import cn.jackbin.jianzhang.dto.CodeMsg;
 import cn.jackbin.jianzhang.dto.Result;
+import cn.jackbin.jianzhang.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -46,5 +47,18 @@ public class GlobalExceptionHandler {
             return Result.error(CodeMsg.FAILED, s.getDefaultMessage());
         }
         return Result.error(CodeMsg.FAILED,e.getMessage());
+    }
+
+    /**
+     *@description: 业务异常统一处理
+     *@params: [e]
+     *@return: cn.jackbin.jianzhang.dto.Result
+     *@createTime: 2020/7/27 21:18
+     *@author: edit by bin
+     */
+    @ExceptionHandler(BusinessException.class)
+    public Result handleBusinessException(BusinessException e){
+        log.error(e.getMessage(),e);
+        return Result.error(e.getCodeMsg(),e.getMessage());
     }
 }

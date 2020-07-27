@@ -5,6 +5,7 @@ import cn.jackbin.jianzhang.common.config.JWTConfig;
 import cn.jackbin.jianzhang.dto.LoginDTO;
 import cn.jackbin.jianzhang.dto.Result;
 import cn.jackbin.jianzhang.entity.UserDO;
+import cn.jackbin.jianzhang.exception.NotFoundException;
 import cn.jackbin.jianzhang.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,11 +42,11 @@ public class UserController {
      */
     @PostMapping("/login")
     public Result login(@RequestBody @Validated LoginDTO validator) {
-        /*UserDO user = userService.getUserByUsername(validator.getUsername());
+        UserDO user = userService.getUserByUserName(validator.getUsername());
         if (user == null) {
-            throw new NotFoundException("user not found", 10021);
+            throw new NotFoundException("未找到用户");
         }
-        boolean valid = userIdentityService.verifyUsernamePassword(
+        /*boolean valid = userIdentityService.verifyUsernamePassword(
                 user.getId(),
                 user.getUsername(),
                 validator.getPassword());
