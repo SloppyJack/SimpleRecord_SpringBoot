@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author: create by bin
  * @version: v1.0
- * @description: cn.jackbin.jianzhang.common.interceptor
+ * @description: 登录拦截器
  * @date: 2020/7/23 20:25
  **/
 @Component
@@ -36,15 +36,12 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
         Claims claims = null;
         try{
             claims = jwtConfig.getTokenClaim(token);
-            if(claims == null || jwtConfig.isTokenExpired(claims.getExpiration())){
+            if(claims == null || jwtConfig.isTokenExpired(claims)){
                 throw new SignatureException(jwtConfig.getHeader() + "失效，请重新登录。");
             }
         }catch (Exception e){
             throw new SignatureException(jwtConfig.getHeader() + "失效，请重新登录。");
         }
-
-        /** 设置 identityId 用户身份ID */
-        request.setAttribute("identityId", claims.getSubject());
         return true;
     }
 }

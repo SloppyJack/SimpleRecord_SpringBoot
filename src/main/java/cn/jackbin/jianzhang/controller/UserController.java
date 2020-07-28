@@ -2,6 +2,7 @@ package cn.jackbin.jianzhang.controller;
 
 
 import cn.jackbin.jianzhang.common.config.JWTConfig;
+import cn.jackbin.jianzhang.common.ioc.LoginRequired;
 import cn.jackbin.jianzhang.dto.LoginDTO;
 import cn.jackbin.jianzhang.dto.Result;
 import cn.jackbin.jianzhang.entity.UserDO;
@@ -35,10 +36,12 @@ public class UserController {
 
 
     @GetMapping
-    public UserDO getUserById() {
+    @ResponseBody
+    @LoginRequired
+    public Result getUserById() {
         log.error("its the test error info");
         UserDO userDO = userService.getBaseMapper().selectById(1);
-        return userDO;
+        return Result.success(userDO);
     }
 
     /**
@@ -48,7 +51,7 @@ public class UserController {
     public Result login(@RequestBody @Validated LoginDTO validator) {
         UserDO user = userService.getUserByUserName(validator.getUsername());
         if (user == null) {
-            throw new NotFoundException("未找到用户");
+            throw new NotFoundException("未找到指定用户");
         }
         boolean valid = userIdentityService.verifyUsernamePassword(
                 user.getId(),
@@ -57,6 +60,6 @@ public class UserController {
         if (!valid) {
             throw new ParameterException("用户名或密码错误");
         }
-        return Result.success(jwtConfig.createToken("123"));
+        return Result.success(jwtConfig.createToken(user.getId().toString()));
     }
 }

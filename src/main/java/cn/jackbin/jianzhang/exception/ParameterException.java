@@ -13,4 +13,9 @@ public class ParameterException extends BusinessException {
         super(message);
         super.codeMsg = CodeMsg.PARAMETER_ILLEGAL;
     }
+
+    public ParameterException(CodeMsg codeMsg, String message) {
+        super(message);
+        super.codeMsg = codeMsg;
+    }
 }

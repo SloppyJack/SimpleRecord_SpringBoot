@@ -58,33 +58,25 @@ public class JWTConfig {
     }
     /**
      * 验证token是否过期失效
-     * @param expirationTime
+     * @param claims
      * @return
      */
-    public boolean isTokenExpired (Date expirationTime) {
-        return expirationTime.before(new Date());
+    public boolean isTokenExpired (Claims claims) {
+        return claims.getExpiration().before(new Date());
     }
 
     /**
-     * 获取token失效时间
-     * @param token
-     * @return
-     */
-    public Date getExpirationDateFromToken(String token) {
-        return getTokenClaim(token).getExpiration();
-    }
-    /**
      * 获取用户名从token中
      */
-    public String getUsernameFromToken(String token) {
-        return getTokenClaim(token).getSubject();
+    public String getUserIdFromToken(Claims claims) {
+        return claims.getSubject();
     }
 
     /**
      * 获取jwt发布时间
      */
-    public Date getIssuedAtDateFromToken(String token) {
-        return getTokenClaim(token).getIssuedAt();
+    public Date getIssuedAtDateFromToken(Claims claims) {
+        return claims.getIssuedAt();
     }
 
     // --------------------- getter & setter ---------------------
