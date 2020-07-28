@@ -11,7 +11,7 @@ import cn.jackbin.jianzhang.dto.CodeMsg;
 public class NotFoundException  extends BusinessException{
     public NotFoundException(String message) {
         super(message);
-        super.codeMsg = CodeMsg.NOT_FOUND;
+        super.codeMsg = CodeMsg.NOT_FIND_DATA;
     }
 
     public NotFoundException(CodeMsg codeMsg,String message) {

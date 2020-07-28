@@ -15,7 +15,6 @@ public class CodeMsg {
     public static CodeMsg ERROR = new CodeMsg(-1,"接口调用异常");
     public static CodeMsg FAILED = new CodeMsg(100,"接口调用失败");
     public static CodeMsg SERVER_EXCEPTION = new CodeMsg(101,"服务端异常");
-    public static CodeMsg NOT_FOUND = new CodeMsg(102,"未找到对应数据");
 
 
 

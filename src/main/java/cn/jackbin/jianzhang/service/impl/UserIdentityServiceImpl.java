@@ -4,6 +4,7 @@ import cn.jackbin.jianzhang.constant.IdentityConstant;
 import cn.jackbin.jianzhang.entity.UserIdentityDO;
 import cn.jackbin.jianzhang.mapper.UserIdentityMapper;
 import cn.jackbin.jianzhang.service.UserIdentityService;
+import cn.jackbin.jianzhang.util.EncryptUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class UserIdentityServiceImpl extends ServiceImpl<UserIdentityMapper, Use
         wrapper.lambda().eq(UserIdentityDO::getUserId, userId)
                 .eq(UserIdentityDO::getIdentityType, IdentityConstant.USERNAME_PASSWORD_IDENTITY);
         UserIdentityDO userIdentity = this.baseMapper.selectOne(wrapper);
-        // todo 此处完成校验密码
-        return false;
+        String temp = EncryptUtil.getInstance().MD5(password);
+        return userIdentity.getCredential().equals(temp);
     }
 }

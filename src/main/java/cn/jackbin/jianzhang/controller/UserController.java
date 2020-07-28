@@ -6,6 +6,8 @@ import cn.jackbin.jianzhang.dto.LoginDTO;
 import cn.jackbin.jianzhang.dto.Result;
 import cn.jackbin.jianzhang.entity.UserDO;
 import cn.jackbin.jianzhang.exception.NotFoundException;
+import cn.jackbin.jianzhang.exception.ParameterException;
+import cn.jackbin.jianzhang.service.UserIdentityService;
 import cn.jackbin.jianzhang.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,8 @@ public class UserController {
     @Autowired
     private UserService userService;
     @Autowired
+    private UserIdentityService userIdentityService;
+    @Autowired
     private JWTConfig jwtConfig;
 
 
@@ -46,13 +50,13 @@ public class UserController {
         if (user == null) {
             throw new NotFoundException("未找到用户");
         }
-        /*boolean valid = userIdentityService.verifyUsernamePassword(
+        boolean valid = userIdentityService.verifyUsernamePassword(
                 user.getId(),
                 user.getUsername(),
                 validator.getPassword());
         if (!valid) {
-            throw new ParameterException("username or password is fault", 10031);
-        }*/
+            throw new ParameterException("用户名或密码错误");
+        }
         return Result.success(jwtConfig.createToken("123"));
     }
 }
