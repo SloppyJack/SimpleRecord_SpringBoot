@@ -3,6 +3,7 @@ package cn.jackbin.jianzhang.common.config;
 import cn.jackbin.jianzhang.dto.CodeMsg;
 import cn.jackbin.jianzhang.dto.Result;
 import cn.jackbin.jianzhang.exception.BusinessException;
+import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -28,9 +29,14 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public Result handleException(Exception e){
-
         log.error(e.getMessage(),e);
         return Result.error(CodeMsg.ERROR);
+    }
+
+    @ExceptionHandler(JwtException.class)
+    public Result handleJwtException(JwtException e) {
+        log.error(e.getMessage(),e);
+        return Result.error(CodeMsg.JWT_EXCEPTION,e.getMessage());
     }
 
     /**

@@ -15,6 +15,7 @@ public class CodeMsg {
     public static CodeMsg ERROR = new CodeMsg(-1,"接口调用异常");
     public static CodeMsg FAILED = new CodeMsg(100,"接口调用失败");
     public static CodeMsg SERVER_EXCEPTION = new CodeMsg(101,"服务端异常");
+    public static CodeMsg JWT_EXCEPTION = new CodeMsg(102,"JWT校验异常");
 
 
 

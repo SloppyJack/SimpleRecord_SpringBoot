@@ -51,7 +51,7 @@ public class LoginRequiredAspect {
 
     // 开始环绕
     @Around("doHandler()")
-    public void around(ProceedingJoinPoint joinPoint)throws Throwable{
+    public Object around(ProceedingJoinPoint joinPoint)throws Throwable{
         // step 1
         RequestAttributes ra = RequestContextHolder.getRequestAttributes();
         ServletRequestAttributes sra = (ServletRequestAttributes) ra;
@@ -60,7 +60,10 @@ public class LoginRequiredAspect {
         token = request.getHeader("token");
 
         // 切面往下执行
-        joinPoint.proceed();
+        Object result = joinPoint.proceed();
+
+        // step 5 将结果返回
+        return result;
     }
 
     @Before("doHandler()")
