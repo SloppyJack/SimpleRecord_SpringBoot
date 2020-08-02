@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>cn.jackbin</groupId>
-    <artifactId>springboot_jianzhang</artifactId>
+    <artifactId>SimpleRecord_SpringBoot</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>springboot_jianzhang</name>
+    <name>SimpleRecord_SpringBoot</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -35,6 +35,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
+
+        <!--<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>-->
 
         <!-- log4j2依赖 -->
         <dependency>
