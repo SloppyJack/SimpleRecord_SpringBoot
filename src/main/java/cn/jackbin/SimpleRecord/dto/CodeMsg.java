@@ -29,6 +29,7 @@ public class CodeMsg {
     public static CodeMsg PARAMETER_ILLEGAL = new CodeMsg(500008,"参数不合法");
     public static CodeMsg UPLOAD_IMAGE_ILLEGAL = new CodeMsg(500009,"上传的图片不能为空");
     public static CodeMsg EMPTY_PAGESIZE_OR_PAGEINDEX = new CodeMsg(500010,"分页大小或页码为空");
+    public static CodeMsg LOGIN_ERROR = new CodeMsg(500011,"登录失败");
 
     private CodeMsg(int retCode, String message) {
         this.retCode = retCode;

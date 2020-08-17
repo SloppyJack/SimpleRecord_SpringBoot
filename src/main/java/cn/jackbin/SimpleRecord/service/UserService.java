@@ -1,6 +1,7 @@
 package cn.jackbin.SimpleRecord.service;
 
 import cn.jackbin.SimpleRecord.entity.UserDO;
+import cn.jackbin.SimpleRecord.entity.UserGroupDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

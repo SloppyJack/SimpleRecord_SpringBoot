@@ -1,6 +1,7 @@
 package cn.jackbin.SimpleRecord.service.impl;
 
 import cn.jackbin.SimpleRecord.entity.UserDO;
+import cn.jackbin.SimpleRecord.entity.UserGroupDO;
 import cn.jackbin.SimpleRecord.mapper.UserMapper;
 import cn.jackbin.SimpleRecord.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;

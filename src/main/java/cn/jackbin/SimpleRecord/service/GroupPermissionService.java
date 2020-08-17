@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-07-21
  */
 public interface GroupPermissionService extends IService<GroupPermissionDO> {
-
+    GroupPermissionDO getByGroupId(int id);
 }

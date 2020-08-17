@@ -8,8 +8,10 @@ import cn.jackbin.SimpleRecord.dto.Result;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.exception.NotFoundException;
 import cn.jackbin.SimpleRecord.exception.ParameterException;
+import cn.jackbin.SimpleRecord.service.UserGroupService;
 import cn.jackbin.SimpleRecord.service.UserIdentityService;
 import cn.jackbin.SimpleRecord.service.UserService;
+import cn.jackbin.SimpleRecord.vo.UserGroupVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -33,6 +35,8 @@ public class UserController {
     private UserIdentityService userIdentityService;
     @Autowired
     private JWTConfig jwtConfig;
+    @Autowired
+    private UserGroupService userGroupService;
 
 
     @GetMapping
@@ -60,6 +64,7 @@ public class UserController {
         if (!valid) {
             throw new ParameterException("用户名或密码错误");
         }
-        return Result.success(jwtConfig.createToken(user.getId().toString()));
+        UserGroupVO userGroupVO = userGroupService.getUserGroupVOByUserId(user.getId());
+        return Result.success(jwtConfig.createToken(user.getId().toString(), userGroupVO.getGroupDO().getName()));
     }
 }

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author: create by bin
@@ -31,13 +33,21 @@ public class JWTConfig {
      * @param subject
      * @return
      */
-    public String createToken (String subject){
+    /**
+     * 生成Token
+     * @param userName
+     * @param roleName
+     * @return
+     */
+    public String createToken (String userName, String roleName){
         Date nowDate = new Date();
         Date expireDate = new Date(nowDate.getTime() + expire * 1000);//过期时间
-
+        Map<String,Object> map = new HashMap<>();
+        map.put("role",roleName);
         return Jwts.builder()
                 .setHeaderParam("typ", "JWT")
-                .setSubject(subject)
+                .setClaims(map)
+                .setSubject(userName)
                 .setIssuedAt(nowDate)
                 .setExpiration(expireDate)
                 .signWith(SignatureAlgorithm.HS512, secret)
@@ -70,6 +80,13 @@ public class JWTConfig {
      */
     public String getUserIdFromToken(Claims claims) {
         return claims.getSubject();
+    }
+
+    /**
+     * 获取用户角色
+     */
+    public String getRoleName(Claims claims) {
+        return claims.get("role").toString();
     }
 
     /**
