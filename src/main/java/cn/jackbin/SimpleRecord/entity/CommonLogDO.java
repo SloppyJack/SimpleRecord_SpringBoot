@@ -19,7 +19,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("tb_common_log")
-public class CommonLogDO implements Serializable {
+public class CommonLogDO extends BaseDO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -36,13 +36,5 @@ public class CommonLogDO implements Serializable {
     private String path;
 
     private String permission;
-
-
-    private Date createTime;
-
-    private Date updateTime;
-
-    private Date deleteTime;
-
 
 }

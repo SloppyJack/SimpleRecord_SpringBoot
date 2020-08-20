@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.jackbin.SimpleRecord.mapper.PermissionMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.jackbin.SimpleRecord.entity.GroupPermissionDO">
+        <id column="id" property="id"/>
+        <result column="group_id" property="groupId"/>
+        <result column="permission_id" property="permissionId"/>
+    </resultMap>
 
+    <select id="queryPermissionByUserId" resultType="cn.jackbin.SimpleRecord.entity.PermissionDO">
+    select distinct *
+    from tb_permission p
+        LEFT JOIN tb_group_permission gp on gp.permission_id = p.id
+    WHERE
+        gp.group_id
+        in
+        (select ug.group_id
+        from tb_user u
+            LEFT JOIN tb_user_group ug on ug.user_id = u.id
+        where u.id = #{userId}
+        )
+    </select>
 </mapper>

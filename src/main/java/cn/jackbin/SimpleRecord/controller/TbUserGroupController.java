@@ -1,6 +1,9 @@
 package cn.jackbin.SimpleRecord.controller;
 
 
+import cn.jackbin.SimpleRecord.dto.Result;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -17,4 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/jianzhang/tb-user-group")
 public class TbUserGroupController {
 
+    @PreAuthorize("hasAuthority('log:find')")
+    @GetMapping()
+    public Result test() {
+        System.out.println("test");
+        return Result.success();
+    }
 }

@@ -18,7 +18,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("tb_group_permission")
-public class GroupPermissionDO implements Serializable {
+public class GroupPermissionDO extends BaseDO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

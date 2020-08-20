@@ -16,6 +16,9 @@ public class CodeMsg {
     public static CodeMsg FAILED = new CodeMsg(100,"接口调用失败");
     public static CodeMsg SERVER_EXCEPTION = new CodeMsg(101,"服务端异常");
     public static CodeMsg JWT_EXCEPTION = new CodeMsg(102,"JWT校验异常");
+    public static CodeMsg IDENTITY_CHECK_ERROR = new CodeMsg(103, "身份校验失败");
+    public static CodeMsg CHECK_PERMISSION_ERROR = new CodeMsg(104, "权限校验失败");
+    public static CodeMsg WITHOUT_PERMISSION = new CodeMsg(105, "权限不足，请联系管理员");
 
 
 

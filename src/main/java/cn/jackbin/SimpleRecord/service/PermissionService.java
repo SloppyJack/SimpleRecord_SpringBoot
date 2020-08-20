@@ -1,8 +1,9 @@
 package cn.jackbin.SimpleRecord.service;
 
 import cn.jackbin.SimpleRecord.entity.PermissionDO;
-import cn.jackbin.SimpleRecord.vo.UserPermissionVO;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,5 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-07-21
  */
 public interface PermissionService extends IService<PermissionDO> {
-    UserPermissionVO getUserPermissionVOByUserId(Long userId);
+    List<PermissionDO> getUserPermissions(Long userId);
 }

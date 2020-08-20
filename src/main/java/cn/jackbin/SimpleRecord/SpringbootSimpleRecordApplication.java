@@ -8,10 +8,10 @@ import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
 @MapperScan("cn.jackbin.SimpleRecord.mapper")
-public class SpringbootJianzhangApplication {
+public class SpringbootSimpleRecordApplication {
 
     public static void main(String[] args) {
-        ApplicationContext context = SpringApplication.run(SpringbootJianzhangApplication.class, args);
+        ApplicationContext context = SpringApplication.run(SpringbootSimpleRecordApplication.class, args);
         SpringContextUtil.setApplicationContext(context);
     }
 

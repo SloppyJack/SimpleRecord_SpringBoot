@@ -20,7 +20,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("tb_user")
-public class UserDO implements Serializable {
+public class UserDO extends BaseDO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -38,6 +38,11 @@ public class UserDO implements Serializable {
     private String nickname;
 
     /**
+     * 用户凭证
+     */
+    private String credential;
+
+    /**
      * 头像url
      */
     private String avatar;
@@ -46,12 +51,6 @@ public class UserDO implements Serializable {
      * 邮箱
      */
     private String email;
-
-    private Date createTime;
-
-    private Date updateTime;
-
-    private Date deleteTime;
 
 
 }

@@ -1,14 +1,13 @@
 package cn.jackbin.SimpleRecord.common.config;
 
+import cn.jackbin.SimpleRecord.constant.PermissionConstant;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author: create by bin
@@ -36,14 +35,14 @@ public class JWTConfig {
     /**
      * 生成Token
      * @param userName
-     * @param roleName
+     * @param permissionList
      * @return
      */
-    public String createToken (String userName, String roleName){
+    public String createToken (String userName, List<String> permissionList){
         Date nowDate = new Date();
         Date expireDate = new Date(nowDate.getTime() + expire * 1000);//过期时间
         Map<String,Object> map = new HashMap<>();
-        map.put("role",roleName);
+        map.put(PermissionConstant.PermissionSign,permissionList);
         return Jwts.builder()
                 .setHeaderParam("typ", "JWT")
                 .setClaims(map)
@@ -83,10 +82,10 @@ public class JWTConfig {
     }
 
     /**
-     * 获取用户角色
+     * 获取用户权限列表
      */
-    public String getRoleName(Claims claims) {
-        return claims.get("role").toString();
+    public List<String> getPermissions(Claims claims) {
+        return (List<String>) claims.get(PermissionConstant.PermissionSign);
     }
 
     /**

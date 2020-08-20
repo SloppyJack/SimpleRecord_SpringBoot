@@ -18,7 +18,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("tb_user_group")
-public class UserGroupDO implements Serializable {
+public class UserGroupDO extends BaseDO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

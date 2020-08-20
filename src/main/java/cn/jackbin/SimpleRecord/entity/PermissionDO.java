@@ -19,7 +19,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("tb_permission")
-public class PermissionDO implements Serializable {
+public class PermissionDO extends BaseDO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -28,18 +28,21 @@ public class PermissionDO implements Serializable {
     /**
      * 权限名称，例如：访问首页
      */
-    private String name;
+    private String permissionName;
+
+    /**
+     * 权限编码
+     */
+    private String permissionCode;
 
     /**
      * 权限所属模块，例如：人员管理
      */
-    private String module;
+    private String moduleName;
 
-    private Date createTime;
-
-    private Date updateTime;
-
-    private Date deleteTime;
-
+    /**
+     * 模块编码
+     */
+    private String moduleCode;
 
 }

@@ -1,17 +1,25 @@
 package cn.jackbin.SimpleRecord.common.config;
 
+import cn.jackbin.SimpleRecord.common.config.sercurity.CustomAccessDeineHandler;
+import cn.jackbin.SimpleRecord.common.config.sercurity.CustomAuthenticationEntryPoint;
 import cn.jackbin.SimpleRecord.common.config.sercurity.UserDetailsServiceImpl;
 import cn.jackbin.SimpleRecord.common.filter.JWTAuthenticationFilter;
 import cn.jackbin.SimpleRecord.common.filter.JWTAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.access.expression.SecurityExpressionOperations;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.FilterInvocation;
+import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
+import org.springframework.security.web.access.expression.WebSecurityExpressionRoot;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -59,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
                 // 测试用资源，需要验证了的用户才能访问
-                .antMatchers("/jianzhang/**").hasAuthority("root")
+                //.antMatchers("/jianzhang/**").hasAuthority("root")
                 // 其他都放行了
                 .anyRequest().permitAll()
                 .and()
@@ -67,6 +75,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new JWTAuthorizationFilter(authenticationManager()))
                 // 不需要session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        //添加自定义异常入口，处理SpringSecurity异常
+        http.exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                .accessDeniedHandler(new CustomAccessDeineHandler());
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.expressionHandler(new DefaultWebSecurityExpressionHandler() {
+            @Override
+            protected SecurityExpressionOperations createSecurityExpressionRoot(Authentication authentication, FilterInvocation fi) {
+                WebSecurityExpressionRoot root = (WebSecurityExpressionRoot) super.createSecurityExpressionRoot(authentication, fi);
+                root.setDefaultRolePrefix(""); // remove the prefix ROLE_
+                return root;
+            }
+        });
     }
 
     @Bean

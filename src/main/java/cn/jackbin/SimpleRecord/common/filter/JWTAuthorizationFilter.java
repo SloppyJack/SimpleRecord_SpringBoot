@@ -7,6 +7,7 @@ import io.jsonwebtoken.Claims;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -16,7 +17,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * @author: create by bin
@@ -49,8 +53,12 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         Claims claims = jwtConfig.getTokenClaim(token);
         if (claims != null){
             String userId = jwtConfig.getUserIdFromToken(claims);
-            String role = jwtConfig.getRoleName(claims);
-            return new UsernamePasswordAuthenticationToken(userId, null, Collections.singleton(new SimpleGrantedAuthority(role)));
+            List<String> permissions = jwtConfig.getPermissions(claims);
+            List<GrantedAuthority> list = new ArrayList<>();
+            permissions.forEach(
+                    n-> list.add(new SimpleGrantedAuthority(n))
+            );
+            return new UsernamePasswordAuthenticationToken(userId, null, list);
         }else {
             throw new ParameterException("token格式不正确");
         }

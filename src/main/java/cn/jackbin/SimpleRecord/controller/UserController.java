@@ -9,9 +9,7 @@ import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.exception.NotFoundException;
 import cn.jackbin.SimpleRecord.exception.ParameterException;
 import cn.jackbin.SimpleRecord.service.UserGroupService;
-import cn.jackbin.SimpleRecord.service.UserIdentityService;
 import cn.jackbin.SimpleRecord.service.UserService;
-import cn.jackbin.SimpleRecord.vo.UserGroupVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -32,8 +30,6 @@ public class UserController {
     @Autowired
     private UserService userService;
     @Autowired
-    private UserIdentityService userIdentityService;
-    @Autowired
     private JWTConfig jwtConfig;
     @Autowired
     private UserGroupService userGroupService;
@@ -53,7 +49,7 @@ public class UserController {
      */
     @PostMapping("/login")
     public Result login(@RequestBody @Validated LoginDTO validator) {
-        UserDO user = userService.getUserByUserName(validator.getUsername());
+        /*UserDO user = userService.getUserByUserName(validator.getUsername());
         if (user == null) {
             throw new NotFoundException("未找到指定用户");
         }
@@ -65,6 +61,7 @@ public class UserController {
             throw new ParameterException("用户名或密码错误");
         }
         UserGroupVO userGroupVO = userGroupService.getUserGroupVOByUserId(user.getId());
-        return Result.success(jwtConfig.createToken(user.getId().toString(), userGroupVO.getGroupDO().getName()));
+        return Result.success(jwtConfig.createToken(user.getId().toString(), userGroupVO.getGroupDO().getName()));*/
+        return null;
     }
 }

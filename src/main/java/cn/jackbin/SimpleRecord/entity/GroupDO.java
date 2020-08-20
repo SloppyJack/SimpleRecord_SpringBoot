@@ -19,7 +19,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("tb_group")
-public class GroupDO implements Serializable {
+public class GroupDO extends BaseDO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -34,12 +34,5 @@ public class GroupDO implements Serializable {
      * 分组信息：例如：搬砖的人
      */
     private String info;
-
-    private Date createTime;
-
-    private Date updateTime;
-
-    private Date deleteTime;
-
 
 }

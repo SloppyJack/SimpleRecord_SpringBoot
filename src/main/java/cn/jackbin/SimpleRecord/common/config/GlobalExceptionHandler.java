@@ -5,6 +5,7 @@ import cn.jackbin.SimpleRecord.dto.Result;
 import cn.jackbin.SimpleRecord.exception.BusinessException;
 import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -53,6 +54,12 @@ public class GlobalExceptionHandler {
             return Result.error(CodeMsg.FAILED, s.getDefaultMessage());
         }
         return Result.error(CodeMsg.FAILED,e.getMessage());
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public Result handleAccessDeniedException(AccessDeniedException e) {
+        log.error(e.getMessage(),e);
+        return Result.error(CodeMsg.WITHOUT_PERMISSION, e.getMessage());
     }
 
     /**
