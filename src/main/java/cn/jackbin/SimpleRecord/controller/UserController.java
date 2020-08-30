@@ -2,12 +2,9 @@ package cn.jackbin.SimpleRecord.controller;
 
 
 import cn.jackbin.SimpleRecord.common.config.JWTConfig;
-import cn.jackbin.SimpleRecord.common.ioc.LoginRequired;
 import cn.jackbin.SimpleRecord.dto.LoginDTO;
 import cn.jackbin.SimpleRecord.dto.Result;
 import cn.jackbin.SimpleRecord.entity.UserDO;
-import cn.jackbin.SimpleRecord.exception.NotFoundException;
-import cn.jackbin.SimpleRecord.exception.ParameterException;
 import cn.jackbin.SimpleRecord.service.UserGroupService;
 import cn.jackbin.SimpleRecord.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +34,6 @@ public class UserController {
 
     @GetMapping
     @ResponseBody
-    @LoginRequired
     public Result getUserById() {
         log.error("its the test error info");
         UserDO userDO = userService.getBaseMapper().selectById(1);

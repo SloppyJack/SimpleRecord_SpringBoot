@@ -9,6 +9,7 @@ package cn.jackbin.SimpleRecord.util;
 
 
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -296,7 +297,8 @@ public class EncryptUtil {
     }
 
     public static void main(String[] args) {
-        EncryptUtil util = new EncryptUtil();   // CY9rzUYh03PK3k6DJie09g==
-        System.out.println(util.MD5("test"));
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String str = encoder.encode("Abcd1234");
+        System.out.println(str);
     }
 }

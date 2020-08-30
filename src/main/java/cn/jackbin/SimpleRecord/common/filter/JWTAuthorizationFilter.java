@@ -1,8 +1,17 @@
 package cn.jackbin.SimpleRecord.common.filter;
 
-import cn.jackbin.SimpleRecord.common.SpringContextUtil;
+import cn.jackbin.SimpleRecord.common.LocalUser;
+import cn.jackbin.SimpleRecord.util.SpringContextUtil;
 import cn.jackbin.SimpleRecord.common.config.JWTConfig;
+import cn.jackbin.SimpleRecord.dto.CodeMsg;
+import cn.jackbin.SimpleRecord.dto.Result;
+import cn.jackbin.SimpleRecord.entity.UserDO;
+import cn.jackbin.SimpleRecord.exception.BusinessException;
+import cn.jackbin.SimpleRecord.exception.NotFoundException;
 import cn.jackbin.SimpleRecord.exception.ParameterException;
+import cn.jackbin.SimpleRecord.service.UserService;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import io.jsonwebtoken.Claims;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,8 +27,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -37,14 +44,17 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         String token = request.getHeader("token");
-        // 如果请求头中没有Authorization信息则直接放行了
-        if (StringUtils.isBlank(token)) {
-            chain.doFilter(request, response);
-            return;
+        // 校验token正确性
+        try {
+            checkToken(token);
+            // 如果请求头中有token，则进行解析，并且设置认证信息
+            SecurityContextHolder.getContext().setAuthentication(getAuthentication(token));
+            super.doFilterInternal(request, response, chain);
+        } catch (BusinessException e) {
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("application/json; charset=utf-8");
+            response.getWriter().write(JSON.toJSONString(Result.error(e.getCodeMsg(), e.getMessage()), SerializerFeature.WriteMapNullValue));
         }
-        // 如果请求头中有token，则进行解析，并且设置认证信息
-        SecurityContextHolder.getContext().setAuthentication(getAuthentication(token));
-        super.doFilterInternal(request, response, chain);
     }
 
     // 这里从token中获取用户信息并新建一个token
@@ -53,6 +63,8 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         Claims claims = jwtConfig.getTokenClaim(token);
         if (claims != null){
             String userId = jwtConfig.getUserIdFromToken(claims);
+            // 设置当前用户到线程中
+            setLocalUser(userId);
             List<String> permissions = jwtConfig.getPermissions(claims);
             List<GrantedAuthority> list = new ArrayList<>();
             permissions.forEach(
@@ -62,6 +74,33 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         }else {
             throw new ParameterException("token格式不正确");
         }
+    }
+
+    /**
+     * 校验token的正确性
+     */
+    private void checkToken(String token) {
+        JWTConfig jwtConfig = SpringContextUtil.getBean(JWTConfig.class);
+        if(StringUtils.isEmpty(token)){
+            throw new NotFoundException(jwtConfig.getHeader()+"不能为空");
+        }
+        Claims claims = jwtConfig.getTokenClaim(token);
+        if(claims == null || jwtConfig.isTokenExpired(claims)){
+            throw new ParameterException(jwtConfig.getHeader() + "失效，请重新登录。");
+        }
+    }
+
+    /**
+     * 根据userId设置当前用户
+     * @param userId
+     */
+    private void setLocalUser(String userId) {
+        UserService userService = SpringContextUtil.getBean(UserService.class);
+        UserDO userDO = userService.getById(userId);
+        if (userDO == null) {
+            throw new NotFoundException("未找到指定用户");
+        }
+        LocalUser.setLocalUser(userDO);
     }
 
 }

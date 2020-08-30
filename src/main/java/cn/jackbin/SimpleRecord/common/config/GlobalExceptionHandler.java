@@ -59,7 +59,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     public Result handleAccessDeniedException(AccessDeniedException e) {
         log.error(e.getMessage(),e);
-        return Result.error(CodeMsg.WITHOUT_PERMISSION, e.getMessage());
+        return Result.error(CodeMsg.WITHOUT_PERMISSION);
     }
 
     /**
