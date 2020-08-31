@@ -2,7 +2,7 @@ package cn.jackbin.SimpleRecord.common.config;
 
 import cn.jackbin.SimpleRecord.dto.CodeMsg;
 import cn.jackbin.SimpleRecord.dto.Result;
-import cn.jackbin.SimpleRecord.exception.BusinessException;
+import cn.jackbin.SimpleRecord.exception.BaseException;
 import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
@@ -69,8 +69,8 @@ public class GlobalExceptionHandler {
      *@createTime: 2020/7/27 21:18
      *@author: edit by bin
      */
-    @ExceptionHandler(BusinessException.class)
-    public Result handleBusinessException(BusinessException e){
+    @ExceptionHandler(BaseException.class)
+    public Result handleBusinessException(BaseException e){
         log.error(e.getMessage(),e);
         return Result.error(e.getCodeMsg(),e.getMessage());
     }

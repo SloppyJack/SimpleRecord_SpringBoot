@@ -5,14 +5,11 @@ import cn.jackbin.SimpleRecord.common.config.sercurity.JWTUser;
 import cn.jackbin.SimpleRecord.dto.CodeMsg;
 import cn.jackbin.SimpleRecord.dto.LoginDTO;
 import cn.jackbin.SimpleRecord.dto.Result;
-import cn.jackbin.SimpleRecord.util.EncryptUtil;
-import cn.jackbin.SimpleRecord.util.SpringUtils;
+import cn.jackbin.SimpleRecord.util.SpringContextUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -68,8 +65,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         List<String> permissionList = new ArrayList<>();
         jwtUser.getAuthorities().forEach(n -> permissionList.add(n.getAuthority()));
         // 通过获取Spring上下文来获取JWTConfig对象
-        ApplicationContext applicationContext = SpringUtils.getApplicationContext();
-        JWTConfig jwtConfig = applicationContext.getBean(JWTConfig.class);
+        JWTConfig jwtConfig = SpringContextUtil.getBean(JWTConfig.class);
         String token = jwtConfig.createToken(jwtUser.getId().toString(),permissionList);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");

@@ -8,7 +8,7 @@ import cn.jackbin.SimpleRecord.dto.CodeMsg;
  * @description: cn.jackbin.SimpleRecord.exception
  * @date: 2020/7/27 21:08
  **/
-public class NotFoundException  extends BusinessException{
+public class NotFoundException  extends BaseException {
     public NotFoundException(String message) {
         super(message);
         super.codeMsg = CodeMsg.NOT_FIND_DATA;

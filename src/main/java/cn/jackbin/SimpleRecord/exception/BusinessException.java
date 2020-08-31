@@ -6,16 +6,16 @@ import cn.jackbin.SimpleRecord.dto.CodeMsg;
  * @author: create by bin
  * @version: v1.0
  * @description: cn.jackbin.SimpleRecord.exception
- * @date: 2020/7/27 21:16
+ * @date: 2020/8/31 19:41
  **/
-public class BusinessException extends RuntimeException{
-    protected CodeMsg codeMsg;
-
+public class BusinessException extends BaseException {
     public BusinessException(String message) {
         super(message);
+        super.codeMsg = CodeMsg.NOT_FIND_DATA;
     }
 
-    public CodeMsg getCodeMsg() {
-        return codeMsg;
+    public BusinessException(CodeMsg codeMsg,String message) {
+        super(message);
+        super.codeMsg = codeMsg;
     }
 }

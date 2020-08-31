@@ -23,6 +23,7 @@ public class CodeMsg {
 
 
     // 通用业务 格式500 xxx
+    public static CodeMsg BUSINESS_ERROR = new CodeMsg(500000,"业务异常");
     public static CodeMsg USER_NOT_EXSIST = new CodeMsg(500002,"用户不存在");
     public static CodeMsg ONLINE_USER_OVER = new CodeMsg(500003,"在线用户数超出允许登录的最大用户限制。");
     public static CodeMsg SESSION_NOT_EXSIST =  new CodeMsg(500004,"不存在离线session数据");
@@ -32,7 +33,13 @@ public class CodeMsg {
     public static CodeMsg PARAMETER_ILLEGAL = new CodeMsg(500008,"参数不合法");
     public static CodeMsg UPLOAD_IMAGE_ILLEGAL = new CodeMsg(500009,"上传的图片不能为空");
     public static CodeMsg EMPTY_PAGESIZE_OR_PAGEINDEX = new CodeMsg(500010,"分页大小或页码为空");
-    public static CodeMsg LOGIN_ERROR = new CodeMsg(500011,"登录失败");
+
+
+    // 用户相关 格式600 xxx
+    public static CodeMsg LOGIN_ERROR = new CodeMsg(600001,"登录失败");
+    public static CodeMsg USERNAME_EXIST = new CodeMsg(600002,"用户名重复");
+    public static CodeMsg PSW_FORMAT_ERROR = new CodeMsg(600003,"密码是由8至16位的数字和字母组成，请重新输入");
+    public static CodeMsg SEX_FORMAT_ERROR = new CodeMsg(600003,"性别未识别");
 
     private CodeMsg(int retCode, String message) {
         this.retCode = retCode;

@@ -3,10 +3,9 @@ package cn.jackbin.SimpleRecord.common.filter;
 import cn.jackbin.SimpleRecord.common.LocalUser;
 import cn.jackbin.SimpleRecord.util.SpringContextUtil;
 import cn.jackbin.SimpleRecord.common.config.JWTConfig;
-import cn.jackbin.SimpleRecord.dto.CodeMsg;
 import cn.jackbin.SimpleRecord.dto.Result;
 import cn.jackbin.SimpleRecord.entity.UserDO;
-import cn.jackbin.SimpleRecord.exception.BusinessException;
+import cn.jackbin.SimpleRecord.exception.BaseException;
 import cn.jackbin.SimpleRecord.exception.NotFoundException;
 import cn.jackbin.SimpleRecord.exception.ParameterException;
 import cn.jackbin.SimpleRecord.service.UserService;
@@ -43,6 +42,10 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+        if (checkIsWhiteList(request.getServletPath())) {
+            chain.doFilter(request, response);
+            return;
+        }
         String token = request.getHeader("token");
         // 校验token正确性
         try {
@@ -50,7 +53,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             // 如果请求头中有token，则进行解析，并且设置认证信息
             SecurityContextHolder.getContext().setAuthentication(getAuthentication(token));
             super.doFilterInternal(request, response, chain);
-        } catch (BusinessException e) {
+        } catch (BaseException e) {
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json; charset=utf-8");
             response.getWriter().write(JSON.toJSONString(Result.error(e.getCodeMsg(), e.getMessage()), SerializerFeature.WriteMapNullValue));
@@ -101,6 +104,10 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             throw new NotFoundException("未找到指定用户");
         }
         LocalUser.setLocalUser(userDO);
+    }
+
+    private boolean checkIsWhiteList(String servletPath) {
+        return servletPath.endsWith("/user/register");
     }
 
 }
