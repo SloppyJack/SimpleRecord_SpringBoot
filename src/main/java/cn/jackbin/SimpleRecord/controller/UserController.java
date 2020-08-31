@@ -39,25 +39,4 @@ public class UserController {
         UserDO userDO = userService.getBaseMapper().selectById(1);
         return Result.success(userDO);
     }
-
-    /**
-     * 用户登陆
-     */
-    @PostMapping("/login")
-    public Result login(@RequestBody @Validated LoginDTO validator) {
-        /*UserDO user = userService.getUserByUserName(validator.getUsername());
-        if (user == null) {
-            throw new NotFoundException("未找到指定用户");
-        }
-        boolean valid = userIdentityService.verifyUsernamePassword(
-                user.getId(),
-                user.getUsername(),
-                validator.getPassword());
-        if (!valid) {
-            throw new ParameterException("用户名或密码错误");
-        }
-        UserGroupVO userGroupVO = userGroupService.getUserGroupVOByUserId(user.getId());
-        return Result.success(jwtConfig.createToken(user.getId().toString(), userGroupVO.getGroupDO().getName()));*/
-        return null;
-    }
 }

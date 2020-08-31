@@ -1,7 +1,5 @@
 package cn.jackbin.SimpleRecord.common.config;
 
-import cn.jackbin.SimpleRecord.common.config.sercurity.CustomAccessDeineHandler;
-import cn.jackbin.SimpleRecord.common.config.sercurity.CustomAuthenticationEntryPoint;
 import cn.jackbin.SimpleRecord.common.config.sercurity.UserDetailsServiceImpl;
 import cn.jackbin.SimpleRecord.common.filter.JWTAuthenticationFilter;
 import cn.jackbin.SimpleRecord.common.filter.JWTAuthorizationFilter;
@@ -75,9 +73,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new JWTAuthorizationFilter(authenticationManager()))
                 // 不需要session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        //添加自定义异常入口，处理SpringSecurity异常
-        http.exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-                .accessDeniedHandler(new CustomAccessDeineHandler());
     }
 
     @Override

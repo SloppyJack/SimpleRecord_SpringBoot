@@ -40,7 +40,7 @@ public class JWTConfig {
      */
     public String createToken (String userName, List<String> permissionList){
         Date nowDate = new Date();
-        Date expireDate = new Date(nowDate.getTime() + expire * 1000);//过期时间
+        Date expireDate = new Date(nowDate.getTime() + expire * 1000 * 3600);//过期时间
         Map<String,Object> map = new HashMap<>();
         map.put(PermissionConstant.PermissionSign,permissionList);
         return Jwts.builder()

@@ -80,6 +80,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
-        response.getWriter().write(JSON.toJSONString(Result.error(CodeMsg.LOGIN_ERROR, failed.getMessage()), SerializerFeature.WriteMapNullValue));
+        response.getWriter().write(JSON.toJSONString(Result.error(CodeMsg.LOGIN_ERROR), SerializerFeature.WriteMapNullValue));
     }
 }

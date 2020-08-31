@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/jianzhang/tb-user-group")
 public class TbUserGroupController {
 
-    @PreAuthorize("hasAuthority('log:find')")
+    @PreAuthorize("hasAuthority('log:find1')")
     @GetMapping()
     public Result test() {
         System.out.println("test");
