@@ -18,6 +18,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @TableName("tb_common_log")
 public class CommonLogDO extends BaseDO implements Serializable {
 

@@ -19,6 +19,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @TableName("tb_user")
 public class UserDO extends BaseDO implements Serializable {
 

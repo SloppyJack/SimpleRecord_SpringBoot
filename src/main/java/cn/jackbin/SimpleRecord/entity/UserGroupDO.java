@@ -17,6 +17,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @TableName("tb_user_group")
 public class UserGroupDO extends BaseDO implements Serializable {
 

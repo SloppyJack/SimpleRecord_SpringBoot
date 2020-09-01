@@ -10,6 +10,7 @@ import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.service.UserGroupService;
 import cn.jackbin.SimpleRecord.service.UserService;
 import cn.jackbin.SimpleRecord.util.PasswordUtil;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
  * @author jackbin
  * @since 2020-07-21
  */
+@Api(value = "UserController", tags = { "用户访问接口" })
 @RestController
 @RequestMapping("/user")
 @Slf4j
@@ -44,8 +46,10 @@ public class UserController {
         return Result.success(userDO);
     }
 
+    @ApiOperation(value = "注册用户")
+    @ApiResponses(value = @ApiResponse(code = 0, message = "成功"))
     @PostMapping(value = "/register")
-    public Result register(@RequestBody @Validated RegisterDTO dto) {
+    public Result register(@RequestBody @Validated @ApiParam(value = "注册类") RegisterDTO dto) {
         if (userService.getUserByUserName(dto.getUsername()) != null) {
             return Result.error(CodeMsg.USERNAME_EXIST);
         }
@@ -59,6 +63,6 @@ public class UserController {
         BeanUtils.copyProperties(dto, userDO);
         userDO.setCredential(PasswordUtil.encoder(dto.getPassword()));
         userService.save(userDO);
-        return null;
+        return Result.success();
     }
 }

@@ -36,6 +36,18 @@ import java.util.List;
  **/
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
+    private static List<String> whiteList = new ArrayList<>();
+
+    static {
+        whiteList.add("/user/register");
+        whiteList.add("/doc.html");
+        whiteList.add(".js");
+        whiteList.add(".css");
+        whiteList.add("/swagger-resources/configuration/ui");
+        whiteList.add("/swagger-resources");
+        whiteList.add("/api-docs");
+    }
+
     public JWTAuthorizationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
     }
@@ -107,7 +119,8 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     }
 
     private boolean checkIsWhiteList(String servletPath) {
-        return servletPath.endsWith("/user/register");
+        String temp = whiteList.stream().filter(servletPath::endsWith).findFirst().orElse(null);
+        return StringUtils.isNoneBlank(temp);
     }
 
 }

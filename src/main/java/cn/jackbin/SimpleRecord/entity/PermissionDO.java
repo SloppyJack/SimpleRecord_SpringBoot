@@ -18,6 +18,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @TableName("tb_permission")
 public class PermissionDO extends BaseDO implements Serializable {
 
