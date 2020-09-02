@@ -36,28 +36,12 @@ import java.util.List;
  **/
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
-    private static List<String> whiteList = new ArrayList<>();
-
-    static {
-        whiteList.add("/user/register");
-        whiteList.add("/doc.html");
-        whiteList.add(".js");
-        whiteList.add(".css");
-        whiteList.add("/swagger-resources/configuration/ui");
-        whiteList.add("/swagger-resources");
-        whiteList.add("/api-docs");
-    }
-
     public JWTAuthorizationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        if (checkIsWhiteList(request.getServletPath())) {
-            chain.doFilter(request, response);
-            return;
-        }
         String token = request.getHeader("token");
         // 校验token正确性
         try {
@@ -116,11 +100,6 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             throw new NotFoundException("未找到指定用户");
         }
         LocalUser.setLocalUser(userDO);
-    }
-
-    private boolean checkIsWhiteList(String servletPath) {
-        String temp = whiteList.stream().filter(servletPath::endsWith).findFirst().orElse(null);
-        return StringUtils.isNoneBlank(temp);
     }
 
 }
