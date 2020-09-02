@@ -4,6 +4,7 @@ package cn.jackbin.SimpleRecord.controller;
 import cn.jackbin.SimpleRecord.common.config.JWTConfig;
 import cn.jackbin.SimpleRecord.constant.SexConstant;
 import cn.jackbin.SimpleRecord.dto.CodeMsg;
+import cn.jackbin.SimpleRecord.dto.LoginDTO;
 import cn.jackbin.SimpleRecord.dto.RegisterDTO;
 import cn.jackbin.SimpleRecord.dto.Result;
 import cn.jackbin.SimpleRecord.entity.UserDO;
@@ -49,7 +50,7 @@ public class UserController {
     @ApiOperation(value = "注册用户")
     @ApiResponses(value = @ApiResponse(code = 0, message = "成功"))
     @PostMapping(value = "/register")
-    public Result register(@RequestBody @Validated @ApiParam(value = "注册类") RegisterDTO dto) {
+    public Result register(@RequestBody @Validated RegisterDTO dto) {
         if (userService.getUserByUserName(dto.getUsername()) != null) {
             return Result.error(CodeMsg.USERNAME_EXIST);
         }
@@ -63,6 +64,12 @@ public class UserController {
         BeanUtils.copyProperties(dto, userDO);
         userDO.setCredential(PasswordUtil.encoder(dto.getPassword()));
         userService.save(userDO);
+        return Result.success();
+    }
+
+    @ApiOperation(value = "用户登录")
+    @PostMapping(value = "/login")
+    public Result login(@RequestBody LoginDTO dto) {
         return Result.success();
     }
 }

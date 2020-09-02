@@ -18,4 +18,9 @@ public class ParameterException extends BaseException {
         super(message);
         super.codeMsg = codeMsg;
     }
+
+    public ParameterException(CodeMsg codeMsg) {
+        super(codeMsg.getMessage());
+        super.codeMsg = codeMsg;
+    }
 }

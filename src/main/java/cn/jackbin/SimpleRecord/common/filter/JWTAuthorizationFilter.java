@@ -1,6 +1,7 @@
 package cn.jackbin.SimpleRecord.common.filter;
 
 import cn.jackbin.SimpleRecord.common.LocalUser;
+import cn.jackbin.SimpleRecord.dto.CodeMsg;
 import cn.jackbin.SimpleRecord.util.SpringContextUtil;
 import cn.jackbin.SimpleRecord.common.config.JWTConfig;
 import cn.jackbin.SimpleRecord.dto.Result;
@@ -84,8 +85,12 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             throw new NotFoundException(jwtConfig.getHeader()+"不能为空");
         }
         Claims claims = jwtConfig.getTokenClaim(token);
-        if(claims == null || jwtConfig.isTokenExpired(claims)){
-            throw new ParameterException(jwtConfig.getHeader() + "失效，请重新登录。");
+        if(claims == null){
+            throw new ParameterException(CodeMsg.JWT_EXCEPTION);
+
+        }
+        if (jwtConfig.isTokenExpired(claims)) {
+            throw new ParameterException(CodeMsg.TOKEN_EXPIRED);
         }
     }
 

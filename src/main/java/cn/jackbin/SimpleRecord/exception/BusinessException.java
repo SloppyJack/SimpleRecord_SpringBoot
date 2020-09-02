@@ -18,4 +18,9 @@ public class BusinessException extends BaseException {
         super(message);
         super.codeMsg = codeMsg;
     }
+
+    public BusinessException(CodeMsg codeMsg) {
+        super(codeMsg.getMessage());
+        super.codeMsg = codeMsg;
+    }
 }
