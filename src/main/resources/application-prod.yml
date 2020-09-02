@@ -1,0 +1,11 @@
+# 生产环境配置
+# 服务端口
+server:
+  port: 5000
+# 数据源配置，请修改为你项目的实际配置
+spring:
+  datasource:
+  url: jdbc:mysql://localhost:3306/jianzhang?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=UTF8
+  username: root
+  password: root
+  driver-class-name: com.mysql.cj.jdbc.Drivere

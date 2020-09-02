@@ -1,0 +1,20 @@
+# 主配置文件
+# 激活环境配置
+spring:
+  profiles:
+    active: dev
+# 统一请求前缀
+server:
+  servlet:
+    context-path: /api
+
+# 日志配置文件（日志配置文件）
+logging:
+  config: classpath:log4j2.xml
+
+
+# jwt相关配置
+jwt:
+  secret: abcdefg1234567 # 加密密钥
+  expire: 6 # token有效时长（h）
+  header: token # header 名称

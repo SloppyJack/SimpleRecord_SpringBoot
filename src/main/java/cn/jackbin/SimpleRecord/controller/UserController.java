@@ -33,19 +33,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     private UserService userService;
-    @Autowired
-    private JWTConfig jwtConfig;
-    @Autowired
-    private UserGroupService userGroupService;
-
-
-    @GetMapping
-    @ResponseBody
-    public Result getUserById() {
-        log.error("its the test error info");
-        UserDO userDO = userService.getBaseMapper().selectById(1);
-        return Result.success(userDO);
-    }
 
     @ApiOperation(value = "注册用户")
     @ApiResponses(value = @ApiResponse(code = 0, message = "成功"))
