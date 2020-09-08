@@ -6,6 +6,7 @@ import cn.jackbin.SimpleRecord.exception.BaseException;
 import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -60,6 +61,12 @@ public class GlobalExceptionHandler {
     public Result handleAccessDeniedException(AccessDeniedException e) {
         log.error(e.getMessage(),e);
         return Result.error(CodeMsg.WITHOUT_PERMISSION);
+    }
+
+    @ExceptionHandler(BindException.class)
+    public Result handleBindException(BindException e) {
+        log.error(e.getMessage(),e);
+        return Result.error(CodeMsg.PARAMETER_ILLEGAL);
     }
 
     /**

@@ -18,3 +18,14 @@ jwt:
   secret: abcdefg1234567 # 加密密钥
   expire: 6 # token有效时长（h）
   header: token # header 名称
+
+#mybatis-plus
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 打印将执行的sql语句
+  global-config:
+    db-config:
+      logic-delete-field: deleteTime
+      logic-delete-value: now() # 逻辑已删除值
+      logic-not-delete-value: null # 逻辑未删除值

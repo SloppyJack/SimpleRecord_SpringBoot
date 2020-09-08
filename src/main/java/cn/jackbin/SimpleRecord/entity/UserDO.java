@@ -39,6 +39,11 @@ public class UserDO extends BaseDO implements Serializable {
     private String nickname;
 
     /**
+     * 性别
+     */
+    private Integer sex;
+
+    /**
      * 用户凭证
      */
     private String credential;
