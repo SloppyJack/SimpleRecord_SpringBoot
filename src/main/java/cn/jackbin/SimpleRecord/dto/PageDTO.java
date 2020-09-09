@@ -1,5 +1,6 @@
 package cn.jackbin.SimpleRecord.dto;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -15,12 +16,14 @@ public class PageDTO {
     /**
      * 分页的索引
      */
+    @ApiModelProperty(required = true, value = "分页的索引")
     @NotNull(message = "当前页数不能为空")
     int pageIndex;
 
     /**
      * 分页的大小
      */
+    @ApiModelProperty(required = true, value = "分页的大小")
     @NotNull(message = "分页的大小不能为空")
     int pageSize;
 }

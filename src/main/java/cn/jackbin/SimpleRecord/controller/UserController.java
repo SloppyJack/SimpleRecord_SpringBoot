@@ -35,7 +35,6 @@ public class UserController {
     private UserService userService;
 
     @ApiOperation(value = "注册用户")
-    @ApiResponses(value = @ApiResponse(code = 0, message = "成功"))
     @PostMapping(value = "/register")
     public Result register(@RequestBody @Validated RegisterDTO dto) {
         if (userService.getUserByUserName(dto.getUsername()) != null) {

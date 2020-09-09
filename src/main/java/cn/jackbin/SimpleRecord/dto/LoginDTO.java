@@ -17,9 +17,9 @@ import javax.validation.constraints.NotBlank;
 @ApiModel(value="LoginDTO对象", description="用户登录对象")
 public class LoginDTO {
 
-    @ApiModelProperty(value = "用户名")
+    @ApiModelProperty(required = true, value = "用户名")
     private String username;
 
-    @ApiModelProperty(value = "密码")
+    @ApiModelProperty(required = true, value = "密码")
     private String password;
 }

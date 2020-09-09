@@ -18,23 +18,23 @@ import javax.validation.constraints.NotNull;
 @ApiModel(value="RegisterDTO对象", description="用户注册对象")
 public class RegisterDTO {
 
+    @ApiModelProperty(required = true, value = "用户名")
     @NotBlank(message = "用户名不能为空")
-    @ApiModelProperty(value = "用户名")
     private String username;
 
+    @ApiModelProperty(required = true, value = "用户昵称")
     @NotBlank(message = "用户昵称不能为空")
-    @ApiModelProperty(value = "用户昵称")
     private String nickname;
 
+    @ApiModelProperty(required = true, value = "性别（男:1;女:0）")
     @NotNull(message = "性别不能为空")
-    @ApiModelProperty(value = "性别（男:1;女:0）")
     private Integer sex;
 
+    @ApiModelProperty(required = true, value = "邮箱")
     @Email(message = "邮箱格式不正确")
-    @ApiModelProperty(value = "邮箱")
     private String email;
 
+    @ApiModelProperty(required = true, value = "密码")
     @NotBlank(message = "密码不能为空")
-    @ApiModelProperty(value = "密码")
     private String password;
 }
