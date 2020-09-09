@@ -3,6 +3,8 @@ package cn.jackbin.SimpleRecord.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 
@@ -22,8 +24,9 @@ import lombok.*;
 @TableName("tb_permission")
 public class PermissionDO extends BaseDO implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID1 = 1L;
 
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**

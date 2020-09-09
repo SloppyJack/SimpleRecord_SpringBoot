@@ -2,6 +2,7 @@ package cn.jackbin.SimpleRecord.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import lombok.Data;
 
 import java.util.Date;
 
@@ -11,11 +12,12 @@ import java.util.Date;
  * @description: cn.jackbin.SimpleRecord.entity
  * @date: 2020/8/19 19:40
  **/
+@Data
 public class BaseDO {
-    @TableField(fill = FieldFill.INSERT)
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
     private Date createTime;
 
-    @TableField(fill = FieldFill.UPDATE)
+    @TableField(value = "update_time",fill = FieldFill.UPDATE)
     private Date updateTime;
 
     private Date deleteTime;
