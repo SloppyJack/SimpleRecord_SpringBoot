@@ -3,7 +3,6 @@ package cn.jackbin.SimpleRecord.common.config.sercurity;
 import cn.jackbin.SimpleRecord.entity.PermissionDO;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.service.PermissionService;
-import cn.jackbin.SimpleRecord.service.UserGroupService;
 import cn.jackbin.SimpleRecord.service.UserService;
 import cn.jackbin.SimpleRecord.vo.UserPermissionVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        UserDO userDO = userService.getUserByUserName(s);
+        UserDO userDO = userService.getByName(s);
         List<PermissionDO> permissionDOList = permissionService.getUserPermissions(userDO.getId());
         UserPermissionVO userPermissionVO = new UserPermissionVO(userDO, permissionDOList);
         return new JWTUser(userPermissionVO);

@@ -1,22 +1,23 @@
 package cn.jackbin.SimpleRecord.controller;
 
 
-import cn.jackbin.SimpleRecord.common.config.JWTConfig;
 import cn.jackbin.SimpleRecord.constant.SexConstant;
-import cn.jackbin.SimpleRecord.dto.CodeMsg;
-import cn.jackbin.SimpleRecord.dto.LoginDTO;
-import cn.jackbin.SimpleRecord.dto.RegisterDTO;
-import cn.jackbin.SimpleRecord.dto.Result;
+import cn.jackbin.SimpleRecord.dto.*;
 import cn.jackbin.SimpleRecord.entity.UserDO;
-import cn.jackbin.SimpleRecord.service.UserGroupService;
 import cn.jackbin.SimpleRecord.service.UserService;
 import cn.jackbin.SimpleRecord.util.PasswordUtil;
+import cn.jackbin.SimpleRecord.vo.UserVO;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -37,7 +38,7 @@ public class UserController {
     @ApiOperation(value = "注册用户")
     @PostMapping(value = "/register")
     public Result register(@RequestBody @Validated RegisterDTO dto) {
-        if (userService.getUserByUserName(dto.getUsername()) != null) {
+        if (userService.getByName(dto.getUsername()) != null) {
             return Result.error(CodeMsg.USERNAME_EXIST);
         }
         if (!PasswordUtil.check(dto.getPassword())) {
@@ -57,5 +58,40 @@ public class UserController {
     @PostMapping(value = "/login")
     public Result login(@RequestBody LoginDTO dto) {
         return Result.success();
+    }
+
+    @ApiOperation(value = "通过Id获取用户")
+    @GetMapping
+    public Result get(@ApiParam(required = true, value = "用户Id") @Validated
+                          @NotNull(message = "用户Id不能为空") @RequestParam(value = "id")Integer id) {
+        UserDO userDO = userService.getById(id);
+        if (userDO == null) {
+            return Result.error(CodeMsg.NOT_FIND_DATA);
+        }
+        UserVO userVO = new UserVO();
+        BeanUtils.copyProperties(userDO, userVO);
+        return Result.success(userVO);
+    }
+
+    @ApiOperation(value = "通过Name获取用户")
+    @GetMapping(value = "/getByName")
+    public Result get(@ApiParam(required = true, value = "用户名") @Validated
+                          @NotBlank(message = "用户名不能为空") @RequestParam(value = "id")String userName) {
+        UserDO userDO = userService.getByName(userName);
+        if (userDO == null) {
+            return Result.error(CodeMsg.NOT_FIND_DATA);
+        }
+        UserVO userVO = new UserVO();
+        BeanUtils.copyProperties(userDO, userVO);
+        return Result.success(userVO);
+    }
+
+    @ApiOperation(value = "分页获取用户列表")
+    @GetMapping(value = "/getByPage")
+    public Result getByPage(@Validated PageDTO dto) {
+        List<UserDO> userDOList = userService.getByPage(dto.getPageIndex(), dto.getPageSize());
+        List<UserVO> userVOList = new ArrayList<>();
+        BeanUtils.copyProperties(userDOList, userVOList);
+        return Result.success(userVOList);
     }
 }

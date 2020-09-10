@@ -16,16 +16,13 @@ public class CodeMsg {
     public static CodeMsg FAILED = new CodeMsg(100,"接口调用失败");
     public static CodeMsg SERVER_EXCEPTION = new CodeMsg(101,"服务端异常");
     public static CodeMsg JWT_EXCEPTION = new CodeMsg(102,"JWT校验异常");
-    public static CodeMsg IDENTITY_CHECK_ERROR = new CodeMsg(103, "身份校验失败");
-    public static CodeMsg CHECK_PERMISSION_ERROR = new CodeMsg(104, "权限校验失败");
-    public static CodeMsg WITHOUT_PERMISSION = new CodeMsg(105, "权限不足，请联系管理员");
-    public static CodeMsg TOKEN_EXPIRED = new CodeMsg(106, "token失效");
+    public static CodeMsg WITHOUT_PERMISSION = new CodeMsg(103, "权限不足，请联系管理员");
+    public static CodeMsg TOKEN_EXPIRED = new CodeMsg(104, "token失效");
 
 
 
     // 通用业务 格式500 xxx
     public static CodeMsg BUSINESS_ERROR = new CodeMsg(500000,"业务异常");
-    public static CodeMsg USER_NOT_EXSIST = new CodeMsg(500002,"用户不存在");
     public static CodeMsg ONLINE_USER_OVER = new CodeMsg(500003,"在线用户数超出允许登录的最大用户限制。");
     public static CodeMsg SESSION_NOT_EXSIST =  new CodeMsg(500004,"不存在离线session数据");
     public static CodeMsg NOT_FIND_DATA = new CodeMsg(500005,"查找不到对应数据");
