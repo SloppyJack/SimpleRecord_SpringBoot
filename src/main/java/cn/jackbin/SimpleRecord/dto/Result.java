@@ -11,8 +11,8 @@ public class Result<T> {
     private int retCode;
     private T data;
     private Result(T data) {
-        this.retCode = 0;
-        this.message = "success";
+        this.retCode = CodeMsg.SUCCESS.getRetCode();
+        this.message = CodeMsg.SUCCESS.getMessage();
         this.data = data;
     }
     private Result(CodeMsg cm) {

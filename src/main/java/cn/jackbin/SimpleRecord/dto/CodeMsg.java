@@ -11,6 +11,8 @@ public class CodeMsg {
     private int retCode;
     private String message;
     // 按照模块定义CodeMsg
+    // 成功
+    public static CodeMsg SUCCESS = new CodeMsg(0,"success");
     // 通用异常
     public static CodeMsg ERROR = new CodeMsg(-1,"接口调用异常");
     public static CodeMsg FAILED = new CodeMsg(100,"接口调用失败");
