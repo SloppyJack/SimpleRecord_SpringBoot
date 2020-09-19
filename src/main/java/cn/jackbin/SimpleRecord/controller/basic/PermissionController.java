@@ -1,4 +1,4 @@
-package cn.jackbin.SimpleRecord.controller;
+package cn.jackbin.SimpleRecord.controller.basic;
 
 
 import cn.jackbin.SimpleRecord.dto.CodeMsg;
@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 /**
@@ -34,7 +35,7 @@ public class PermissionController {
     @ApiOperation(value = "获取指定权限")
     @GetMapping
     public Result get(@ApiParam(value = "权限Id") @Validated
-                          @NotNull(message = "权限Id不能为空") @RequestParam(value = "id")Integer id) {
+                          @Positive(message = "权限Id为整数") @RequestParam(value = "id")Integer id) {
         PermissionDO permissionDO = permissionService.getById(id);
         if (permissionDO == null) {
             return Result.error(CodeMsg.NOT_FIND_DATA);

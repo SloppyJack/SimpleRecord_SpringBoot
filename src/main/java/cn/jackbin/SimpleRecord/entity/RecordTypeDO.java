@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * @author: create by bin
  * @version: v1.0
- * @description: cn.jackbin.SimpleRecord.entity
+ * @description: 记账类别
  * @date: 2020/9/16 22:20
  **/
 @Data

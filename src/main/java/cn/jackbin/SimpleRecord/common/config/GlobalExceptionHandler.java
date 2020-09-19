@@ -12,6 +12,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolationException;
+
 /**
  * @author: create by bin
  * @version: v1.0
@@ -54,6 +56,12 @@ public class GlobalExceptionHandler {
         for (ObjectError s : e.getBindingResult().getAllErrors()) {
             return Result.error(CodeMsg.FAILED, s.getDefaultMessage());
         }
+        return Result.error(CodeMsg.FAILED,e.getMessage());
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public Result handleConstraintViolationException(ConstraintViolationException e) {
+        log.error(e.getMessage(),e);
         return Result.error(CodeMsg.FAILED,e.getMessage());
     }
 

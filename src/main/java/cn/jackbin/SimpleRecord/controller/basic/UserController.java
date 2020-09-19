@@ -1,4 +1,4 @@
-package cn.jackbin.SimpleRecord.controller;
+package cn.jackbin.SimpleRecord.controller.basic;
 
 
 import cn.jackbin.SimpleRecord.constant.SexConstant;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +64,7 @@ public class UserController {
     @ApiOperation(value = "通过Id获取用户")
     @GetMapping
     public Result get(@ApiParam(required = true, value = "用户Id") @Validated
-                          @NotNull(message = "用户Id不能为空") @RequestParam(value = "id")Integer id) {
+                          @Positive(message = "用户Id为整数") @RequestParam(value = "id")Integer id) {
         UserDO userDO = userService.getById(id);
         if (userDO == null) {
             return Result.error(CodeMsg.NOT_FIND_DATA);

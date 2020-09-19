@@ -13,7 +13,7 @@ import java.util.Date;
 /**
  * @author: create by bin
  * @version: v1.0
- * @description: cn.jackbin.SimpleRecord.entity
+ * @description: 记账记录
  * @date: 2020/9/16 22:19
  **/
 @Data
@@ -46,7 +46,7 @@ public class RecordDetailDO extends BaseDO implements Serializable {
     /**
      * 备注
      */
-    private String remark;
+    private String remarks;
 
     @JsonFormat(pattern ="yyyy-MM-dd",timezone ="GMT+8")
     private Date occurTime;

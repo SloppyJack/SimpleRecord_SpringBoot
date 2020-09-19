@@ -41,6 +41,12 @@ public class CodeMsg {
     public static CodeMsg PSW_FORMAT_ERROR = new CodeMsg(600003,"密码是由8至16位的数字和字母组成，请重新输入");
     public static CodeMsg SEX_FORMAT_ERROR = new CodeMsg(600003,"性别未识别");
 
+    // 记账相关 格式700 xxx
+    public static CodeMsg INSERT_RECORD_ERROR = new CodeMsg(700001,"新增记账记录失败");
+    public static CodeMsg UPDATE_RECORD_ERROR = new CodeMsg(700002,"更新记账记录失败");
+    public static CodeMsg DEL_RECORD_FORBIDDEN = new CodeMsg(700003,"禁止删除他人记账记录");
+    public static CodeMsg DEL_RECORD_ERROR = new CodeMsg(700004,"删除记账记录失败");
+
     private CodeMsg(int retCode, String message) {
         this.retCode = retCode;
         this.message = message;

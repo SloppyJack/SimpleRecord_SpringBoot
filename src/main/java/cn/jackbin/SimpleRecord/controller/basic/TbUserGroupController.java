@@ -1,4 +1,4 @@
-package cn.jackbin.SimpleRecord.controller;
+package cn.jackbin.SimpleRecord.controller.basic;
 
 
 import cn.jackbin.SimpleRecord.dto.Result;

@@ -3,8 +3,12 @@ package cn.jackbin.SimpleRecord.service.impl;
 import cn.jackbin.SimpleRecord.entity.SpendCategoryDO;
 import cn.jackbin.SimpleRecord.mapper.SpendCategoryMapper;
 import cn.jackbin.SimpleRecord.service.SpendCategoryService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -16,5 +20,18 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SpendCategoryServiceImpl extends ServiceImpl<SpendCategoryMapper, SpendCategoryDO> implements SpendCategoryService {
+    @Autowired
+    private SpendCategoryMapper spendCategoryMapper;
 
+    @Override
+    public List<SpendCategoryDO> findAll() {
+        return spendCategoryMapper.selectList(null);
+    }
+
+    @Override
+    public List<SpendCategoryDO> getByRecordTypeId(int recordTypeId) {
+        QueryWrapper<SpendCategoryDO> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("record_type_id",recordTypeId);
+        return spendCategoryMapper.selectList(queryWrapper);
+    }
 }

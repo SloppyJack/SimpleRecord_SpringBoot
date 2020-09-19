@@ -4,7 +4,10 @@ import cn.jackbin.SimpleRecord.entity.RecordTypeDO;
 import cn.jackbin.SimpleRecord.mapper.RecordTypeMapper;
 import cn.jackbin.SimpleRecord.service.RecordTypeService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -16,5 +19,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class RecordTypeServiceImpl extends ServiceImpl<RecordTypeMapper, RecordTypeDO> implements RecordTypeService {
+    @Autowired
+    private RecordTypeMapper recordTypeMapper;
 
+    @Override
+    public List<RecordTypeDO> findAll() {
+        return recordTypeMapper.selectList(null);
+    }
 }
