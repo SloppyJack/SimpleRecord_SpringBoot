@@ -84,8 +84,9 @@ public class JWTConfig {
     /**
      * 获取用户权限列表
      */
+    @SuppressWarnings("unchecked")
     public List<String> getPermissions(Claims claims) {
-        return (List<String>) claims.get(PermissionConstant.PermissionSign);
+        return (List<String>)claims.get(PermissionConstant.PermissionSign);
     }
 
     /**

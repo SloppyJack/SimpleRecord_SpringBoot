@@ -8,7 +8,6 @@ package cn.jackbin.SimpleRecord.util;
  **/
 
 
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.crypto.Cipher;
@@ -18,6 +17,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
+import java.util.Base64;
 
 public class EncryptUtil {
     public static final String MD5 = "MD5";
@@ -134,7 +134,7 @@ public class EncryptUtil {
     }
 
     private String base64(byte[] res){
-        return Base64.encode(res);
+        return Base64.getEncoder().encodeToString(res);
     }
 
     /**将二进制转换成16进制 */
@@ -284,7 +284,7 @@ public class EncryptUtil {
      * @return
      */
     public String Base64Encode(String res) {
-        return Base64.encode(res.getBytes());
+        return Base64.getEncoder().encodeToString(res.getBytes());
     }
 
     /**
@@ -293,7 +293,7 @@ public class EncryptUtil {
      * @return
      */
     public String Base64Decode(String res) {
-        return new String(Base64.decode(res));
+        return new String(Base64.getDecoder().decode(res));
     }
 
     public static void main(String[] args) {
