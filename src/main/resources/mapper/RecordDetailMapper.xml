@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.jackbin.SimpleRecord.mapper.RecordDetailMapper">
-
+    <select id="querySpendTotalByMonth" resultType="Double">
+        select t3.amount spendTotal from
+        (SELECT SUM(amount) amount
+        FROM
+            tb_record_detail t1
+            LEFT JOIN tb_spend_category t2 on t1.spend_category_id = t2.id
+        where t1.user_id = #{userId}
+            and t2.record_type_id = (select id from tb_record_type where code = #{recordTypeCode})
+            and date_format(t1.occur_time, '%Y-%m') = date_format(#{date}, '%Y-%m')
+        ) t3
+    </select>
 </mapper>

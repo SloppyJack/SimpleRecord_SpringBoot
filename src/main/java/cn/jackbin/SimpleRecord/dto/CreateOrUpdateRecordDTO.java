@@ -1,5 +1,6 @@
 package cn.jackbin.SimpleRecord.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,7 +24,8 @@ public class CreateOrUpdateRecordDTO {
     @NotNull(message = "金额不能为空")
     private Double amount;
 
-    @DateTimeFormat(pattern="yyyy-MM-dd hh:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date occurTime;
 
     // 备注

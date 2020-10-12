@@ -10,10 +10,14 @@ import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.service.RecordDetailService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.Positive;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author: create by bin
@@ -24,21 +28,16 @@ import javax.validation.constraints.Positive;
 @Api(value = "RecordTypeController", tags = { "记账访问接口" })
 @RestController
 @RequestMapping("/v1/record")
-@Validated
 public class RecordController {
     @Autowired
     private RecordDetailService recordDetailService;
 
     /**
-     *@description: 记账
-     *@params: validator
-     *@return: CreatedVO
-     *@createTime: 2020/6/8 22:16
-     *@author: edit by bin
+     * 记账
      */
     @ApiOperation(value = "新增记账记录")
     @PostMapping("/insert")
-    public Result createRecord(@RequestBody @Validated CreateOrUpdateRecordDTO dto) {
+    public Result<?> createRecord(@RequestBody @Validated CreateOrUpdateRecordDTO dto) {
         if (recordDetailService.createRecord(dto)) {
             return Result.success();
         } else {
@@ -48,15 +47,15 @@ public class RecordController {
 
     @ApiOperation(value = "分页获取当前登录用户的记账记录")
     @GetMapping("/getUserRecordsByPage")
-    public Result getUserRecordsByPage(@Validated PageDTO dto) {
+    public Result<?> getUserRecordsByPage(@Validated PageDTO dto) {
         return Result.success(recordDetailService.getRecordsByLocalUserByPage(dto.getPageIndex(), dto.getPageSize()));
     }
 
     @ApiOperation(value = "修改当前登录用户的记账记录")
     @PutMapping("/{id}")
-    public Result updateRecord(@PathVariable("id") @Positive(message = "{id}") Long id, @RequestBody @Validated CreateOrUpdateRecordDTO validator) {
+    public Result<?> updateRecord(@PathVariable("id") @Positive(message = "{id}") Long id, @RequestBody @Validated CreateOrUpdateRecordDTO validator) {
         RecordDetailDO recordDO = recordDetailService.getById(id);
-        Result checkResult = checkRecord(recordDO);
+        Result<?> checkResult = checkRecord(recordDO);
         if (checkResult != null) {
             return checkResult;
         }
@@ -70,9 +69,9 @@ public class RecordController {
 
     @ApiOperation(value = "删除当前登录用户的记账记录")
     @DeleteMapping("/{id}")
-    public Result deleteBook(@PathVariable("id") @Positive(message = "{id}") Long id) {
+    public Result<?> deleteBook(@PathVariable("id") @Positive(message = "{id}") Long id) {
         RecordDetailDO recordDO = recordDetailService.getById(id);
-        Result checkResult = checkRecord(recordDO);
+        Result<?> checkResult = checkRecord(recordDO);
         if (checkResult != null) {
             return checkResult;
         }
@@ -84,7 +83,16 @@ public class RecordController {
         }
     }
 
-    private Result checkRecord(RecordDetailDO recordDetailDO) {
+    @ApiOperation(value = "获取某个月份的支出和收入")
+    @GetMapping("/getSpendTotalInMonth")
+    public Result<?> getSpendTotalInMonth(@ApiParam(required = true, value = "yyyy-MM") @Validated
+                                                  @DateTimeFormat(pattern="yyyy-MM") @RequestParam(value = "date")Date date) {
+        UserDO userDO = LocalUser.getLocalUser();
+        List<Double> list = recordDetailService.getSpendTotalByMonth(userDO.getId(), date);
+        return Result.success(list);
+    }
+
+    private Result<?> checkRecord(RecordDetailDO recordDetailDO) {
         if (recordDetailDO == null) {
             return Result.error(CodeMsg.NOT_FIND_DATA);
         }

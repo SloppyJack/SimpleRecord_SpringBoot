@@ -22,14 +22,13 @@ import java.util.List;
 @Api(value = "RecordTypeController", tags = { "记账类别访问接口" })
 @RestController
 @RequestMapping("/v1/recordType")
-@Validated
 public class RecordTypeController {
     @Autowired
     private RecordTypeService recordTypeService;
 
     @ApiOperation(value = "获取所有记账类别")
     @GetMapping("")
-    public Result getRecordTypes() {
+    public Result<?> getRecordTypes() {
         List<RecordTypeDO> recordTypes = recordTypeService.findAll();
         return Result.success(recordTypes);
     }

@@ -1,10 +1,9 @@
 package cn.jackbin.SimpleRecord.service.impl;
 
 import cn.jackbin.SimpleRecord.common.LocalUser;
+import cn.jackbin.SimpleRecord.constant.RecordConstant;
 import cn.jackbin.SimpleRecord.dto.CreateOrUpdateRecordDTO;
-import cn.jackbin.SimpleRecord.dto.PageDTO;
 import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
-import cn.jackbin.SimpleRecord.entity.SpendCategoryDO;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.mapper.RecordDetailMapper;
 import cn.jackbin.SimpleRecord.service.RecordDetailService;
@@ -15,6 +14,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,7 +40,7 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
         recordDO.setSpendCategoryId(recordDTO.getSpendCategoryId().intValue());
         recordDO.setAmount(recordDTO.getAmount());
         recordDO.setOccurTime(recordDTO.getOccurTime());
-        recordDO.setCreateTime(new Date());
+        recordDO.setRemarks(recordDTO.getRemarks());
         return recordDetailMapper.insert(recordDO) > 0;
     }
 
@@ -81,5 +81,13 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
     @Override
     public boolean deleteById(Long id) {
         return recordDetailMapper.deleteById(id) > 0;
+    }
+
+    @Override
+    public List<Double> getSpendTotalByMonth(Long userId, Date date) {
+        List<Double> list = new ArrayList<>();
+        list.add(recordDetailMapper.querySpendTotalByMonth(userId, RecordConstant.EXPEND_RECORD_TYPE, date));
+        list.add(recordDetailMapper.querySpendTotalByMonth(userId, RecordConstant.INCOME_RECORD_TYPE, date));
+        return list;
     }
 }

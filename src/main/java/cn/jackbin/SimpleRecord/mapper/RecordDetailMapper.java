@@ -4,6 +4,9 @@ import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
+import java.util.List;
+
 /**
  * @author: create by bin
  * @version: v1.0
@@ -12,4 +15,13 @@ import org.springframework.stereotype.Repository;
  **/
 @Repository
 public interface RecordDetailMapper extends BaseMapper<RecordDetailDO> {
+
+    /**
+     * 根据月份查询总额
+     * @param userId 用户Id
+     * @param recordTypeCode 记录类型Code
+     * @param date 时间
+     * @return List
+     */
+    Double querySpendTotalByMonth(Long userId, String recordTypeCode, Date date);
 }

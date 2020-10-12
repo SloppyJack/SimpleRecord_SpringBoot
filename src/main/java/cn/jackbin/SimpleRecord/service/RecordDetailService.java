@@ -5,6 +5,7 @@ import cn.jackbin.SimpleRecord.dto.PageDTO;
 import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,39 +24,32 @@ public interface RecordDetailService extends IService<RecordDetailDO> {
     boolean createRecord(CreateOrUpdateRecordDTO recordDTO);
 
     /**
-     *@description: 获取当前登录用户的记账记录
+     * 获取当前登录用户的记账记录
      */
     List<RecordDetailDO> getRecordsByLocalUser();
 
     /**
-     *@description: 分页获取当前登录用户的记账记录
+     * 分页获取当前登录用户的记账记录
      */
     List<RecordDetailDO> getRecordsByLocalUserByPage(int pageIndex, int pageSize);
 
     /**
-     *@description: 通过Id获取记账记录
-     *@params:
-     *@return:
-     *@createTime: 2020/6/16 21:40
-     *@author: edit by bin
+     * 通过Id获取记账记录
      */
     RecordDetailDO getById(Long id);
 
     /**
-     *@description: 更新
-     *@params:
-     *@return:
-     *@createTime: 2020/6/16 21:50
-     *@author: edit by bin
+     * 更新
      */
     boolean updateRecord(RecordDetailDO recordDetailDO,CreateOrUpdateRecordDTO dto);
 
     /**
-     *@description: 通过Id删除某条记账记录
-     *@params:
-     *@return:
-     *@createTime: 2020/6/20 19:07
-     *@author: edit by bin
+     * 通过Id删除某条记账记录
      */
     boolean deleteById(Long id);
+
+    /**
+     * 获取支出
+     */
+    List<Double> getSpendTotalByMonth(Long userId, Date date);
 }

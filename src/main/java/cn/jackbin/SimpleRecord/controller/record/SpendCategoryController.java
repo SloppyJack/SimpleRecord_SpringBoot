@@ -23,21 +23,20 @@ import java.util.List;
 @Api(value = "SpendCategoryController", tags = { "花费类别访问接口" })
 @RestController
 @RequestMapping("/v1/spendCategory")
-@Validated
 public class SpendCategoryController {
     @Autowired
     private SpendCategoryService spendCategoryService;
 
     @ApiOperation(value = "获取所有花费类别")
     @GetMapping("")
-    public Result getSpendCategoryList() {
+    public Result<?> getSpendCategoryList() {
         List<SpendCategoryDO> list = spendCategoryService.findAll();
         return Result.success(list);
     }
 
     @ApiOperation(value = "通过记账类型获取花费类别")
     @GetMapping("/getByRecordType")
-    public Result getByRecordType(@ApiParam(required = true, value = "记账类型Id") @Validated
+    public Result<?> getByRecordType(@ApiParam(required = true, value = "记账类型Id") @Validated
                               @Positive(message = "记账类型Id为整数") @RequestParam(value = "recordTypeId")  int id) {
         List<SpendCategoryDO> list = spendCategoryService.getByRecordTypeId(id);
         if (list == null) {

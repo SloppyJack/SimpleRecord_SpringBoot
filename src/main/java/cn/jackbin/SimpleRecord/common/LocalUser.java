@@ -9,7 +9,7 @@ import cn.jackbin.SimpleRecord.entity.UserDO;
  * @date: 2020/7/28 21:17
  **/
 public class LocalUser {
-    private static ThreadLocal<UserDO> local = new ThreadLocal<>();
+    private static final ThreadLocal<UserDO> local = new ThreadLocal<>();
 
     /**
      * 得到当前登录用户

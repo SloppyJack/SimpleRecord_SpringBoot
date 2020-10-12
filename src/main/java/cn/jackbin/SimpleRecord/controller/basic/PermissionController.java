@@ -34,7 +34,7 @@ public class PermissionController {
 
     @ApiOperation(value = "获取指定权限")
     @GetMapping
-    public Result get(@ApiParam(value = "权限Id") @Validated
+    public Result<?> get(@ApiParam(value = "权限Id") @Validated
                           @Positive(message = "权限Id为整数") @RequestParam(value = "id")Integer id) {
         PermissionDO permissionDO = permissionService.getById(id);
         if (permissionDO == null) {
@@ -45,7 +45,7 @@ public class PermissionController {
 
     @ApiOperation(value = "分页获取权限列表")
     @GetMapping(value = "/getByPage")
-    public Result getByPage(@Validated PageDTO dto) {
+    public Result<?> getByPage(@Validated PageDTO dto) {
         List<PermissionDO> list = permissionService.getByPage(dto.getPageIndex(), dto.getPageSize());
         return Result.success(list);
     }

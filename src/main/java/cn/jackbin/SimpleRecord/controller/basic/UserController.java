@@ -38,7 +38,7 @@ public class UserController {
 
     @ApiOperation(value = "注册用户")
     @PostMapping(value = "/register")
-    public Result register(@RequestBody @Validated RegisterDTO dto) {
+    public Result<?> register(@RequestBody @Validated RegisterDTO dto) {
         if (userService.getByName(dto.getUsername()) != null) {
             return Result.error(CodeMsg.USERNAME_EXIST);
         }
@@ -57,13 +57,13 @@ public class UserController {
 
     @ApiOperation(value = "用户登录")
     @PostMapping(value = "/login")
-    public Result login(@RequestBody LoginDTO dto) {
+    public Result<?> login(@RequestBody LoginDTO dto) {
         return Result.success();
     }
 
     @ApiOperation(value = "通过Id获取用户")
     @GetMapping
-    public Result get(@ApiParam(required = true, value = "用户Id") @Validated
+    public Result<?> get(@ApiParam(required = true, value = "用户Id") @Validated
                           @Positive(message = "用户Id为整数") @RequestParam(value = "id")Integer id) {
         UserDO userDO = userService.getById(id);
         if (userDO == null) {
@@ -76,7 +76,7 @@ public class UserController {
 
     @ApiOperation(value = "通过Name获取用户")
     @GetMapping(value = "/getByName")
-    public Result get(@ApiParam(required = true, value = "用户名") @Validated
+    public Result<?> get(@ApiParam(required = true, value = "用户名") @Validated
                           @NotBlank(message = "用户名不能为空") @RequestParam(value = "id")String userName) {
         UserDO userDO = userService.getByName(userName);
         if (userDO == null) {
@@ -87,9 +87,10 @@ public class UserController {
         return Result.success(userVO);
     }
 
+
     @ApiOperation(value = "分页获取用户列表")
     @GetMapping(value = "/getByPage")
-    public Result getByPage(@Validated PageDTO dto) {
+    public Result<?> getByPage(@Validated PageDTO dto) {
         List<UserDO> userDOList = userService.getByPage(dto.getPageIndex(), dto.getPageSize());
         List<UserVO> userVOList = new ArrayList<>();
         BeanUtils.copyProperties(userDOList, userVOList);
