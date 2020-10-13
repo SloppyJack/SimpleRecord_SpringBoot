@@ -3,6 +3,10 @@ package cn.jackbin.SimpleRecord.controller.basic;
 
 import cn.jackbin.SimpleRecord.constant.SexConstant;
 import cn.jackbin.SimpleRecord.dto.*;
+import cn.jackbin.SimpleRecord.dto.CodeMsg;
+import cn.jackbin.SimpleRecord.dto.LoginDTO;
+import cn.jackbin.SimpleRecord.dto.PageDTO;
+import cn.jackbin.SimpleRecord.dto.Result;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.service.UserService;
 import cn.jackbin.SimpleRecord.util.PasswordUtil;
@@ -15,7 +19,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.util.ArrayList;
 import java.util.List;

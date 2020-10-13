@@ -1,6 +1,7 @@
 package cn.jackbin.SimpleRecord.controller.record;
 
 import cn.jackbin.SimpleRecord.common.LocalUser;
+import cn.jackbin.SimpleRecord.constant.RecordConstant;
 import cn.jackbin.SimpleRecord.dto.CodeMsg;
 import cn.jackbin.SimpleRecord.dto.CreateOrUpdateRecordDTO;
 import cn.jackbin.SimpleRecord.dto.PageDTO;
@@ -8,6 +9,7 @@ import cn.jackbin.SimpleRecord.dto.Result;
 import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.service.RecordDetailService;
+import cn.jackbin.SimpleRecord.vo.SpendTotalByCategoryVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -85,10 +87,20 @@ public class RecordController {
 
     @ApiOperation(value = "获取某个月份的支出和收入")
     @GetMapping("/getSpendTotalInMonth")
-    public Result<?> getSpendTotalInMonth(@ApiParam(required = true, value = "yyyy-MM") @Validated
+    public Result<?> getSpendTotalInMonth(@ApiParam(required = true, value = "年月（yyyy-MM）") @Validated
                                                   @DateTimeFormat(pattern="yyyy-MM") @RequestParam(value = "date")Date date) {
         UserDO userDO = LocalUser.getLocalUser();
         List<Double> list = recordDetailService.getSpendTotalByMonth(userDO.getId(), date);
+        return Result.success(list);
+    }
+
+    @ApiOperation(value = "获取某个月份前三消费类别")
+    @GetMapping("/getTopThreeSpendTotal")
+    public Result<?> getTopThreeSpendTotal(@ApiParam(required = true, value = "年月（yyyy-MM）") @Validated
+                                          @DateTimeFormat(pattern="yyyy-MM") @RequestParam(value = "date")Date date) {
+        UserDO userDO = LocalUser.getLocalUser();
+        List<SpendTotalByCategoryVO> list = recordDetailService.getSpendTotalBySpendCategory(userDO.getId(), RecordConstant.EXPEND_RECORD_TYPE,
+                date, 0, 3);
         return Result.success(list);
     }
 

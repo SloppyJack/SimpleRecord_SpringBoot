@@ -1,8 +1,8 @@
 package cn.jackbin.SimpleRecord.service;
 
 import cn.jackbin.SimpleRecord.dto.CreateOrUpdateRecordDTO;
-import cn.jackbin.SimpleRecord.dto.PageDTO;
 import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
+import cn.jackbin.SimpleRecord.vo.SpendTotalByCategoryVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.Date;
@@ -52,4 +52,9 @@ public interface RecordDetailService extends IService<RecordDetailDO> {
      * 获取支出
      */
     List<Double> getSpendTotalByMonth(Long userId, Date date);
+
+    /**
+     * 获取前三消费额
+     */
+    List<SpendTotalByCategoryVO> getSpendTotalBySpendCategory(Long userId, String recordTypeCode, Date date, int begin, int end);
 }

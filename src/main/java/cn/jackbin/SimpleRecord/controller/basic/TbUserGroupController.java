@@ -1,9 +1,6 @@
 package cn.jackbin.SimpleRecord.controller.basic;
 
 
-import cn.jackbin.SimpleRecord.dto.Result;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;

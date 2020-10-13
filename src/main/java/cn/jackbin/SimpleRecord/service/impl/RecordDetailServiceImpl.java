@@ -7,6 +7,7 @@ import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.mapper.RecordDetailMapper;
 import cn.jackbin.SimpleRecord.service.RecordDetailService;
+import cn.jackbin.SimpleRecord.vo.SpendTotalByCategoryVO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -89,5 +90,10 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
         list.add(recordDetailMapper.querySpendTotalByMonth(userId, RecordConstant.EXPEND_RECORD_TYPE, date));
         list.add(recordDetailMapper.querySpendTotalByMonth(userId, RecordConstant.INCOME_RECORD_TYPE, date));
         return list;
+    }
+
+    @Override
+    public List<SpendTotalByCategoryVO> getSpendTotalBySpendCategory(Long userId, String recordTypeCode, Date date, int begin, int end) {
+        return recordDetailMapper.querySpendTotalBySpendCategory(userId, recordTypeCode, date, begin, end);
     }
 }

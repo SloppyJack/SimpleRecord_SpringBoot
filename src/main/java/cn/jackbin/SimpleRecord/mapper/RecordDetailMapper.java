@@ -1,6 +1,7 @@
 package cn.jackbin.SimpleRecord.mapper;
 
 import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
+import cn.jackbin.SimpleRecord.vo.SpendTotalByCategoryVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
@@ -24,4 +25,15 @@ public interface RecordDetailMapper extends BaseMapper<RecordDetailDO> {
      * @return List
      */
     Double querySpendTotalByMonth(Long userId, String recordTypeCode, Date date);
+
+    /**
+     * 获取花费类别的消费总额
+     * @param userId
+     * @param recordTypeCode
+     * @param date
+     * @param begin
+     * @param end
+     * @return
+     */
+    List<SpendTotalByCategoryVO> querySpendTotalBySpendCategory(Long userId, String recordTypeCode, Date date, int begin, int end);
 }
