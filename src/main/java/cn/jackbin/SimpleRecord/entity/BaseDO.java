@@ -2,6 +2,7 @@ package cn.jackbin.SimpleRecord.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
@@ -15,9 +16,11 @@ import java.util.Date;
 @Data
 public class BaseDO {
     @TableField(value = "create_time", fill = FieldFill.INSERT)
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss",timezone = "GMT+8")
     private Date createTime;
 
     @TableField(value = "update_time",fill = FieldFill.UPDATE)
+    @JsonFormat(pattern="yyyy-MM hh:mm:ss",timezone = "GMT+8")
     private Date updateTime;
 
     private Date deleteTime;

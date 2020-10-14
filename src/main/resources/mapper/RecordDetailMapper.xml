@@ -13,7 +13,7 @@
         ) t3
     </select>
 
-    <select id="querySpendTotalBySpendCategory" resultType="cn.jackbin.SimpleRecord.vo.SpendTotalByCategoryVO">
+    <select id="querySpendTotalBySpendCategory" resultType="cn.jackbin.SimpleRecord.vo.SpendTotalCategoryVO">
         SELECT t1.spend_category_id spendCategoryId,t2.name spendCategoryName,SUM(amount) total
         FROM
             tb_record_detail t1
@@ -23,5 +23,18 @@
             and date_format(t1.occur_time, '%Y-%m') = date_format(#{date}, '%Y-%m')
             group by t1.spend_category_id ORDER BY total desc
             LIMIT #{begin},#{end}
+    </select>
+
+    <select id="queryByMonth" resultType="cn.jackbin.SimpleRecord.vo.RecordDetailVo">
+        select t1.*, t2.name spendCategoryName, t2.code spendCagegoryCode
+        from
+            tb_record_detail t1
+            LEFT JOIN tb_spend_category t2 on t2.id = t1.spend_category_id
+        where
+            t1.user_id = #{userId}
+            and t2.record_type_id = (select id from tb_record_type where code = #{recordTypeCode})
+            and date_format(t1.occur_time, '%Y-%m') = date_format(#{date}, '%Y-%m')
+        ORDER BY t1.occur_time
+        LIMIT #{begin},#{end}
     </select>
 </mapper>

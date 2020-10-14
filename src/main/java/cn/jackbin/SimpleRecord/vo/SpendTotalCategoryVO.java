@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
  **/
 @Data
 @NoArgsConstructor
-public class SpendTotalByCategoryVO {
+public class SpendTotalCategoryVO {
     /**
      * 花费类别Id
      */

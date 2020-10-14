@@ -46,6 +46,7 @@ public class CodeMsg {
     public static CodeMsg UPDATE_RECORD_ERROR = new CodeMsg(700002,"更新记账记录失败");
     public static CodeMsg DEL_RECORD_FORBIDDEN = new CodeMsg(700003,"禁止删除他人记账记录");
     public static CodeMsg DEL_RECORD_ERROR = new CodeMsg(700004,"删除记账记录失败");
+    public static CodeMsg RECORD_TYPE_CODE_ERROR = new CodeMsg(700005,"记账类型编码错误");
 
     private CodeMsg(int retCode, String message) {
         this.retCode = retCode;

@@ -2,14 +2,12 @@ package cn.jackbin.SimpleRecord.controller.record;
 
 import cn.jackbin.SimpleRecord.common.LocalUser;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
-import cn.jackbin.SimpleRecord.dto.CodeMsg;
-import cn.jackbin.SimpleRecord.dto.CreateOrUpdateRecordDTO;
-import cn.jackbin.SimpleRecord.dto.PageDTO;
-import cn.jackbin.SimpleRecord.dto.Result;
+import cn.jackbin.SimpleRecord.dto.*;
 import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.service.RecordDetailService;
-import cn.jackbin.SimpleRecord.vo.SpendTotalByCategoryVO;
+import cn.jackbin.SimpleRecord.vo.RecordDetailVo;
+import cn.jackbin.SimpleRecord.vo.SpendTotalCategoryVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -45,12 +43,6 @@ public class RecordController {
         } else {
             return Result.error(CodeMsg.INSERT_RECORD_ERROR);
         }
-    }
-
-    @ApiOperation(value = "分页获取当前登录用户的记账记录")
-    @GetMapping("/getUserRecordsByPage")
-    public Result<?> getUserRecordsByPage(@Validated PageDTO dto) {
-        return Result.success(recordDetailService.getRecordsByLocalUserByPage(dto.getPageIndex(), dto.getPageSize()));
     }
 
     @ApiOperation(value = "修改当前登录用户的记账记录")
@@ -99,8 +91,19 @@ public class RecordController {
     public Result<?> getTopThreeSpendTotal(@ApiParam(required = true, value = "年月（yyyy-MM）") @Validated
                                           @DateTimeFormat(pattern="yyyy-MM") @RequestParam(value = "date")Date date) {
         UserDO userDO = LocalUser.getLocalUser();
-        List<SpendTotalByCategoryVO> list = recordDetailService.getSpendTotalBySpendCategory(userDO.getId(), RecordConstant.EXPEND_RECORD_TYPE,
+        List<SpendTotalCategoryVO> list = recordDetailService.getSpendTotalBySpendCategory(userDO.getId(), RecordConstant.EXPEND_RECORD_TYPE,
                 date, 0, 3);
+        return Result.success(list);
+    }
+
+    @ApiOperation(value = "分页获取某个月份记账记录")
+    @PostMapping("/getRecordListByMonth")
+    public Result<?> getRecordListByMonth(@RequestBody  @Validated GetRecordsDTO dto) {
+        if (!dto.getRecordTypeCode().equals(RecordConstant.EXPEND_RECORD_TYPE) && !dto.getRecordTypeCode().equals(RecordConstant.INCOME_RECORD_TYPE)) {
+            return Result.error(CodeMsg.RECORD_TYPE_CODE_ERROR);
+        }
+        UserDO userDO = LocalUser.getLocalUser();
+        List<RecordDetailVo> list = recordDetailService.getListByMonth(userDO.getId(), dto.getRecordTypeCode(), dto.getDate(), dto.getPageIndex(), dto.getPageSize());
         return Result.success(list);
     }
 
