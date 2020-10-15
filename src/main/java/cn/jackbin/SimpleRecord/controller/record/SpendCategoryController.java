@@ -34,10 +34,10 @@ public class SpendCategoryController {
         return Result.success(list);
     }
 
-    @ApiOperation(value = "通过记账类型获取花费类别")
-    @GetMapping("/getByRecordType")
+    @ApiOperation(value = "通过记账类型Id获取花费类别")
+    @GetMapping("/recordTypeId/{recordTypeId}")
     public Result<?> getByRecordType(@ApiParam(required = true, value = "记账类型Id") @Validated
-                              @Positive(message = "记账类型Id为整数") @RequestParam(value = "recordTypeId")  int id) {
+                              @Positive(message = "记账类型Id为整数") @PathVariable(value = "recordTypeId")  int id) {
         List<SpendCategoryDO> list = spendCategoryService.getByRecordTypeId(id);
         if (list == null) {
             return Result.error(CodeMsg.NOT_FIND_DATA);

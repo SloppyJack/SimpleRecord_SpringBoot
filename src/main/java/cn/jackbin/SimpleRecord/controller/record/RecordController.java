@@ -41,7 +41,7 @@ public class RecordController {
      * 记账
      */
     @ApiOperation(value = "新增记账记录")
-    @PostMapping("/insert")
+    @PostMapping()
     public Result<?> createRecord(@RequestBody @Validated RecordVO vo) {
         RecordDTO dto = new RecordDTO();
         BeanUtils.copyProperties(vo, dto);
@@ -87,18 +87,18 @@ public class RecordController {
     }
 
     @ApiOperation(value = "获取某个月份的支出和收入")
-    @GetMapping("/getSpendTotalInMonth")
+    @GetMapping("/spendTotalInMonth/{date}")
     public Result<?> getSpendTotalInMonth(@ApiParam(required = true, value = "年月（yyyy-MM）") @Validated
-                                                  @DateTimeFormat(pattern="yyyy-MM") @RequestParam(value = "date")Date date) {
+                                                  @DateTimeFormat(pattern="yyyy-MM") @PathVariable(value = "date")Date date) {
         UserDO userDO = LocalUser.getLocalUser();
         List<Double> list = recordDetailService.getSpendTotalByMonth(userDO.getId(), date);
         return Result.success(list);
     }
 
     @ApiOperation(value = "获取某个月份前三消费类别")
-    @GetMapping("/getTopThreeSpendTotal")
+    @GetMapping("/topThreeSpendCategoryTotal/{date}")
     public Result<?> getTopThreeSpendTotal(@ApiParam(required = true, value = "年月（yyyy-MM）") @Validated
-                                          @DateTimeFormat(pattern="yyyy-MM") @RequestParam(value = "date")Date date) {
+                                          @DateTimeFormat(pattern="yyyy-MM") @PathVariable(value = "date")Date date) {
         UserDO userDO = LocalUser.getLocalUser();
         List<SpendCategoryTotalDTO> list = recordDetailService.getSpendTotalBySpendCategory(userDO.getId(), RecordConstant.EXPEND_RECORD_TYPE,
                 date, 0, 3);
@@ -106,7 +106,7 @@ public class RecordController {
     }
 
     @ApiOperation(value = "分页获取某个月份记账记录")
-    @PostMapping("/getRecordListByMonth")
+    @PostMapping("/recordListByMonth")
     public Result<?> getRecordListByMonth(@RequestBody  @Validated GetRecordsVO vo) {
         if (!vo.getRecordTypeCode().equals(RecordConstant.EXPEND_RECORD_TYPE) && !vo.getRecordTypeCode().equals(RecordConstant.INCOME_RECORD_TYPE)) {
             return Result.error(CodeMsg.RECORD_TYPE_CODE_ERROR);
