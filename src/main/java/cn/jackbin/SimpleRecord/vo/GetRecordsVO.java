@@ -1,4 +1,4 @@
-package cn.jackbin.SimpleRecord.dto;
+package cn.jackbin.SimpleRecord.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
@@ -23,7 +23,7 @@ import java.util.Date;
 @ApiModel(value="GetRecordListDTO对象", description="获取记账记录对象")
 @Data
 @NoArgsConstructor
-public class GetRecordsDTO {
+public class GetRecordsVO {
 
     @ApiModelProperty(required = true, value = "年月（yyyy-MM）")
     @JsonFormat(pattern="yyyy-MM",timezone = "GMT+8")

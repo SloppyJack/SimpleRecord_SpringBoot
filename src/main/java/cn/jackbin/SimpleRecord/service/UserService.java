@@ -1,8 +1,6 @@
 package cn.jackbin.SimpleRecord.service;
 
 import cn.jackbin.SimpleRecord.entity.UserDO;
-import cn.jackbin.SimpleRecord.entity.UserGroupDO;
-import cn.jackbin.SimpleRecord.vo.UserVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

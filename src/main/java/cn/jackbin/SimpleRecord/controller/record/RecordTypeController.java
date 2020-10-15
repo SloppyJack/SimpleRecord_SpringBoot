@@ -1,6 +1,6 @@
 package cn.jackbin.SimpleRecord.controller.record;
 
-import cn.jackbin.SimpleRecord.dto.Result;
+import cn.jackbin.SimpleRecord.vo.Result;
 import cn.jackbin.SimpleRecord.entity.RecordTypeDO;
 import cn.jackbin.SimpleRecord.service.RecordTypeService;
 import io.swagger.annotations.Api;

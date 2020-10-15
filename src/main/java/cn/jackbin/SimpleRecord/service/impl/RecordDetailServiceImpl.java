@@ -2,13 +2,16 @@ package cn.jackbin.SimpleRecord.service.impl;
 
 import cn.jackbin.SimpleRecord.common.LocalUser;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
-import cn.jackbin.SimpleRecord.dto.CreateOrUpdateRecordDTO;
+import cn.jackbin.SimpleRecord.dto.SpendCategoryTotalDTO;
+import cn.jackbin.SimpleRecord.dto.RecordDTO;
 import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
+import cn.jackbin.SimpleRecord.entity.RecordTypeDO;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.mapper.RecordDetailMapper;
+import cn.jackbin.SimpleRecord.mapper.RecordTypeMapper;
 import cn.jackbin.SimpleRecord.service.RecordDetailService;
-import cn.jackbin.SimpleRecord.vo.RecordDetailVo;
-import cn.jackbin.SimpleRecord.vo.SpendTotalCategoryVO;
+import cn.jackbin.SimpleRecord.dto.RecordDetailDTO;
+import cn.jackbin.SimpleRecord.service.RecordTypeService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -34,7 +37,7 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
     private RecordDetailMapper recordDetailMapper;
 
     @Override
-    public boolean createRecord(CreateOrUpdateRecordDTO recordDTO) {
+    public boolean createRecord(RecordDTO recordDTO) {
         RecordDetailDO recordDO = new RecordDetailDO();
         // 设置记账人
         UserDO userDO = LocalUser.getLocalUser();
@@ -70,7 +73,7 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
     }
 
     @Override
-    public boolean updateRecord(RecordDetailDO recordDetailDO, CreateOrUpdateRecordDTO dto) {
+    public boolean updateRecord(RecordDetailDO recordDetailDO, RecordDTO dto) {
         if (dto.getSpendCategoryId() != null) {
             dto.setSpendCategoryId(dto.getSpendCategoryId());
         }
@@ -94,12 +97,12 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
     }
 
     @Override
-    public List<SpendTotalCategoryVO> getSpendTotalBySpendCategory(Long userId, String recordTypeCode, Date date, int begin, int end) {
+    public List<SpendCategoryTotalDTO> getSpendTotalBySpendCategory(Long userId, String recordTypeCode, Date date, int begin, int end) {
         return recordDetailMapper.querySpendTotalBySpendCategory(userId, recordTypeCode, date, begin, end);
     }
 
     @Override
-    public List<RecordDetailVo> getListByMonth(Long userId, String recordTypeCode, Date date, int pageIndex, int pageSize) {
+    public List<RecordDetailDTO> getListByMonth(Long userId, String recordTypeCode, Date date, int pageIndex, int pageSize) {
         return recordDetailMapper.queryByMonth(userId, recordTypeCode, date, pageIndex * pageSize, pageSize);
     }
 }

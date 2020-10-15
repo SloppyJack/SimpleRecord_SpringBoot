@@ -1,4 +1,4 @@
-package cn.jackbin.SimpleRecord.dto;
+package cn.jackbin.SimpleRecord.vo;
 
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import lombok.Data;
  * @date: 2020/9/14 21:43
  **/
 @Data
-public class LoginSuccessDTO {
+public class LoginSuccessVO {
 
     private Long id;
 

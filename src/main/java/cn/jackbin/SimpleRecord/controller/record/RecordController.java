@@ -1,16 +1,21 @@
 package cn.jackbin.SimpleRecord.controller.record;
 
+import cn.jackbin.SimpleRecord.dto.RecordDTO;
+import cn.jackbin.SimpleRecord.dto.SpendCategoryTotalDTO;
+import cn.jackbin.SimpleRecord.constant.CodeMsg;
+import cn.jackbin.SimpleRecord.vo.RecordVO;
+import cn.jackbin.SimpleRecord.vo.Result;
 import cn.jackbin.SimpleRecord.common.LocalUser;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
-import cn.jackbin.SimpleRecord.dto.*;
 import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.service.RecordDetailService;
-import cn.jackbin.SimpleRecord.vo.RecordDetailVo;
-import cn.jackbin.SimpleRecord.vo.SpendTotalCategoryVO;
+import cn.jackbin.SimpleRecord.dto.RecordDetailDTO;
+import cn.jackbin.SimpleRecord.vo.GetRecordsVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
@@ -37,7 +42,9 @@ public class RecordController {
      */
     @ApiOperation(value = "新增记账记录")
     @PostMapping("/insert")
-    public Result<?> createRecord(@RequestBody @Validated CreateOrUpdateRecordDTO dto) {
+    public Result<?> createRecord(@RequestBody @Validated RecordVO vo) {
+        RecordDTO dto = new RecordDTO();
+        BeanUtils.copyProperties(vo, dto);
         if (recordDetailService.createRecord(dto)) {
             return Result.success();
         } else {
@@ -47,13 +54,15 @@ public class RecordController {
 
     @ApiOperation(value = "修改当前登录用户的记账记录")
     @PutMapping("/{id}")
-    public Result<?> updateRecord(@PathVariable("id") @Positive(message = "{id}") Long id, @RequestBody @Validated CreateOrUpdateRecordDTO validator) {
+    public Result<?> updateRecord(@PathVariable("id") @Positive(message = "{id}") Long id, @RequestBody @Validated RecordVO vo) {
         RecordDetailDO recordDO = recordDetailService.getById(id);
         Result<?> checkResult = checkRecord(recordDO);
         if (checkResult != null) {
             return checkResult;
         }
-        boolean uFlag = recordDetailService.updateRecord(recordDO, validator);
+        RecordDTO dto = new RecordDTO();
+        BeanUtils.copyProperties(vo, dto);
+        boolean uFlag = recordDetailService.updateRecord(recordDO, dto);
         if (uFlag) {
             return Result.success();
         } else {
@@ -91,19 +100,19 @@ public class RecordController {
     public Result<?> getTopThreeSpendTotal(@ApiParam(required = true, value = "年月（yyyy-MM）") @Validated
                                           @DateTimeFormat(pattern="yyyy-MM") @RequestParam(value = "date")Date date) {
         UserDO userDO = LocalUser.getLocalUser();
-        List<SpendTotalCategoryVO> list = recordDetailService.getSpendTotalBySpendCategory(userDO.getId(), RecordConstant.EXPEND_RECORD_TYPE,
+        List<SpendCategoryTotalDTO> list = recordDetailService.getSpendTotalBySpendCategory(userDO.getId(), RecordConstant.EXPEND_RECORD_TYPE,
                 date, 0, 3);
         return Result.success(list);
     }
 
     @ApiOperation(value = "分页获取某个月份记账记录")
     @PostMapping("/getRecordListByMonth")
-    public Result<?> getRecordListByMonth(@RequestBody  @Validated GetRecordsDTO dto) {
-        if (!dto.getRecordTypeCode().equals(RecordConstant.EXPEND_RECORD_TYPE) && !dto.getRecordTypeCode().equals(RecordConstant.INCOME_RECORD_TYPE)) {
+    public Result<?> getRecordListByMonth(@RequestBody  @Validated GetRecordsVO vo) {
+        if (!vo.getRecordTypeCode().equals(RecordConstant.EXPEND_RECORD_TYPE) && !vo.getRecordTypeCode().equals(RecordConstant.INCOME_RECORD_TYPE)) {
             return Result.error(CodeMsg.RECORD_TYPE_CODE_ERROR);
         }
         UserDO userDO = LocalUser.getLocalUser();
-        List<RecordDetailVo> list = recordDetailService.getListByMonth(userDO.getId(), dto.getRecordTypeCode(), dto.getDate(), dto.getPageIndex(), dto.getPageSize());
+        List<RecordDetailDTO> list = recordDetailService.getListByMonth(userDO.getId(), vo.getRecordTypeCode(), vo.getDate(), vo.getPageIndex(), vo.getPageSize());
         return Result.success(list);
     }
 

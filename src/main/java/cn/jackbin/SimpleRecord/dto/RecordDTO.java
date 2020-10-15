@@ -17,7 +17,7 @@ import java.util.Date;
  **/
 @Data
 @NoArgsConstructor
-public class CreateOrUpdateRecordDTO {
+public class RecordDTO {
     @Positive(message = "花费类别为整数")
     private Long spendCategoryId;
 

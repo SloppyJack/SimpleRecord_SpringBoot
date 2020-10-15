@@ -1,4 +1,6 @@
-package cn.jackbin.SimpleRecord.dto;
+package cn.jackbin.SimpleRecord.vo;
+
+import cn.jackbin.SimpleRecord.constant.CodeMsg;
 
 /**
  * @author: create by bin

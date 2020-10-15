@@ -2,7 +2,7 @@ package cn.jackbin.SimpleRecord.common.aop;
 
 import cn.jackbin.SimpleRecord.common.LocalUser;
 import cn.jackbin.SimpleRecord.common.config.JWTConfig;
-import cn.jackbin.SimpleRecord.dto.CodeMsg;
+import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.exception.NotFoundException;
 import cn.jackbin.SimpleRecord.exception.ParameterException;

@@ -2,10 +2,10 @@ package cn.jackbin.SimpleRecord.common.filter;
 
 import cn.jackbin.SimpleRecord.common.config.JWTConfig;
 import cn.jackbin.SimpleRecord.common.config.sercurity.JWTUser;
-import cn.jackbin.SimpleRecord.dto.CodeMsg;
-import cn.jackbin.SimpleRecord.dto.LoginDTO;
-import cn.jackbin.SimpleRecord.dto.LoginSuccessDTO;
-import cn.jackbin.SimpleRecord.dto.Result;
+import cn.jackbin.SimpleRecord.constant.CodeMsg;
+import cn.jackbin.SimpleRecord.vo.LoginVO;
+import cn.jackbin.SimpleRecord.vo.LoginSuccessVO;
+import cn.jackbin.SimpleRecord.vo.Result;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.service.UserService;
 import cn.jackbin.SimpleRecord.util.SpringContextUtil;
@@ -48,10 +48,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         // 从输入流中获取到登录的信息
         try {
-            LoginDTO loginUser = new ObjectMapper().readValue(request.getInputStream(), LoginDTO.class);
+            LoginVO loginVO = new ObjectMapper().readValue(request.getInputStream(), LoginVO.class);
             return authenticationManager.authenticate(
                     // 此处需要将密码加密验证
-                    new UsernamePasswordAuthenticationToken(loginUser.getUsername(), loginUser.getPassword())
+                    new UsernamePasswordAuthenticationToken(loginVO.getUsername(), loginVO.getPassword())
             );
         } catch (IOException e) {
             e.printStackTrace();
@@ -73,12 +73,12 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String token = jwtConfig.createToken(jwtUser.getId().toString(),permissionList);
         UserService userService = SpringContextUtil.getBean(UserService.class);
         UserDO userDO = userService.getById(jwtUser.getId());
-        LoginSuccessDTO dto = new LoginSuccessDTO();
-        BeanUtils.copyProperties(userDO, dto);
-        dto.setToken(token);
+        LoginSuccessVO vo = new LoginSuccessVO();
+        BeanUtils.copyProperties(userDO, vo);
+        vo.setToken(token);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
-        response.getWriter().write(JSON.toJSONString(Result.success(dto)));
+        response.getWriter().write(JSON.toJSONString(Result.success(vo)));
     }
 
     @Override

@@ -1,4 +1,4 @@
-package cn.jackbin.SimpleRecord.dto;
+package cn.jackbin.SimpleRecord.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
  **/
 @Data
 @ApiModel(value="RegisterDTO对象", description="用户注册对象")
-public class RegisterDTO {
+public class RegisterVO {
 
     @ApiModelProperty(required = true, value = "用户名")
     @NotBlank(message = "用户名不能为空")

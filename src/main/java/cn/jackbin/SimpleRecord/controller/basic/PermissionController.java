@@ -1,9 +1,9 @@
 package cn.jackbin.SimpleRecord.controller.basic;
 
 
-import cn.jackbin.SimpleRecord.dto.CodeMsg;
-import cn.jackbin.SimpleRecord.dto.PageDTO;
-import cn.jackbin.SimpleRecord.dto.Result;
+import cn.jackbin.SimpleRecord.constant.CodeMsg;
+import cn.jackbin.SimpleRecord.vo.PageVO;
+import cn.jackbin.SimpleRecord.vo.Result;
 import cn.jackbin.SimpleRecord.entity.PermissionDO;
 import cn.jackbin.SimpleRecord.service.PermissionService;
 import io.swagger.annotations.Api;
@@ -44,8 +44,8 @@ public class PermissionController {
 
     @ApiOperation(value = "分页获取权限列表")
     @GetMapping(value = "/getByPage")
-    public Result<?> getByPage(@Validated PageDTO dto) {
-        List<PermissionDO> list = permissionService.getByPage(dto.getPageIndex(), dto.getPageSize());
+    public Result<?> getByPage(@Validated PageVO vo) {
+        List<PermissionDO> list = permissionService.getByPage(vo.getPageIndex(), vo.getPageSize());
         return Result.success(list);
     }
 }

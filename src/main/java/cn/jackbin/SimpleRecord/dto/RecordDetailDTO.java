@@ -1,4 +1,4 @@
-package cn.jackbin.SimpleRecord.vo;
+package cn.jackbin.SimpleRecord.dto;
 
 import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
 import lombok.Data;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
  **/
 @Data
 @NoArgsConstructor
-public class RecordDetailVo extends RecordDetailDO {
+public class RecordDetailDTO extends RecordDetailDO {
 
     /**
      * 花费类别名

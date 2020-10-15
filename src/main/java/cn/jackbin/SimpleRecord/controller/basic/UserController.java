@@ -1,16 +1,13 @@
 package cn.jackbin.SimpleRecord.controller.basic;
 
 
+import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.constant.SexConstant;
-import cn.jackbin.SimpleRecord.dto.*;
-import cn.jackbin.SimpleRecord.dto.CodeMsg;
-import cn.jackbin.SimpleRecord.dto.LoginDTO;
-import cn.jackbin.SimpleRecord.dto.PageDTO;
-import cn.jackbin.SimpleRecord.dto.Result;
+import cn.jackbin.SimpleRecord.vo.*;
+import cn.jackbin.SimpleRecord.vo.PageVO;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.service.UserService;
 import cn.jackbin.SimpleRecord.util.PasswordUtil;
-import cn.jackbin.SimpleRecord.vo.UserVO;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -41,26 +38,26 @@ public class UserController {
 
     @ApiOperation(value = "注册用户")
     @PostMapping(value = "/register")
-    public Result<?> register(@RequestBody @Validated RegisterDTO dto) {
-        if (userService.getByName(dto.getUsername()) != null) {
+    public Result<?> register(@RequestBody @Validated RegisterVO vo) {
+        if (userService.getByName(vo.getUsername()) != null) {
             return Result.error(CodeMsg.USERNAME_EXIST);
         }
-        if (!PasswordUtil.check(dto.getPassword())) {
+        if (!PasswordUtil.check(vo.getPassword())) {
             return Result.error(CodeMsg.PSW_FORMAT_ERROR);
         }
-        if (SexConstant.MAN !=dto.getSex() && SexConstant.WOMAN != dto.getSex()) {
+        if (SexConstant.MAN !=vo.getSex() && SexConstant.WOMAN != vo.getSex()) {
             return Result.error(CodeMsg.SEX_FORMAT_ERROR);
         }
         UserDO userDO = new UserDO();
-        BeanUtils.copyProperties(dto, userDO);
-        userDO.setCredential(PasswordUtil.encoder(dto.getPassword()));
+        BeanUtils.copyProperties(vo, userDO);
+        userDO.setCredential(PasswordUtil.encoder(vo.getPassword()));
         userService.save(userDO);
         return Result.success();
     }
 
     @ApiOperation(value = "用户登录")
     @PostMapping(value = "/login")
-    public Result<?> login(@RequestBody LoginDTO dto) {
+    public Result<?> login(@RequestBody LoginVO dto) {
         return Result.success();
     }
 
@@ -93,8 +90,8 @@ public class UserController {
 
     @ApiOperation(value = "分页获取用户列表")
     @GetMapping(value = "/getByPage")
-    public Result<?> getByPage(@Validated PageDTO dto) {
-        List<UserDO> userDOList = userService.getByPage(dto.getPageIndex(), dto.getPageSize());
+    public Result<?> getByPage(@Validated PageVO vo) {
+        List<UserDO> userDOList = userService.getByPage(vo.getPageIndex(), vo.getPageSize());
         List<UserVO> userVOList = new ArrayList<>();
         BeanUtils.copyProperties(userDOList, userVOList);
         return Result.success(userVOList);

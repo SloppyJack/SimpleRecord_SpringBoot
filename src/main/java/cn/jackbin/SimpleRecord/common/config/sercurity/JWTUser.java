@@ -1,6 +1,6 @@
 package cn.jackbin.SimpleRecord.common.config.sercurity;
 
-import cn.jackbin.SimpleRecord.vo.UserPermissionVO;
+import cn.jackbin.SimpleRecord.bo.UserPermissionBO;
 import com.alibaba.fastjson.JSON;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,13 +24,13 @@ public class JWTUser implements UserDetails {
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public JWTUser(UserPermissionVO userPermissionVO) {
-        this.id = userPermissionVO.getUserDO().getId();
-        this.username = userPermissionVO.getUserDO().getUsername();
-        this.password = userPermissionVO.getUserDO().getCredential();
+    public JWTUser(UserPermissionBO userPermissionBO) {
+        this.id = userPermissionBO.getUserDO().getId();
+        this.username = userPermissionBO.getUserDO().getUsername();
+        this.password = userPermissionBO.getUserDO().getCredential();
         // 设置当前用户的权限集合
         List<GrantedAuthority> list = new ArrayList<>();
-        userPermissionVO.getPermissionDOList().forEach(
+        userPermissionBO.getPermissionDOList().forEach(
                 n-> list.add(new SimpleGrantedAuthority(n.getModuleCode()+Spacer+n.getPermissionCode()))
         );
         this.authorities = list;

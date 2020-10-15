@@ -1,6 +1,6 @@
 package cn.jackbin.SimpleRecord.exception;
 
-import cn.jackbin.SimpleRecord.dto.CodeMsg;
+import cn.jackbin.SimpleRecord.constant.CodeMsg;
 
 /**
  * @author: create by bin

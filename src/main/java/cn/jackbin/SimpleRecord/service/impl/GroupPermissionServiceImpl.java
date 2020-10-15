@@ -1,7 +1,6 @@
 package cn.jackbin.SimpleRecord.service.impl;
 
 import cn.jackbin.SimpleRecord.entity.GroupPermissionDO;
-import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.mapper.GroupPermissionMapper;
 import cn.jackbin.SimpleRecord.service.GroupPermissionService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;

@@ -4,7 +4,7 @@ import cn.jackbin.SimpleRecord.entity.PermissionDO;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.service.PermissionService;
 import cn.jackbin.SimpleRecord.service.UserService;
-import cn.jackbin.SimpleRecord.vo.UserPermissionVO;
+import cn.jackbin.SimpleRecord.bo.UserPermissionBO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,7 +30,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         UserDO userDO = userService.getByName(s);
         List<PermissionDO> permissionDOList = permissionService.getUserPermissions(userDO.getId());
-        UserPermissionVO userPermissionVO = new UserPermissionVO(userDO, permissionDOList);
-        return new JWTUser(userPermissionVO);
+        UserPermissionBO userPermissionBO = new UserPermissionBO(userDO, permissionDOList);
+        return new JWTUser(userPermissionBO);
     }
 }

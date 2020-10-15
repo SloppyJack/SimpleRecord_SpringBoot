@@ -1,9 +1,12 @@
 package cn.jackbin.SimpleRecord.mapper;
 
+import cn.jackbin.SimpleRecord.dto.SpendCategoryTotalDTO;
 import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
-import cn.jackbin.SimpleRecord.vo.RecordDetailVo;
-import cn.jackbin.SimpleRecord.vo.SpendTotalCategoryVO;
+import cn.jackbin.SimpleRecord.dto.RecordDetailDTO;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -36,10 +39,10 @@ public interface RecordDetailMapper extends BaseMapper<RecordDetailDO> {
      * @param end 索引
      * @return
      */
-    List<SpendTotalCategoryVO> querySpendTotalBySpendCategory(Long userId, String recordTypeCode, Date date, int begin, int end);
+    List<SpendCategoryTotalDTO> querySpendTotalBySpendCategory(Long userId, String recordTypeCode, Date date, int begin, int end);
 
     /**
      * 查询用户某个月内的记账记录
      */
-    List<RecordDetailVo> queryByMonth(Long userId, String recordTypeCode, Date date, int begin, int end);
+    List<RecordDetailDTO> queryByMonth(Long userId, String recordTypeCode, Date date, int begin, int end);
 }

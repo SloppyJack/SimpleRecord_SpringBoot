@@ -16,4 +16,6 @@ import java.util.List;
 public interface RecordTypeService extends IService<RecordTypeDO> {
 
     List<RecordTypeDO> findAll();
+
+    RecordTypeDO getByCode(String code);
 }

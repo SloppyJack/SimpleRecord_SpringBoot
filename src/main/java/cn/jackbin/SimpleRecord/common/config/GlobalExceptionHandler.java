@@ -1,7 +1,7 @@
 package cn.jackbin.SimpleRecord.common.config;
 
-import cn.jackbin.SimpleRecord.dto.CodeMsg;
-import cn.jackbin.SimpleRecord.dto.Result;
+import cn.jackbin.SimpleRecord.constant.CodeMsg;
+import cn.jackbin.SimpleRecord.vo.Result;
 import cn.jackbin.SimpleRecord.exception.BaseException;
 import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
     /**
      *@description: 默认异常处理
      *@params: [e]
-     *@return: cn.jackbin.SimpleRecord.dto.Result
+     *@return: cn.jackbin.SimpleRecord.vo.Result
      *@createTime: 2020/7/27 20:24
      *@author: edit by bin
      */
@@ -46,7 +46,7 @@ public class GlobalExceptionHandler {
     /**
      *@description: 参数校验不合法异常
      *@params: [e]
-     *@return: cn.jackbin.SimpleRecord.dto.Result
+     *@return: cn.jackbin.SimpleRecord.vo.Result
      *@createTime: 2020/7/27 20:23
      *@author: edit by bin
      */
@@ -80,7 +80,7 @@ public class GlobalExceptionHandler {
     /**
      *@description: 业务异常统一处理
      *@params: [e]
-     *@return: cn.jackbin.SimpleRecord.dto.Result
+     *@return: cn.jackbin.SimpleRecord.vo.Result
      *@createTime: 2020/7/27 21:18
      *@author: edit by bin
      */

@@ -1,7 +1,7 @@
 package cn.jackbin.SimpleRecord.controller.record;
 
-import cn.jackbin.SimpleRecord.dto.CodeMsg;
-import cn.jackbin.SimpleRecord.dto.Result;
+import cn.jackbin.SimpleRecord.constant.CodeMsg;
+import cn.jackbin.SimpleRecord.vo.Result;
 import cn.jackbin.SimpleRecord.entity.SpendCategoryDO;
 import cn.jackbin.SimpleRecord.service.SpendCategoryService;
 import io.swagger.annotations.Api;

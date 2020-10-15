@@ -1,4 +1,4 @@
-package cn.jackbin.SimpleRecord.dto;
+package cn.jackbin.SimpleRecord.vo;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -13,7 +13,7 @@ import javax.validation.constraints.PositiveOrZero;
  * @date: 2020/9/8 20:41
  **/
 @Data
-public class PageDTO {
+public class PageVO {
     /**
      * 分页的索引
      */

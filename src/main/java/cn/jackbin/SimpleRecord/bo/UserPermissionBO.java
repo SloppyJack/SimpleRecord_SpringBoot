@@ -1,4 +1,4 @@
-package cn.jackbin.SimpleRecord.vo;
+package cn.jackbin.SimpleRecord.bo;
 
 import cn.jackbin.SimpleRecord.entity.PermissionDO;
 import cn.jackbin.SimpleRecord.entity.UserDO;
@@ -15,7 +15,7 @@ import java.util.List;
  **/
 @Data
 @AllArgsConstructor
-public class UserPermissionVO {
+public class UserPermissionBO {
 
     /**
      * 用户类

@@ -1,4 +1,4 @@
-package cn.jackbin.SimpleRecord.dto;
+package cn.jackbin.SimpleRecord.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -15,7 +15,7 @@ import javax.validation.constraints.NotBlank;
  **/
 @Data
 @ApiModel(value="LoginDTO对象", description="用户登录对象")
-public class LoginDTO {
+public class LoginVO {
 
     @ApiModelProperty(required = true, value = "用户名")
     private String username;

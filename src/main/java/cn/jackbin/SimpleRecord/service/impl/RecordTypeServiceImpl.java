@@ -3,6 +3,7 @@ package cn.jackbin.SimpleRecord.service.impl;
 import cn.jackbin.SimpleRecord.entity.RecordTypeDO;
 import cn.jackbin.SimpleRecord.mapper.RecordTypeMapper;
 import cn.jackbin.SimpleRecord.service.RecordTypeService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,5 +26,12 @@ public class RecordTypeServiceImpl extends ServiceImpl<RecordTypeMapper, RecordT
     @Override
     public List<RecordTypeDO> findAll() {
         return recordTypeMapper.selectList(null);
+    }
+
+    @Override
+    public RecordTypeDO getByCode(String code) {
+        QueryWrapper<RecordTypeDO> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("code", code);
+        return recordTypeMapper.selectOne(queryWrapper);
     }
 }

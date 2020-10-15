@@ -1,9 +1,9 @@
 package cn.jackbin.SimpleRecord.service;
 
-import cn.jackbin.SimpleRecord.dto.CreateOrUpdateRecordDTO;
+import cn.jackbin.SimpleRecord.dto.SpendCategoryTotalDTO;
+import cn.jackbin.SimpleRecord.dto.RecordDTO;
 import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
-import cn.jackbin.SimpleRecord.vo.RecordDetailVo;
-import cn.jackbin.SimpleRecord.vo.SpendTotalCategoryVO;
+import cn.jackbin.SimpleRecord.dto.RecordDetailDTO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.Date;
@@ -22,7 +22,7 @@ public interface RecordDetailService extends IService<RecordDetailDO> {
     /**
      * 添加一条记账
      */
-    boolean createRecord(CreateOrUpdateRecordDTO recordDTO);
+    boolean createRecord(RecordDTO recordDTO);
 
     /**
      * 获取当前登录用户的记账记录
@@ -42,7 +42,7 @@ public interface RecordDetailService extends IService<RecordDetailDO> {
     /**
      * 更新
      */
-    boolean updateRecord(RecordDetailDO recordDetailDO,CreateOrUpdateRecordDTO dto);
+    boolean updateRecord(RecordDetailDO recordDetailDO, RecordDTO dto);
 
     /**
      * 通过Id删除某条记账记录
@@ -57,10 +57,10 @@ public interface RecordDetailService extends IService<RecordDetailDO> {
     /**
      * 获取前三消费额
      */
-    List<SpendTotalCategoryVO> getSpendTotalBySpendCategory(Long userId, String recordTypeCode, Date date, int begin, int end);
+    List<SpendCategoryTotalDTO> getSpendTotalBySpendCategory(Long userId, String recordTypeCode, Date date, int begin, int end);
 
     /**
      * 查询用户某个月内的记账记录
      */
-    List<RecordDetailVo> getListByMonth(Long userId, String recordTypeCode, Date date, int pageIndex, int pageSize);
+    List<RecordDetailDTO> getListByMonth(Long userId, String recordTypeCode, Date date, int pageIndex, int pageSize);
 }

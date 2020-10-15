@@ -1,10 +1,10 @@
 package cn.jackbin.SimpleRecord.common.filter;
 
 import cn.jackbin.SimpleRecord.common.LocalUser;
-import cn.jackbin.SimpleRecord.dto.CodeMsg;
+import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.util.SpringContextUtil;
 import cn.jackbin.SimpleRecord.common.config.JWTConfig;
-import cn.jackbin.SimpleRecord.dto.Result;
+import cn.jackbin.SimpleRecord.vo.Result;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.exception.BaseException;
 import cn.jackbin.SimpleRecord.exception.NotFoundException;
