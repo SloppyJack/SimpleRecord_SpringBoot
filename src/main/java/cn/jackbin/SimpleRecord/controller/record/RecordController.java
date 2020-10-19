@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * @author: create by bin
  * @version: v1.0
- * @description: com.example.jianzhang.controller.v1
+ * @description: 记账记录相关接口
  * @date: 2020/6/7 20:24
  **/
 @Api(value = "RecordTypeController", tags = { "记账访问接口" })
