@@ -5,6 +5,7 @@ import cn.jackbin.SimpleRecord.common.filter.JWTAuthenticationFilter;
 import cn.jackbin.SimpleRecord.common.filter.JWTAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.expression.SecurityExpressionOperations;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -65,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
                 // 测试用资源，需要验证了的用户才能访问
-                //.antMatchers("/jianzhang/**").hasAuthority("root")
+                .antMatchers("/jianzhang/**").hasAuthority("root")
                 // 其他请求都放行
                 .anyRequest().permitAll()
                 .and()
@@ -95,8 +96,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
-        return source;
+        return req -> {
+            CorsConfiguration cfg = new CorsConfiguration();
+            cfg.addAllowedHeader("*");
+            cfg.addAllowedMethod("*");
+            cfg.addAllowedOrigin("*");
+            cfg.setAllowCredentials(true);
+            cfg.checkOrigin("*");
+            return cfg;
+        };
     }
 }

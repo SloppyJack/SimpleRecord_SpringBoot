@@ -35,7 +35,7 @@
             and t2.record_type_id = (select id from tb_record_type where code = #{recordTypeCode})
             and date_format(t1.occur_time, '%Y-%m') = date_format(#{date}, '%Y-%m')
             and t1.delete_time is null
-        ORDER BY t1.occur_time
+        ORDER BY t1.occur_time asc
         LIMIT #{begin},#{end}
 
     </select>
