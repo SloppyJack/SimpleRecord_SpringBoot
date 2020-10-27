@@ -1,4 +1,4 @@
-package cn.jackbin.SimpleRecord.util;
+package cn.jackbin.SimpleRecord.utils;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

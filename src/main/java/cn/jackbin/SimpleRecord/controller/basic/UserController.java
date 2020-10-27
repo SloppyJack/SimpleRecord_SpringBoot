@@ -7,7 +7,7 @@ import cn.jackbin.SimpleRecord.vo.*;
 import cn.jackbin.SimpleRecord.vo.PageVO;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.service.UserService;
-import cn.jackbin.SimpleRecord.util.PasswordUtil;
+import cn.jackbin.SimpleRecord.utils.PasswordUtil;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;

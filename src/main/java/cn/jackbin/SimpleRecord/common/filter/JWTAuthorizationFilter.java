@@ -2,7 +2,7 @@ package cn.jackbin.SimpleRecord.common.filter;
 
 import cn.jackbin.SimpleRecord.common.LocalUser;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
-import cn.jackbin.SimpleRecord.util.SpringContextUtil;
+import cn.jackbin.SimpleRecord.utils.SpringContextUtil;
 import cn.jackbin.SimpleRecord.common.config.JWTConfig;
 import cn.jackbin.SimpleRecord.vo.Result;
 import cn.jackbin.SimpleRecord.entity.UserDO;

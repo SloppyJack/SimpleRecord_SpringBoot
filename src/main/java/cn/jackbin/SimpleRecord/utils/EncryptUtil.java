@@ -1,4 +1,4 @@
-package cn.jackbin.SimpleRecord.util;
+package cn.jackbin.SimpleRecord.utils;
 
 /**
  * @author: create by bin

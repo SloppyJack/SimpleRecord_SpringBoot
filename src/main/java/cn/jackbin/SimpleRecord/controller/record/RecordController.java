@@ -3,6 +3,8 @@ package cn.jackbin.SimpleRecord.controller.record;
 import cn.jackbin.SimpleRecord.dto.RecordDTO;
 import cn.jackbin.SimpleRecord.dto.SpendCategoryTotalDTO;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
+import cn.jackbin.SimpleRecord.utils.DateUtil;
+import cn.jackbin.SimpleRecord.vo.GetSixMonthRecordsVO;
 import cn.jackbin.SimpleRecord.vo.RecordVO;
 import cn.jackbin.SimpleRecord.vo.Result;
 import cn.jackbin.SimpleRecord.common.LocalUser;
@@ -11,7 +13,7 @@ import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.service.RecordDetailService;
 import cn.jackbin.SimpleRecord.dto.RecordDetailDTO;
-import cn.jackbin.SimpleRecord.vo.GetRecordsVO;
+import cn.jackbin.SimpleRecord.vo.GetRecordsByMonthVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -106,13 +108,25 @@ public class RecordController {
     }
 
     @ApiOperation(value = "分页获取某个月份记账记录")
-    @PostMapping("/recordListByMonth")
-    public Result<?> getRecordListByMonth(@RequestBody  @Validated GetRecordsVO vo) {
+    @PostMapping("/listByMonth")
+    public Result<?> getListByMonth(@RequestBody  @Validated GetRecordsByMonthVO vo) {
         if (!vo.getRecordTypeCode().equals(RecordConstant.EXPEND_RECORD_TYPE) && !vo.getRecordTypeCode().equals(RecordConstant.INCOME_RECORD_TYPE)) {
             return Result.error(CodeMsg.RECORD_TYPE_CODE_ERROR);
         }
         UserDO userDO = LocalUser.getLocalUser();
         List<RecordDetailDTO> list = recordDetailService.getListByMonth(userDO.getId(), vo.getRecordTypeCode(), vo.getDate(), vo.getPageIndex(), vo.getPageSize());
+        return Result.success(list);
+    }
+
+    @ApiOperation(value = "获取最近六个月的支出和收入")
+    @PostMapping("/latestSixMonthList")
+    public Result<?> getLatestSixMonthList(@RequestBody  @Validated GetSixMonthRecordsVO vo) {
+        if (!vo.getRecordTypeCode().equals(RecordConstant.EXPEND_RECORD_TYPE) && !vo.getRecordTypeCode().equals(RecordConstant.INCOME_RECORD_TYPE)) {
+            return Result.error(CodeMsg.RECORD_TYPE_CODE_ERROR);
+        }
+        UserDO userDO = LocalUser.getLocalUser();
+        List<RecordDetailDTO> list = recordDetailService.getLatestSixMonthList(userDO.getId(), vo.getRecordTypeCode(),
+                vo.getBeginDate(), DateUtil.addMonth(vo.getBeginDate(), 6));
         return Result.success(list);
     }
 

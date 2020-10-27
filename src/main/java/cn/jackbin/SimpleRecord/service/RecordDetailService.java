@@ -63,4 +63,9 @@ public interface RecordDetailService extends IService<RecordDetailDO> {
      * 查询用户某个月内的记账记录
      */
     List<RecordDetailDTO> getListByMonth(Long userId, String recordTypeCode, Date date, int pageIndex, int pageSize);
+
+    /**
+     * 查询用户六个月内的记账记录
+     */
+    List<RecordDetailDTO> getLatestSixMonthList(Long userId, String recordTypeCode, Date beginDate, Date endDate);
 }

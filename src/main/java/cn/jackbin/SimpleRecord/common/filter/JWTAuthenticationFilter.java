@@ -8,7 +8,7 @@ import cn.jackbin.SimpleRecord.vo.LoginSuccessVO;
 import cn.jackbin.SimpleRecord.vo.Result;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.service.UserService;
-import cn.jackbin.SimpleRecord.util.SpringContextUtil;
+import cn.jackbin.SimpleRecord.utils.SpringContextUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

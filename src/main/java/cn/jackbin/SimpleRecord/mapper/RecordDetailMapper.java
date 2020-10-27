@@ -45,4 +45,6 @@ public interface RecordDetailMapper extends BaseMapper<RecordDetailDO> {
      * 查询用户某个月内的记账记录
      */
     List<RecordDetailDTO> queryByMonth(Long userId, String recordTypeCode, Date date, int begin, int end);
+
+    List<RecordDetailDTO> queryByInterval(Long userId, String recordTypeCode, Date beginDate, Date endDate);
 }

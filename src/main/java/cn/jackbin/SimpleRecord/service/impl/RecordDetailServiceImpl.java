@@ -105,4 +105,10 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
     public List<RecordDetailDTO> getListByMonth(Long userId, String recordTypeCode, Date date, int pageIndex, int pageSize) {
         return recordDetailMapper.queryByMonth(userId, recordTypeCode, date, pageIndex * pageSize, pageSize);
     }
+
+    @Override
+    public List<RecordDetailDTO> getLatestSixMonthList(Long userId, String recordTypeCode, Date beginDate, Date endDate) {
+        List<RecordDetailDTO> recordDetailDTOList = recordDetailMapper.queryByInterval(userId, recordTypeCode, beginDate, endDate);
+        return recordDetailDTOList;
+    }
 }
