@@ -16,7 +16,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class MonthRecordBO {
     // 月份
-    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    @JsonFormat(pattern="yyyy-MM",timezone = "GMT+8")
     private Date occurMonth;
 
     // 总额
