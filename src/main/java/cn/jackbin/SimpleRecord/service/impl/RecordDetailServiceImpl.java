@@ -113,7 +113,7 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
         List<Long> intervalDate = DateUtil.getIntervalTimeByMonth(beginDate, endDate);
         int beginIndex = 0; // 开始标记
         int endIndex = 0;   // 结束标记
-        for (int i=0; i<intervalDate.size(); i++) {
+        for (int i=0; i<intervalDate.size() -1; i++) {
             boolean flag = false;
             // 找到同一个月份的并打上标记
             for (RecordDetailDTO temp : recordDetailDTOList) {
