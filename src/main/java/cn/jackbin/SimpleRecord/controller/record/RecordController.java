@@ -1,5 +1,6 @@
 package cn.jackbin.SimpleRecord.controller.record;
 
+import cn.jackbin.SimpleRecord.bo.MonthRecordBO;
 import cn.jackbin.SimpleRecord.dto.RecordDTO;
 import cn.jackbin.SimpleRecord.dto.SpendCategoryTotalDTO;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
@@ -125,7 +126,7 @@ public class RecordController {
             return Result.error(CodeMsg.RECORD_TYPE_CODE_ERROR);
         }
         UserDO userDO = LocalUser.getLocalUser();
-        List<RecordDetailDTO> list = recordDetailService.getLatestSixMonthList(userDO.getId(), vo.getRecordTypeCode(),
+        List<MonthRecordBO> list = recordDetailService.getLatestSixMonthList(userDO.getId(), vo.getRecordTypeCode(),
                 vo.getBeginDate(), DateUtil.addMonth(vo.getBeginDate(), 6));
         return Result.success(list);
     }

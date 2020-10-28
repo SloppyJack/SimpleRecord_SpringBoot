@@ -5,13 +5,12 @@ import cn.jackbin.SimpleRecord.constant.RecordConstant;
 import cn.jackbin.SimpleRecord.dto.SpendCategoryTotalDTO;
 import cn.jackbin.SimpleRecord.dto.RecordDTO;
 import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
-import cn.jackbin.SimpleRecord.entity.RecordTypeDO;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.mapper.RecordDetailMapper;
-import cn.jackbin.SimpleRecord.mapper.RecordTypeMapper;
 import cn.jackbin.SimpleRecord.service.RecordDetailService;
 import cn.jackbin.SimpleRecord.dto.RecordDetailDTO;
-import cn.jackbin.SimpleRecord.service.RecordTypeService;
+import cn.jackbin.SimpleRecord.utils.DateUtil;
+import cn.jackbin.SimpleRecord.bo.MonthRecordBO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -107,8 +106,32 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
     }
 
     @Override
-    public List<RecordDetailDTO> getLatestSixMonthList(Long userId, String recordTypeCode, Date beginDate, Date endDate) {
+    public List<MonthRecordBO> getLatestSixMonthList(Long userId, String recordTypeCode, Date beginDate, Date endDate) {
+        List<MonthRecordBO> monthRecords = new ArrayList<>();
         List<RecordDetailDTO> recordDetailDTOList = recordDetailMapper.queryByInterval(userId, recordTypeCode, beginDate, endDate);
-        return recordDetailDTOList;
+        // 将时间分段
+        List<Long> intervalDate = DateUtil.getIntervalTimeByMonth(beginDate, endDate);
+        int beginIndex = 0; // 开始标记
+        int endIndex = 0;   // 结束标记
+        for (int i=0; i<intervalDate.size(); i++) {
+            boolean flag = false;
+            // 找到同一个月份的并打上标记
+            for (RecordDetailDTO temp : recordDetailDTOList) {
+                if (temp.getOccurTime().getTime() >= intervalDate.get(i) &&temp.getOccurTime().getTime() < intervalDate.get(i+1)) {
+                    flag = true;
+                    endIndex ++;
+                }
+            }
+            MonthRecordBO monthRecord = new MonthRecordBO();
+            monthRecord.setOccurMonth(new Date(intervalDate.get(i)));
+            // 如果需要处理数据
+            if (flag) {
+                for (int j = beginIndex; j<endIndex; j++) {
+                    monthRecord.setTotal(monthRecord.getTotal() + recordDetailDTOList.get(j).getAmount());
+                }
+            }
+            monthRecords.add(monthRecord);
+        }
+        return monthRecords;
     }
 }
