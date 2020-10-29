@@ -56,9 +56,11 @@ public interface RecordDetailService extends IService<RecordDetailDO> {
     List<Double> getSpendTotalByMonth(Long userId, Date date);
 
     /**
-     * 获取前三消费额
+     * 获取某个月前三消费额
      */
     List<SpendCategoryTotalDTO> getSpendTotalBySpendCategory(Long userId, String recordTypeCode, Date date, int begin, int end);
+
+    List<SpendCategoryTotalDTO> getSpendSpendCategoryTotalByYear(Long userId, String recordTypeCode, Date date);
 
     /**
      * 查询用户某个月内的记账记录

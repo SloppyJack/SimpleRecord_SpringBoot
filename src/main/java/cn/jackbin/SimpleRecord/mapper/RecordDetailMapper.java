@@ -39,7 +39,9 @@ public interface RecordDetailMapper extends BaseMapper<RecordDetailDO> {
      * @param end 索引
      * @return
      */
-    List<SpendCategoryTotalDTO> querySpendTotalBySpendCategory(Long userId, String recordTypeCode, Date date, int begin, int end);
+    List<SpendCategoryTotalDTO> querySpendSpendCategoryTotalByMonth(Long userId, String recordTypeCode, Date date, int begin, int end);
+
+    List<SpendCategoryTotalDTO> querySpendSpendCategoryTotalByYear(Long userId, String recordTypeCode, Date date);
 
     /**
      * 查询用户某个月内的记账记录

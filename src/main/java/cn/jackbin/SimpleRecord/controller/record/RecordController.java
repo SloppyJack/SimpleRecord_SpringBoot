@@ -23,6 +23,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.util.Date;
 import java.util.List;
@@ -107,6 +109,21 @@ public class RecordController {
                 date, 0, 3);
         return Result.success(list);
     }
+
+    @ApiOperation(value = "获取某年所有消费类别的总额")
+    @GetMapping("/spendCategoryTotal/{year}/{recordType}")
+    public Result<?> getSpendCategoryTotalInYear(@ApiParam(required = true, value = "年（yyyy）") @Validated
+                                           @DateTimeFormat(pattern="yyyy") @PathVariable(value = "year")Date date,
+                                           @NotNull(message = "记账类型编码不能为空") @PathVariable(value = "recordType")String recordType) {
+        if (!recordType.equals(RecordConstant.EXPEND_RECORD_TYPE) && !recordType.equals(RecordConstant.INCOME_RECORD_TYPE)) {
+            return Result.error(CodeMsg.RECORD_TYPE_CODE_ERROR);
+        }
+        UserDO userDO = LocalUser.getLocalUser();
+        List<SpendCategoryTotalDTO> list = recordDetailService.getSpendSpendCategoryTotalByYear(userDO.getId(), RecordConstant.EXPEND_RECORD_TYPE,
+                date);
+        return Result.success(list);
+    }
+
 
     @ApiOperation(value = "分页获取某个月份记账记录")
     @PostMapping("/listByMonth")

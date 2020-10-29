@@ -97,7 +97,12 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
 
     @Override
     public List<SpendCategoryTotalDTO> getSpendTotalBySpendCategory(Long userId, String recordTypeCode, Date date, int begin, int end) {
-        return recordDetailMapper.querySpendTotalBySpendCategory(userId, recordTypeCode, date, begin, end);
+        return recordDetailMapper.querySpendSpendCategoryTotalByMonth(userId, recordTypeCode, date, begin, end);
+    }
+
+    @Override
+    public List<SpendCategoryTotalDTO> getSpendSpendCategoryTotalByYear(Long userId, String recordTypeCode, Date date) {
+        return recordDetailMapper.querySpendSpendCategoryTotalByYear(userId, recordTypeCode, date);
     }
 
     @Override
