@@ -119,7 +119,7 @@ public class RecordController {
             return Result.error(CodeMsg.RECORD_TYPE_CODE_ERROR);
         }
         UserDO userDO = LocalUser.getLocalUser();
-        List<SpendCategoryTotalDTO> list = recordDetailService.getSpendSpendCategoryTotalByYear(userDO.getId(), RecordConstant.EXPEND_RECORD_TYPE,
+        List<SpendCategoryTotalDTO> list = recordDetailService.getSpendSpendCategoryTotalByYear(userDO.getId(), recordType,
                 date);
         return Result.success(list);
     }
