@@ -83,7 +83,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/doc.html")
                 .antMatchers("/webjars/**")
                 .antMatchers("/swagger-resources/**")
-                .antMatchers("/v2/**");
+                .antMatchers("/v2/**")
+                // 微信获取openId的Url不拦截
+                .antMatchers("/wx/openId/*")
+                .antMatchers("/wx/login");
         web.expressionHandler(new DefaultWebSecurityExpressionHandler() {
             @Override
             protected SecurityExpressionOperations createSecurityExpressionRoot(Authentication authentication, FilterInvocation fi) {

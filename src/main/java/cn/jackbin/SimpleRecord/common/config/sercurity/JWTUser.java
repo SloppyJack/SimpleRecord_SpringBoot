@@ -17,7 +17,7 @@ import java.util.List;
  * @date: 2020/8/3 20:16
  **/
 public class JWTUser implements UserDetails {
-    private static final String Spacer = ":";
+    public static final String Spacer = ":";
 
     private Long id;
     private String username;

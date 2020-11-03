@@ -1,25 +1,27 @@
 package cn.jackbin.SimpleRecord.vo;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
  * @author: create by bin
  * @version: v1.0
- * @description: cn.jackbin.SimpleRecord.dto
- * @date: 2020/8/31 19:38
+ * @description: cn.jackbin.SimpleRecord.vo
+ * @date: 2020/11/3 20:59
  **/
 @Data
-@ApiModel(value="RegisterDTO对象", description="用户注册对象")
-public class RegisterVO {
+@NoArgsConstructor
+public class WechatUserVO {
+    @ApiModelProperty(required = true,value = "微信的用户OpenId")
+    @NotBlank(message = "openId不能为空")
+    private String openId;
 
     @ApiModelProperty(required = true, value = "用户名")
-    @NotBlank(message = "用户名不能为空")
     private String username;
 
     @ApiModelProperty(required = true, value = "用户昵称")
@@ -30,9 +32,8 @@ public class RegisterVO {
     @NotNull(message = "性别不能为空")
     private Integer sex;
 
-    @ApiModelProperty(required = true, value = "邮箱")
-    @Email(message = "邮箱格式不正确")
-    private String email;
+    @ApiModelProperty(required = true, value = "头像地址")
+    private String avatar;
 
     @ApiModelProperty(required = true, value = "密码")
     @NotBlank(message = "密码不能为空")

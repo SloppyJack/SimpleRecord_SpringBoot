@@ -9,5 +9,5 @@ package cn.jackbin.SimpleRecord.constant;
 public class SexConstant {
     public static final int MAN = 1;
 
-    public static final int WOMAN = 0;
+    public static final int WOMAN = 2;
 }
