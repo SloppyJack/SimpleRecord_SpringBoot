@@ -42,4 +42,9 @@ public class LoginSuccessVO {
      * token字符串
      */
     private String token;
+
+    /**
+     * 微信登录的openId
+     */
+    private String openId;
 }

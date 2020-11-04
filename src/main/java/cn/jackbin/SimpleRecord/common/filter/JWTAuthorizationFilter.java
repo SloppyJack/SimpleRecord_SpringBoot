@@ -2,6 +2,7 @@ package cn.jackbin.SimpleRecord.common.filter;
 
 import cn.jackbin.SimpleRecord.common.LocalUser;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
+import cn.jackbin.SimpleRecord.exception.BusinessException;
 import cn.jackbin.SimpleRecord.utils.SpringContextUtil;
 import cn.jackbin.SimpleRecord.common.config.JWTConfig;
 import cn.jackbin.SimpleRecord.vo.Result;
@@ -13,6 +14,7 @@ import cn.jackbin.SimpleRecord.service.UserService;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import io.jsonwebtoken.Claims;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,6 +37,7 @@ import java.util.List;
  * @description: 此拦截器进行鉴权操作
  * @date: 2020/8/3 21:04
  **/
+@Slf4j
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
     public JWTAuthorizationFilter(AuthenticationManager authenticationManager) {
@@ -72,7 +75,8 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             );
             return new UsernamePasswordAuthenticationToken(userId, null, list);
         }else {
-            throw new ParameterException("token格式不正确");
+            log.error("token格式不正确");
+            throw new BusinessException(CodeMsg.JWT_EXCEPTION);
         }
     }
 
@@ -82,14 +86,16 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     private void checkToken(String token) {
         JWTConfig jwtConfig = SpringContextUtil.getBean(JWTConfig.class);
         if(StringUtils.isEmpty(token)){
-            throw new NotFoundException(jwtConfig.getHeader()+"不能为空");
+            log.error("{}不能为空",jwtConfig.getHeader());
+            throw new BusinessException(CodeMsg.JWT_EXCEPTION);
         }
         Claims claims = jwtConfig.getTokenClaim(token);
         if(claims == null){
-            throw new ParameterException(CodeMsg.JWT_EXCEPTION);
-
+            log.error(CodeMsg.JWT_EXCEPTION.getMessage());
+            throw new BusinessException(CodeMsg.JWT_EXCEPTION);
         }
         if (jwtConfig.isTokenExpired(claims)) {
+            log.error(CodeMsg.TOKEN_EXPIRED.getMessage());
             throw new ParameterException(CodeMsg.TOKEN_EXPIRED);
         }
     }

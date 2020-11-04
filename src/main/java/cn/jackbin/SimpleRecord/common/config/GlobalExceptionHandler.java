@@ -32,13 +32,13 @@ public class GlobalExceptionHandler {
      *@author: edit by bin
      */
     @ExceptionHandler(Exception.class)
-    public Result handleException(Exception e){
+    public Result<?> handleException(Exception e){
         log.error(e.getMessage(),e);
         return Result.error(CodeMsg.ERROR);
     }
 
     @ExceptionHandler(JwtException.class)
-    public Result handleJwtException(JwtException e) {
+    public Result<?> handleJwtException(JwtException e) {
         log.error(e.getMessage(),e);
         return Result.error(CodeMsg.JWT_EXCEPTION,e.getMessage());
     }
@@ -51,7 +51,7 @@ public class GlobalExceptionHandler {
      *@author: edit by bin
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Result handleValidationBodyException(MethodArgumentNotValidException e){
+    public Result<?> handleValidationBodyException(MethodArgumentNotValidException e){
         log.error(e.getMessage(),e);
         for (ObjectError s : e.getBindingResult().getAllErrors()) {
             return Result.error(CodeMsg.FAILED, s.getDefaultMessage());
@@ -60,19 +60,19 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public Result handleConstraintViolationException(ConstraintViolationException e) {
+    public Result<?> handleConstraintViolationException(ConstraintViolationException e) {
         log.error(e.getMessage(),e);
         return Result.error(CodeMsg.FAILED,e.getMessage());
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public Result handleAccessDeniedException(AccessDeniedException e) {
+    public Result<?> handleAccessDeniedException(AccessDeniedException e) {
         log.error(e.getMessage(),e);
         return Result.error(CodeMsg.WITHOUT_PERMISSION);
     }
 
     @ExceptionHandler(BindException.class)
-    public Result handleBindException(BindException e) {
+    public Result<?> handleBindException(BindException e) {
         log.error(e.getMessage(),e);
         return Result.error(CodeMsg.PARAMETER_ILLEGAL);
     }
@@ -85,7 +85,7 @@ public class GlobalExceptionHandler {
      *@author: edit by bin
      */
     @ExceptionHandler(BaseException.class)
-    public Result handleBusinessException(BaseException e){
+    public Result<?> handleBusinessException(BaseException e){
         log.error(e.getMessage(),e);
         return Result.error(e.getCodeMsg(),e.getMessage());
     }

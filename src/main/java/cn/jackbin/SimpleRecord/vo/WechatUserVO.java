@@ -22,6 +22,7 @@ public class WechatUserVO {
     private String openId;
 
     @ApiModelProperty(required = true, value = "用户名")
+    @NotBlank(message = "用户名不能为空")
     private String username;
 
     @ApiModelProperty(required = true, value = "用户昵称")
@@ -34,8 +35,4 @@ public class WechatUserVO {
 
     @ApiModelProperty(required = true, value = "头像地址")
     private String avatar;
-
-    @ApiModelProperty(required = true, value = "密码")
-    @NotBlank(message = "密码不能为空")
-    private String password;
 }

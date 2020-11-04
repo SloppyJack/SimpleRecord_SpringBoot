@@ -1,5 +1,6 @@
 package cn.jackbin.SimpleRecord.dto;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
  * @date: 2020/10/15 21:31
  **/
 @Data
-@NoArgsConstructor
+@Builder
 public class SpendCategoryTotalDTO {
     /**
      * 花费类别Id

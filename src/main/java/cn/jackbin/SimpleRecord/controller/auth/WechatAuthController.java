@@ -68,7 +68,7 @@ public class WechatAuthController {
 
     @ApiOperation(value = "微信登录授权")
     @PostMapping("/login")
-    public Result<?> login(@RequestBody WechatUserVO vo) {
+    public Result<?> login(@Validated @RequestBody WechatUserVO vo) {
         UserDO userDO;
         WechatUserDO wechatUserDO = wechatUserService.getByOpenId(vo.getOpenId());
         if (wechatUserDO == null) {
@@ -88,6 +88,8 @@ public class WechatAuthController {
         LoginSuccessVO loginSuccessVO = new LoginSuccessVO();
         BeanUtils.copyProperties(userDO, loginSuccessVO);
         loginSuccessVO.setToken(generateToken(userDO.getId()));
+        // 添加openId作为返回
+        loginSuccessVO.setOpenId(vo.getOpenId());
         return Result.success(loginSuccessVO);
     }
 
