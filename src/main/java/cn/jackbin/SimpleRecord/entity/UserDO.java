@@ -51,7 +51,7 @@ public class UserDO extends BaseDO implements Serializable {
     /**
      * 头像url
      */
-    private String avatar;
+    private String avatarUrl;
 
     /**
      * 邮箱

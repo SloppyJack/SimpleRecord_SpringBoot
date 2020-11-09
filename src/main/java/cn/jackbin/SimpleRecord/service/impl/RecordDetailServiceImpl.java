@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -90,8 +91,10 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
     @Override
     public List<Double> getSpendTotalByMonth(Long userId, Date date) {
         List<Double> list = new ArrayList<>();
-        list.add(recordDetailMapper.querySpendTotalByMonth(userId, RecordConstant.EXPEND_RECORD_TYPE, date));
-        list.add(recordDetailMapper.querySpendTotalByMonth(userId, RecordConstant.INCOME_RECORD_TYPE, date));
+        Double expendTotal = recordDetailMapper.querySpendTotalByMonth(userId, RecordConstant.EXPEND_RECORD_TYPE, date);
+        Double incomeTotal = recordDetailMapper.querySpendTotalByMonth(userId, RecordConstant.INCOME_RECORD_TYPE, date);
+        list.add(Objects.requireNonNullElse(expendTotal, 0.0));
+        list.add(Objects.requireNonNullElse(incomeTotal, 0.0));
         return list;
     }
 

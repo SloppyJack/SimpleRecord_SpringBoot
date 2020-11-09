@@ -34,5 +34,5 @@ public class WechatUserVO {
     private Integer sex;
 
     @ApiModelProperty(required = true, value = "头像地址")
-    private String avatar;
+    private String avatarUrl;
 }

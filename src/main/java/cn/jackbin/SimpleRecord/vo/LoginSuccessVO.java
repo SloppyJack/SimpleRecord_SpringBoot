@@ -31,7 +31,7 @@ public class LoginSuccessVO {
     /**
      * 头像url
      */
-    private String avatar;
+    private String avatarUrl;
 
     /**
      * 邮箱
