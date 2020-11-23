@@ -1,6 +1,6 @@
 package cn.jackbin.SimpleRecord.bo;
 
-import cn.jackbin.SimpleRecord.entity.PermissionDO;
+import cn.jackbin.SimpleRecord.entity.MenuDO;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +15,7 @@ import java.util.List;
  **/
 @Data
 @AllArgsConstructor
-public class UserPermissionBO {
+public class UserMenuBO {
 
     /**
      * 用户类
@@ -25,6 +25,6 @@ public class UserPermissionBO {
     /**
      * 权限列表
      */
-    private List<PermissionDO> permissionDOList;
+    private List<MenuDO> menuDOList;
 
 }

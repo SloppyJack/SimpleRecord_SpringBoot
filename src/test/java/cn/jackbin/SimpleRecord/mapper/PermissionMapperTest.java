@@ -1,6 +1,6 @@
 package cn.jackbin.SimpleRecord.mapper;
 
-import cn.jackbin.SimpleRecord.entity.PermissionDO;
+import cn.jackbin.SimpleRecord.entity.MenuDO;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+
 
 /**
  * @author: create by bin
@@ -20,11 +21,11 @@ import java.util.List;
 @SpringBootTest
 public class PermissionMapperTest {
     @Autowired
-    private PermissionMapper mapper;
+    private MenuMapper mapper;
 
     @Test
     public void queryPermissionByUserId() {
-        List<PermissionDO> list = mapper.queryPermissionByUserId(2L);
+        List<MenuDO> list = mapper.queryMenus(2L);
         Assert.assertEquals(5,list.size());
     }
 }

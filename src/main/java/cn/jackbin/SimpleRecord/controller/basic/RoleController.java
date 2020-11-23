@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2020-07-21
  */
 @RestController
-@RequestMapping("/jianzhang/tb-user-group")
-public class TbUserGroupController {
+@RequestMapping("/role")
+public class RoleController {
+
 }

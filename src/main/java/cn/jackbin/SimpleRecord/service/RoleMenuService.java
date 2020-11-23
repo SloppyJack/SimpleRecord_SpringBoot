@@ -1,6 +1,6 @@
 package cn.jackbin.SimpleRecord.service;
 
-import cn.jackbin.SimpleRecord.entity.GroupPermissionDO;
+import cn.jackbin.SimpleRecord.entity.RoleMenuDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -13,6 +13,6 @@ import java.util.List;
  * @author jackbin
  * @since 2020-07-21
  */
-public interface GroupPermissionService extends IService<GroupPermissionDO> {
-    List<GroupPermissionDO> getByGroupId(int id);
+public interface RoleMenuService extends IService<RoleMenuDO> {
+    List<RoleMenuDO> getByRoleId(int id);
 }

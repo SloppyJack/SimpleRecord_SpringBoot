@@ -20,8 +20,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@TableName("tb_group")
-public class GroupDO extends BaseDO implements Serializable {
+@TableName("tb_user_group")
+public class UserRoleDO extends BaseDO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -29,13 +29,14 @@ public class GroupDO extends BaseDO implements Serializable {
     private Long id;
 
     /**
-     * 分组名称，例如：搬砖者
+     * 用户id
      */
-    private String name;
+    private Integer userId;
 
     /**
-     * 分组信息：例如：搬砖的人
+     * 角色id
      */
-    private String info;
+    private Integer roleId;
+
 
 }

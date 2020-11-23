@@ -1,6 +1,6 @@
 package cn.jackbin.SimpleRecord.mapper;
 
-import cn.jackbin.SimpleRecord.entity.GroupPermissionDO;
+import cn.jackbin.SimpleRecord.entity.RoleDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author jackbin
  * @since 2020-07-21
  */
-public interface GroupPermissionMapper extends BaseMapper<GroupPermissionDO> {
+public interface RoleMapper extends BaseMapper<RoleDO> {
 
 }

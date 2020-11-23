@@ -1,8 +1,8 @@
 package cn.jackbin.SimpleRecord.service.impl;
 
-import cn.jackbin.SimpleRecord.entity.GroupDO;
-import cn.jackbin.SimpleRecord.mapper.GroupMapper;
-import cn.jackbin.SimpleRecord.service.GroupService;
+import cn.jackbin.SimpleRecord.entity.RoleDO;
+import cn.jackbin.SimpleRecord.mapper.RoleMapper;
+import cn.jackbin.SimpleRecord.service.RoleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2020-07-21
  */
 @Service
-public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implements GroupService {
+public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements RoleService {
 
 }

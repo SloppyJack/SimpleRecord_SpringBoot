@@ -1,6 +1,6 @@
 package cn.jackbin.SimpleRecord.service;
 
-import cn.jackbin.SimpleRecord.entity.UserGroupDO;
+import cn.jackbin.SimpleRecord.entity.RoleDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,5 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author jackbin
  * @since 2020-07-21
  */
-public interface UserGroupService extends IService<UserGroupDO> {
+public interface RoleService extends IService<RoleDO> {
+
 }

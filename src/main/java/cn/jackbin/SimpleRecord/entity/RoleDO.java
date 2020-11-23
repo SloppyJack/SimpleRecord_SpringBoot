@@ -20,32 +20,22 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@TableName("tb_permission")
-public class PermissionDO extends BaseDO implements Serializable {
+@TableName("tb_role")
+public class RoleDO extends BaseDO implements Serializable {
 
-    private static final long serialVersionUID1 = 1L;
+    private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**
-     * 权限名称，例如：访问首页
+     * 角色名称，例如：root
      */
-    private String permissionName;
+    private String name;
 
     /**
-     * 权限编码
+     * 角色信息：例如：超级用户
      */
-    private String permissionCode;
-
-    /**
-     * 权限所属模块，例如：人员管理
-     */
-    private String moduleName;
-
-    /**
-     * 模块编码
-     */
-    private String moduleCode;
+    private String info;
 
 }
