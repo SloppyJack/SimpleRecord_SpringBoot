@@ -84,6 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/webjars/**")
                 .antMatchers("/swagger-resources/**")
                 .antMatchers("/v2/**")
+                .antMatchers("/favicon.ico")
                 // 微信获取openId的Url不拦截
                 .antMatchers("/wx/openId/*")
                 .antMatchers("/wx/login");

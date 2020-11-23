@@ -1,5 +1,6 @@
 package cn.jackbin.SimpleRecord.vo;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import lombok.Data;
@@ -14,6 +15,7 @@ import javax.validation.constraints.NotNull;
  * @description: cn.jackbin.SimpleRecord.vo
  * @date: 2020/11/3 20:59
  **/
+@ApiModel(value="WechatUserVO对象", description="微信登录对象")
 @Data
 @NoArgsConstructor
 public class WechatUserVO {

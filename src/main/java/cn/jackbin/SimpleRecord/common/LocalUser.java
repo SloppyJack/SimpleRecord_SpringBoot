@@ -16,27 +16,21 @@ public class LocalUser {
      *
      * @return user | null
      */
-    public static UserDO getLocalUser() {
+    public static UserDO get() {
         return LocalUser.local.get();
     }
 
     /**
      * 设置登录用户
-     *
-     * @param user user
      */
-    public static void setLocalUser(UserDO user) {
+    public static void set(UserDO user) {
         LocalUser.local.set(user);
-    }
-
-    public static <T> T getLocalUser(Class<T> clazz) {
-        return (T) local.get();
     }
 
     /**
      * 清理当前用户
      */
-    public static void clearLocalUser() {
+    public static void clear() {
         LocalUser.local.remove();
     }
 }

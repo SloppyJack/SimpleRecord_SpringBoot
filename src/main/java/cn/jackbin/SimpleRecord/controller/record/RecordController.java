@@ -1,6 +1,7 @@
 package cn.jackbin.SimpleRecord.controller.record;
 
 import cn.jackbin.SimpleRecord.bo.MonthRecordBO;
+import cn.jackbin.SimpleRecord.common.ioc.LoginRequired;
 import cn.jackbin.SimpleRecord.dto.RecordDTO;
 import cn.jackbin.SimpleRecord.dto.SpendCategoryTotalDTO;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
@@ -45,12 +46,14 @@ public class RecordController {
     /**
      * 记账
      */
+    @LoginRequired
     @ApiOperation(value = "新增记账记录")
-    @PostMapping()
+    @PostMapping
     public Result<?> createRecord(@RequestBody @Validated RecordVO vo) {
         RecordDTO dto = new RecordDTO();
         BeanUtils.copyProperties(vo, dto);
-        if (recordDetailService.createRecord(dto)) {
+        UserDO userDO = LocalUser.get();
+        if (recordDetailService.createRecord(dto, userDO.getId())) {
             return Result.success();
         } else {
             return Result.error(CodeMsg.INSERT_RECORD_ERROR);
@@ -91,25 +94,28 @@ public class RecordController {
         }
     }
 
+    @LoginRequired
     @ApiOperation(value = "获取某个月份的支出和收入")
     @GetMapping("/spendTotalInMonth/{date}")
     public Result<?> getSpendTotalInMonth(@ApiParam(required = true, value = "年月（yyyy-MM）") @Validated
                                                   @DateTimeFormat(pattern="yyyy-MM") @PathVariable(value = "date")Date date) {
-        UserDO userDO = LocalUser.getLocalUser();
+        UserDO userDO = LocalUser.get();
         List<Double> list = recordDetailService.getSpendTotalByMonth(userDO.getId(), date);
         return Result.success(list);
     }
 
+    @LoginRequired
     @ApiOperation(value = "获取某个月份前三消费类别")
     @GetMapping("/topThreeSpendCategoryTotal/{date}")
     public Result<?> getTopThreeSpendTotal(@ApiParam(required = true, value = "年月（yyyy-MM）") @Validated
                                           @DateTimeFormat(pattern="yyyy-MM") @PathVariable(value = "date")Date date) {
-        UserDO userDO = LocalUser.getLocalUser();
+        UserDO userDO = LocalUser.get();
         List<SpendCategoryTotalDTO> list = recordDetailService.getSpendTotalBySpendCategory(userDO.getId(), RecordConstant.EXPEND_RECORD_TYPE,
                 date, 0, 3);
         return Result.success(list);
     }
 
+    @LoginRequired
     @ApiOperation(value = "获取某年所有消费类别的总额")
     @GetMapping("/spendCategoryTotal/{year}/{recordType}")
     public Result<?> getSpendCategoryTotalInYear(@ApiParam(required = true, value = "年（yyyy）") @Validated
@@ -118,31 +124,33 @@ public class RecordController {
         if (!recordType.equals(RecordConstant.EXPEND_RECORD_TYPE) && !recordType.equals(RecordConstant.INCOME_RECORD_TYPE)) {
             return Result.error(CodeMsg.RECORD_TYPE_CODE_ERROR);
         }
-        UserDO userDO = LocalUser.getLocalUser();
+        UserDO userDO = LocalUser.get();
         List<SpendCategoryTotalDTO> list = recordDetailService.getSpendSpendCategoryTotalByYear(userDO.getId(), recordType,
                 date);
         return Result.success(list);
     }
 
 
+    @LoginRequired
     @ApiOperation(value = "分页获取某个月份记账记录")
     @PostMapping("/listByMonth")
     public Result<?> getListByMonth(@RequestBody  @Validated GetRecordsByMonthVO vo) {
         if (!vo.getRecordTypeCode().equals(RecordConstant.EXPEND_RECORD_TYPE) && !vo.getRecordTypeCode().equals(RecordConstant.INCOME_RECORD_TYPE)) {
             return Result.error(CodeMsg.RECORD_TYPE_CODE_ERROR);
         }
-        UserDO userDO = LocalUser.getLocalUser();
+        UserDO userDO = LocalUser.get();
         List<RecordDetailDTO> list = recordDetailService.getListByMonth(userDO.getId(), vo.getRecordTypeCode(), vo.getDate(), vo.getPageIndex(), vo.getPageSize());
         return Result.success(list);
     }
 
+    @LoginRequired
     @ApiOperation(value = "获取最近六个月的支出和收入")
     @PostMapping("/latestSixMonthList")
     public Result<?> getLatestSixMonthList(@RequestBody  @Validated GetSixMonthRecordsVO vo) {
         if (!vo.getRecordTypeCode().equals(RecordConstant.EXPEND_RECORD_TYPE) && !vo.getRecordTypeCode().equals(RecordConstant.INCOME_RECORD_TYPE)) {
             return Result.error(CodeMsg.RECORD_TYPE_CODE_ERROR);
         }
-        UserDO userDO = LocalUser.getLocalUser();
+        UserDO userDO = LocalUser.get();
         List<MonthRecordBO> list = recordDetailService.getLatestSixMonthList(userDO.getId(), vo.getRecordTypeCode(),
                 vo.getBeginDate(), DateUtil.addMonth(vo.getBeginDate(), 6));
         return Result.success(list);
@@ -153,7 +161,7 @@ public class RecordController {
             return Result.error(CodeMsg.NOT_FIND_DATA);
         }
         // 校验是否为当前登录人的记账记录
-        UserDO userDO = LocalUser.getLocalUser();
+        UserDO userDO = LocalUser.get();
         if (!recordDetailDO.getUserId().equals(userDO.getId().intValue())) {
             return Result.error(CodeMsg.DEL_RECORD_FORBIDDEN);
         }

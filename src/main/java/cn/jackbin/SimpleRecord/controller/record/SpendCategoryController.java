@@ -28,7 +28,7 @@ public class SpendCategoryController {
     private SpendCategoryService spendCategoryService;
 
     @ApiOperation(value = "获取所有花费类别")
-    @GetMapping("")
+    @GetMapping
     public Result<?> getSpendCategoryList() {
         List<SpendCategoryDO> list = spendCategoryService.findAll();
         return Result.success(list);

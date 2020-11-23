@@ -37,11 +37,9 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
     private RecordDetailMapper recordDetailMapper;
 
     @Override
-    public boolean createRecord(RecordDTO recordDTO) {
+    public boolean createRecord(RecordDTO recordDTO, Long userId) {
         RecordDetailDO recordDO = new RecordDetailDO();
-        // 设置记账人
-        UserDO userDO = LocalUser.getLocalUser();
-        recordDO.setUserId(userDO.getId().intValue());
+        recordDO.setUserId(userId.intValue());
         recordDO.setSpendCategoryId(recordDTO.getSpendCategoryId().intValue());
         recordDO.setAmount(recordDTO.getAmount());
         recordDO.setOccurTime(recordDTO.getOccurTime());
@@ -50,19 +48,17 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
     }
 
     @Override
-    public List<RecordDetailDO> getRecordsByLocalUser() {
-        UserDO userDO = LocalUser.getLocalUser();
+    public List<RecordDetailDO> getRecordsByUserId(Long userId) {
         QueryWrapper<RecordDetailDO> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id",userDO.getId());
+        queryWrapper.eq("user_id",userId);
         return recordDetailMapper.selectList(queryWrapper);
     }
 
     @Override
-    public List<RecordDetailDO> getRecordsByLocalUserByPage(int pageIndex, int pageSize) {
-        UserDO userDO = LocalUser.getLocalUser();
+    public List<RecordDetailDO> getRecordsByByPage(Long userId, int pageIndex, int pageSize) {
         IPage<RecordDetailDO> page = new Page<>(pageIndex, pageSize);//参数一是当前页，参数二是每页个数
         QueryWrapper<RecordDetailDO> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id",userDO.getId());
+        queryWrapper.eq("user_id", userId);
         page = recordDetailMapper.selectPage(page, queryWrapper);
         return page.getRecords();
     }

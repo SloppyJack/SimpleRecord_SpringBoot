@@ -26,7 +26,7 @@ public class RecordTypeController {
     private RecordTypeService recordTypeService;
 
     @ApiOperation(value = "获取所有记账类别")
-    @GetMapping("")
+    @GetMapping
     public Result<?> getRecordTypes() {
         List<RecordTypeDO> recordTypes = recordTypeService.findAll();
         return Result.success(recordTypes);

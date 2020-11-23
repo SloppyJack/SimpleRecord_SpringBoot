@@ -23,17 +23,17 @@ public interface RecordDetailService extends IService<RecordDetailDO> {
     /**
      * 添加一条记账
      */
-    boolean createRecord(RecordDTO recordDTO);
+    boolean createRecord(RecordDTO recordDTO, Long userId);
 
     /**
      * 获取当前登录用户的记账记录
      */
-    List<RecordDetailDO> getRecordsByLocalUser();
+    List<RecordDetailDO> getRecordsByUserId(Long userId);
 
     /**
      * 分页获取当前登录用户的记账记录
      */
-    List<RecordDetailDO> getRecordsByLocalUserByPage(int pageIndex, int pageSize);
+    List<RecordDetailDO> getRecordsByByPage(Long userId, int pageIndex, int pageSize);
 
     /**
      * 通过Id获取记账记录

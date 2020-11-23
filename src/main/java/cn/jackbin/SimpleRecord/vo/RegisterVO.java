@@ -14,8 +14,8 @@ import javax.validation.constraints.NotNull;
  * @description: cn.jackbin.SimpleRecord.dto
  * @date: 2020/8/31 19:38
  **/
-@Data
 @ApiModel(value="RegisterDTO对象", description="用户注册对象")
+@Data
 public class RegisterVO {
 
     @ApiModelProperty(required = true, value = "用户名")

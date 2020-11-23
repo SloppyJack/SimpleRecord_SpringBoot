@@ -45,7 +45,7 @@ public class LoginRequiredAspect {
         if (userDO == null) {
             throw new NotFoundException("未找到指定用户");
         }
-        LocalUser.setLocalUser(userDO);
+        LocalUser.set(userDO);
     }
 
     // 开始环绕

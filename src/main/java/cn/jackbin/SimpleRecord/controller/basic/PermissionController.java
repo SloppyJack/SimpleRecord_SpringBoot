@@ -33,8 +33,8 @@ public class PermissionController {
 
     @ApiOperation(value = "获取指定权限")
     @GetMapping
-    public Result<?> get(@ApiParam(value = "权限Id") @Validated
-                          @Positive(message = "权限Id为整数") @RequestParam(value = "id")Integer id) {
+    public Result<?> getPermission(@ApiParam(value = "权限Id") @Validated
+                          @Positive(message = "权限Id为整数") @RequestParam(value = "id") Integer id) {
         PermissionDO permissionDO = permissionService.getById(id);
         if (permissionDO == null) {
             return Result.error(CodeMsg.NOT_FIND_DATA);
@@ -43,8 +43,8 @@ public class PermissionController {
     }
 
     @ApiOperation(value = "分页获取权限列表")
-    @GetMapping(value = "/getByPage")
-    public Result<?> getByPage(@Validated PageVO vo) {
+    @PostMapping(value = "/page")
+    public Result<?> getByPage(@RequestBody @Validated PageVO vo) {
         List<PermissionDO> list = permissionService.getByPage(vo.getPageIndex(), vo.getPageSize());
         return Result.success(list);
     }

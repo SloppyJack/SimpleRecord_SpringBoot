@@ -1,6 +1,6 @@
 package cn.jackbin.SimpleRecord.common.filter;
 
-import cn.jackbin.SimpleRecord.common.LocalUser;
+import cn.jackbin.SimpleRecord.common.LocalUserId;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.exception.BusinessException;
 import cn.jackbin.SimpleRecord.utils.SpringContextUtil;
@@ -66,8 +66,8 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         Claims claims = jwtConfig.getTokenClaim(token);
         if (claims != null){
             String userId = jwtConfig.getUserIdFromToken(claims);
-            // 设置当前用户到线程中
-            setLocalUser(userId);
+            // 设置当前用户Id到线程中
+            LocalUserId.set(Long.valueOf(userId));
             List<String> permissions = jwtConfig.getPermissions(claims);
             List<GrantedAuthority> list = new ArrayList<>();
             permissions.forEach(
@@ -98,19 +98,6 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             log.error(CodeMsg.TOKEN_EXPIRED.getMessage());
             throw new ParameterException(CodeMsg.TOKEN_EXPIRED);
         }
-    }
-
-    /**
-     * 根据userId设置当前用户
-     * @param userId
-     */
-    private void setLocalUser(String userId) {
-        UserService userService = SpringContextUtil.getBean(UserService.class);
-        UserDO userDO = userService.getById(userId);
-        if (userDO == null) {
-            throw new NotFoundException("未找到指定用户");
-        }
-        LocalUser.setLocalUser(userDO);
     }
 
 }

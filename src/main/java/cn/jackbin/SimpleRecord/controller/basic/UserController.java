@@ -56,14 +56,15 @@ public class UserController {
     }
 
     @ApiOperation(value = "用户登录")
-    @PostMapping(value = "/login")
-    public Result<?> login(@RequestBody LoginVO dto) {
+    @PostMapping("/login")
+    public Result<?> userLogin(@RequestBody LoginVO dto) {
+        log.info("用户登录：{}", dto.getUsername());
         return Result.success();
     }
 
     @ApiOperation(value = "通过Id获取用户")
     @GetMapping
-    public Result<?> get(@ApiParam(required = true, value = "用户Id") @Validated
+    public Result<?> getById(@ApiParam(required = true, value = "用户Id") @Validated
                           @Positive(message = "用户Id为整数") @RequestParam(value = "id")Integer id) {
         UserDO userDO = userService.getById(id);
         if (userDO == null) {

@@ -1,5 +1,6 @@
 package cn.jackbin.SimpleRecord.vo;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -12,6 +13,7 @@ import javax.validation.constraints.PositiveOrZero;
  * @description: cn.jackbin.SimpleRecord.dto
  * @date: 2020/9/8 20:41
  **/
+@ApiModel(value="PageVO对象", description="分页对象")
 @Data
 public class PageVO {
     /**
