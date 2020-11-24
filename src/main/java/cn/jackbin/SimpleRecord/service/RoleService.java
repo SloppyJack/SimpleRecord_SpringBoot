@@ -3,6 +3,8 @@ package cn.jackbin.SimpleRecord.service;
 import cn.jackbin.SimpleRecord.entity.RoleDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface RoleService extends IService<RoleDO> {
 
+    List<RoleDO> getByUserId(Long userId);
 }

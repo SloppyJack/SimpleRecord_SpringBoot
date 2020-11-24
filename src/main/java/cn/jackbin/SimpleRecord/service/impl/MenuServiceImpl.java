@@ -4,6 +4,7 @@ import cn.jackbin.SimpleRecord.entity.MenuDO;
 import cn.jackbin.SimpleRecord.mapper.MenuMapper;
 import cn.jackbin.SimpleRecord.service.MenuService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,9 +17,12 @@ import java.util.List;
  **/
 @Service
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuDO> implements MenuService {
+    @Autowired
+    private MenuMapper menuMapper;
+
     @Override
     public List<MenuDO> getUserMenus(Long userId) {
-        return null;
+        return menuMapper.queryMenus(userId);
     }
 
     @Override

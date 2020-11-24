@@ -62,7 +62,7 @@ public class RecordController {
 
     @ApiOperation(value = "修改当前登录用户的记账记录")
     @PutMapping("/{id}")
-    public Result<?> updateRecord(@PathVariable("id") @Positive(message = "{id}") Long id, @RequestBody @Validated RecordVO vo) {
+    public Result<?> updateRecord(@PathVariable("id") @Validated @Positive(message = "{id}") Long id, @RequestBody @Validated RecordVO vo) {
         RecordDetailDO recordDO = recordDetailService.getById(id);
         Result<?> checkResult = checkRecord(recordDO);
         if (checkResult != null) {
