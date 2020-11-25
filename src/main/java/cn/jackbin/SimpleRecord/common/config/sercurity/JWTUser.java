@@ -1,6 +1,7 @@
 package cn.jackbin.SimpleRecord.common.config.sercurity;
 
 import cn.jackbin.SimpleRecord.bo.UserMenuBO;
+import cn.jackbin.SimpleRecord.constant.MenuTypeConstants;
 import com.alibaba.fastjson.JSON;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -29,9 +30,9 @@ public class JWTUser implements UserDetails {
         this.password = userPermissionBO.getUserDO().getCredential();
         // 设置当前用户的权限集合
         List<GrantedAuthority> list = new ArrayList<>();
-        userPermissionBO.getMenuDOList().forEach(
-                n-> list.add(new SimpleGrantedAuthority(n.getPermissionSign()))
-        );
+        userPermissionBO.getMenuDOList().stream()
+                .filter(n -> !n.getMenuType().equals(MenuTypeConstants.M))
+                .forEach(n-> list.add(new SimpleGrantedAuthority(n.getPermissionSign())));
         this.authorities = list;
     }
 
