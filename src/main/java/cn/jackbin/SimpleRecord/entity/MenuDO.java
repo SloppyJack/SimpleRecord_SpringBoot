@@ -36,8 +36,14 @@ public class MenuDO extends BaseDO implements Serializable {
 
     private String componentPath;
 
+    /**
+     * 是否为外链（0是 1否）
+     */
     private Integer outerChain;
 
+    /**
+     * 菜单类型（M目录 C菜单 F按钮）
+     */
     private String menuType;
 
     private String permissionSign;
