@@ -43,13 +43,13 @@ public class RoleController {
         List<RoleDO> roleDOS = roleService.getByUserId(LocalUserId.get());
         // 用户菜单权限
         List<MenuDO> menuDOS = menuService.getUserMenus(LocalUserId.get());
-        MenuVO menuVOS = generatorTree(menuDOS);
-        RoleMenuVO roleMenuVO = new RoleMenuVO(roleDOS, menuVOS);
+        List<MenuVO> tree = generatorTree(menuDOS);
+        RoleMenuVO roleMenuVO = new RoleMenuVO(roleDOS, tree);
         return Result.success(roleMenuVO);
     }
 
-    private MenuVO generatorTree(List<MenuDO> list) {
-        // 添加父节点
+    private List<MenuVO> generatorTree(List<MenuDO> list) {
+        // 复制属性
         List<MenuVO> voList = new ArrayList<>();
         list.forEach(n -> {
             MenuVO temp = new MenuVO();
@@ -57,14 +57,7 @@ public class RoleController {
             temp.setId(n.getId().intValue());
             voList.add(temp);
         });
-        MenuVO root = MenuVO.builder()
-                .menuName("首页")
-                .path("/dashboard/workplace")
-                .componentPath("BasicLayout")
-                .build();
-        List<MenuVO> tree = list2Tree(voList, root.getId());
-        root.setChildren(tree);
-        return root;
+        return list2Tree(voList, null);
     }
 
     private List<MenuVO> list2Tree(List<MenuVO> list, Integer pId) {

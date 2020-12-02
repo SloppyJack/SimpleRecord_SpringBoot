@@ -34,7 +34,7 @@ public class MenuDO extends BaseDO implements Serializable {
 
     private String path;
 
-    private String componentPath;
+    private String component;
 
     /**
      * 是否为外链（0是 1否）

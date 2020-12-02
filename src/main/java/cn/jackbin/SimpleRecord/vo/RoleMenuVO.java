@@ -17,5 +17,5 @@ import java.util.List;
 public class RoleMenuVO {
     private List<RoleDO> roles;
 
-    private MenuVO menus;
+    private List<MenuVO> menus;
 }

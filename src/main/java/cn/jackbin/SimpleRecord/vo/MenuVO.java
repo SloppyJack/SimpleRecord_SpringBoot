@@ -36,7 +36,7 @@ public class MenuVO {
     /**
      * 组件路径
      */
-    private String componentPath;
+    private String component;
 
     /**
      * 是否为外链
@@ -54,12 +54,12 @@ public class MenuVO {
     public MenuVO() {
     }
 
-    public MenuVO(Integer id, Integer parentId, String menuName, String path, String componentPath, Boolean isOuterChain, String menuType, String iconName, String permissionSign, List<MenuVO> children) {
+    public MenuVO(Integer id, Integer parentId, String menuName, String path, String component, Boolean isOuterChain, String menuType, String iconName, String permissionSign, List<MenuVO> children) {
         this.id = id;
         this.parentId = parentId;
         this.menuName = menuName;
         this.path = path;
-        this.componentPath = componentPath;
+        this.component = component;
         this.isOuterChain = isOuterChain;
         this.menuType = menuType;
         this.iconName = iconName;
