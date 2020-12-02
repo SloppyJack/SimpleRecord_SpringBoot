@@ -1,8 +1,8 @@
 package cn.jackbin.SimpleRecord.vo;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -13,6 +13,7 @@ import java.util.List;
  * @date: 2020/12/1 19:54
  **/
 @Data
+@AllArgsConstructor
 @Builder
 public class MenuVO {
 
@@ -22,6 +23,11 @@ public class MenuVO {
      * 父节点Id
      */
     private Integer parentId;
+
+    /**
+     * 菜单标题
+     */
+    private String menuTitle;
 
     /**
      * 菜单名
@@ -41,7 +47,7 @@ public class MenuVO {
     /**
      * 是否为外链
      */
-    private Boolean isOuterChain;
+    private boolean isOuterChain;
 
     private String menuType;
 
@@ -49,21 +55,10 @@ public class MenuVO {
 
     private String permissionSign;
 
+    private Integer orderNo;
+
     List<MenuVO> children;
 
     public MenuVO() {
-    }
-
-    public MenuVO(Integer id, Integer parentId, String menuName, String path, String component, Boolean isOuterChain, String menuType, String iconName, String permissionSign, List<MenuVO> children) {
-        this.id = id;
-        this.parentId = parentId;
-        this.menuName = menuName;
-        this.path = path;
-        this.component = component;
-        this.isOuterChain = isOuterChain;
-        this.menuType = menuType;
-        this.iconName = iconName;
-        this.permissionSign = permissionSign;
-        this.children = children;
     }
 }

@@ -26,6 +26,8 @@ public class MenuDO extends BaseDO implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
+    private String menuTitle;
+
     private String menuName;
 
     private Integer parentId;

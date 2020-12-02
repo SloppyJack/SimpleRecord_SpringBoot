@@ -6,7 +6,7 @@ package cn.jackbin.SimpleRecord.constant;
  * @description: cn.jackbin.SimpleRecord.constant
  * @date: 2020/11/25 20:37
  **/
-public class MenuTypeConstants {
+public class MenuConstants {
 
     /**
      * 目录
@@ -22,4 +22,9 @@ public class MenuTypeConstants {
      * 按钮
      */
     public static final String F ="F";
+
+    /**
+     * 外链
+     */
+    public static final Integer OC = 1;
 }
