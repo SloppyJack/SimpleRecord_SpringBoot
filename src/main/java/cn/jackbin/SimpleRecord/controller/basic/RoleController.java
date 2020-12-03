@@ -90,10 +90,12 @@ public class RoleController {
         // 当前层级元素的个数大于1才需要比较
         if (list.size() > 1) {
             // 冒泡排序
-            for (int i=1; i<list.size(); i++) {
-                if (list.get(i-1).getOrderNo() > list.get(i).getOrderNo()) {
-                    // 交换
-                    Collections.swap(list, i-1, i);
+            for (int i=0; i<list.size() -1; i++) {
+                for (int j=0; j<list.size()- i -1; j++) {
+                    if (list.get(j).getOrderNo() > list.get(j + 1).getOrderNo()) {
+                        // 交换
+                        Collections.swap(list, j, j + 1);
+                    }
                 }
             }
         }
