@@ -1,5 +1,6 @@
 package cn.jackbin.SimpleRecord.service.impl;
 
+import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.entity.RoleDO;
 import cn.jackbin.SimpleRecord.mapper.RoleMapper;
 import cn.jackbin.SimpleRecord.mapper.RoleMenuMapper;
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,9 +34,9 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements 
     }
 
     @Override
-    public List<RoleDO> getList(int pageIndex, int pageSize) {
-        IPage<RoleDO> page = new Page<>(pageIndex, pageSize);//参数一是当前页，参数二是每页个数
-//        return roleMapper.selectPage(page, null).getRecords();
-        return roleMapper.selectList(null);
+    public PageBO<RoleDO> getList(String name, boolean deleted, Date date, int pageIndex, int pageSize) {
+        int total = roleMapper.queryTotal(name, deleted, date);
+        List<RoleDO> list = roleMapper.queryByPage(name, deleted, date, pageIndex * pageSize, pageSize);
+        return new PageBO<>(list, total);
     }
 }

@@ -1,8 +1,10 @@
 package cn.jackbin.SimpleRecord.service;
 
+import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.entity.RoleDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,5 +19,5 @@ public interface RoleService extends IService<RoleDO> {
 
     List<RoleDO> getByUserId(Long userId);
 
-    List<RoleDO> getList(int pageIndex, int pageSize);
+    PageBO<RoleDO> getList(String name, boolean deleted, Date date, int pageIndex, int pageSize);
 }

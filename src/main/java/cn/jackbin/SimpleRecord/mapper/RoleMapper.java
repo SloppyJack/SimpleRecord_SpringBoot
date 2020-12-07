@@ -4,6 +4,7 @@ import cn.jackbin.SimpleRecord.entity.RoleDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,4 +18,8 @@ import java.util.List;
 @Repository
 public interface RoleMapper extends BaseMapper<RoleDO> {
     List<RoleDO> queryByUserId(Long userId);
+
+    int queryTotal(String name, boolean deleted, Date date);
+
+    List<RoleDO> queryByPage(String name, boolean deleted, Date date, int begin, int end);
 }

@@ -7,10 +7,7 @@ import cn.jackbin.SimpleRecord.entity.MenuDO;
 import cn.jackbin.SimpleRecord.entity.RoleDO;
 import cn.jackbin.SimpleRecord.service.MenuService;
 import cn.jackbin.SimpleRecord.service.RoleService;
-import cn.jackbin.SimpleRecord.vo.MenuVO;
-import cn.jackbin.SimpleRecord.vo.PageVO;
-import cn.jackbin.SimpleRecord.vo.Result;
-import cn.jackbin.SimpleRecord.vo.RoleMenuVO;
+import cn.jackbin.SimpleRecord.vo.*;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +48,8 @@ public class RoleController {
 
     @ApiOperation(value = "获取角色列表")
     @PostMapping("/list")
-    public Result<?> getRoleList(@RequestBody @Validated PageVO vo) {
-        return Result.success(roleService.getList(vo.getPageIndex(), vo.getPageSize()));
+    public Result<?> getRoleList(@RequestBody @Validated GetRolesVO vo) {
+        return Result.success(roleService.getList(vo.getName(), vo.getDeleted(), vo.getDate(), vo.getPageIndex(), vo.getPageSize()));
     }
 
     private List<MenuVO> generatorTree(List<MenuDO> list) {

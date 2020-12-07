@@ -9,5 +9,41 @@
             ur.user_id = #{userId}
             and r.delete_time is null
     </select>
+    
+    <select id="queryTotal" resultType="int">
+        select count(1)
+        from tb_role r
+        where r.name like CONCAT(CONCAT('%', #{name}), '%')
+            <choose>
+                <when test="deleted">
+                    and r.delete_time is not null
+                </when>
+                <otherwise>
+                    and r.delete_time is null
+                </otherwise>
+            </choose>
+            <if test="date != null">
+                and r.create_time >= #{date}
+            </if>
+
+    </select>
+
+    <select id="queryByPage" resultType="cn.jackbin.SimpleRecord.entity.RoleDO">
+        select *
+        from tb_role r
+        where r.name like CONCAT(CONCAT('%', #{name}), '%')
+        <choose>
+            <when test="deleted">
+                and r.delete_time is not null
+            </when>
+            <otherwise>
+                and r.delete_time is null
+            </otherwise>
+        </choose>
+        <if test="date != null">
+            and r.create_time >= #{date}
+        </if>
+        LIMIT #{begin},#{end}
+    </select>
 
 </mapper>
