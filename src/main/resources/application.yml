@@ -7,6 +7,8 @@ spring:
 server:
   servlet:
     context-path: /api
+  tomcat:
+    max-http-header-size: 8192
 
 # 日志配置文件（日志配置文件）
 logging:
@@ -26,6 +28,7 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 打印将执行的sql语句
   global-config:
     db-config:
-      logic-delete-field: deleteTime
+      logic-delete-field: delete_time
       logic-delete-value: now() # 逻辑已删除值
-      logic-not-delete-value: null # 逻辑未删除值
+      logic-not-delete-value: 'null' # 逻辑未删除值
+

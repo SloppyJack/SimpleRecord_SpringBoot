@@ -5,6 +5,8 @@ import cn.jackbin.SimpleRecord.mapper.RoleMapper;
 import cn.jackbin.SimpleRecord.mapper.RoleMenuMapper;
 import cn.jackbin.SimpleRecord.service.RoleService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,5 +29,12 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements 
     @Override
     public List<RoleDO> getByUserId(Long userId) {
         return roleMapper.queryByUserId(userId);
+    }
+
+    @Override
+    public List<RoleDO> getList(int pageIndex, int pageSize) {
+        IPage<RoleDO> page = new Page<>(pageIndex, pageSize);//参数一是当前页，参数二是每页个数
+//        return roleMapper.selectPage(page, null).getRecords();
+        return roleMapper.selectList(null);
     }
 }

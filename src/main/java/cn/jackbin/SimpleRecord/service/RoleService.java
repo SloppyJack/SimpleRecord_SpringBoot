@@ -16,4 +16,6 @@ import java.util.List;
 public interface RoleService extends IService<RoleDO> {
 
     List<RoleDO> getByUserId(Long userId);
+
+    List<RoleDO> getList(int pageIndex, int pageSize);
 }

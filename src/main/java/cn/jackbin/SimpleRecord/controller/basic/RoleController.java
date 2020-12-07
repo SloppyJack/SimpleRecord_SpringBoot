@@ -8,15 +8,17 @@ import cn.jackbin.SimpleRecord.entity.RoleDO;
 import cn.jackbin.SimpleRecord.service.MenuService;
 import cn.jackbin.SimpleRecord.service.RoleService;
 import cn.jackbin.SimpleRecord.vo.MenuVO;
+import cn.jackbin.SimpleRecord.vo.PageVO;
 import cn.jackbin.SimpleRecord.vo.Result;
 import cn.jackbin.SimpleRecord.vo.RoleMenuVO;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.*;
 
 /**
@@ -45,6 +47,12 @@ public class RoleController {
         List<MenuVO> tree = generatorTree(menuDOS);
         RoleMenuVO roleMenuVO = new RoleMenuVO(roleDOS, tree);
         return Result.success(roleMenuVO);
+    }
+
+    @ApiOperation(value = "获取角色列表")
+    @PostMapping("/list")
+    public Result<?> getRoleList(@RequestBody @Validated PageVO vo) {
+        return Result.success(roleService.getList(vo.getPageIndex(), vo.getPageSize()));
     }
 
     private List<MenuVO> generatorTree(List<MenuDO> list) {
