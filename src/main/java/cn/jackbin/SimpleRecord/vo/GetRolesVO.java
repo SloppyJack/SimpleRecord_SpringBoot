@@ -24,7 +24,6 @@ public class GetRolesVO {
     private String name;
 
     @ApiModelProperty(value = "状态")
-    @NotNull(message = "状态不能为空")
     private Boolean deleted;
 
     @ApiModelProperty(required = true, value = "年月日（yyyy-MM-dd）")
@@ -35,8 +34,8 @@ public class GetRolesVO {
      * 分页的索引
      */
     @ApiModelProperty(required = true, value = "分页的索引")
-    @PositiveOrZero(message = "当前页数须为整数")
-    int pageIndex;
+    @Positive(message = "当前页数须为正数")
+    int pageNo;
 
     /**
      * 分页的大小

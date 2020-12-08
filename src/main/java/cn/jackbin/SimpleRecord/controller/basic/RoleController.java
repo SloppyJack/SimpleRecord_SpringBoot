@@ -14,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
 import java.util.*;
 
 /**
@@ -49,7 +47,7 @@ public class RoleController {
     @ApiOperation(value = "获取角色列表")
     @PostMapping("/list")
     public Result<?> getRoleList(@RequestBody @Validated GetRolesVO vo) {
-        return Result.success(roleService.getList(vo.getName(), vo.getDeleted(), vo.getDate(), vo.getPageIndex(), vo.getPageSize()));
+        return Result.success(roleService.getList(vo.getName(), vo.getDeleted(), vo.getDate(), vo.getPageNo() - 1, vo.getPageSize()));
     }
 
     private List<MenuVO> generatorTree(List<MenuDO> list) {

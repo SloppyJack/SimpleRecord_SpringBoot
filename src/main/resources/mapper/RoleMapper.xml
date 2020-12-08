@@ -13,36 +13,47 @@
     <select id="queryTotal" resultType="int">
         select count(1)
         from tb_role r
-        where r.name like CONCAT(CONCAT('%', #{name}), '%')
-            <choose>
-                <when test="deleted">
-                    and r.delete_time is not null
-                </when>
-                <otherwise>
-                    and r.delete_time is null
-                </otherwise>
-            </choose>
+        <where>
+            <if test="name != null">
+                r.name like CONCAT(CONCAT('%', #{name}), '%')
+            </if>
+            <if test="deleted != null">
+                <choose>
+                    <when test="deleted">
+                        and r.delete_time is not null
+                    </when>
+                    <otherwise>
+                        and r.delete_time is null
+                    </otherwise>
+                </choose>
+            </if>
             <if test="date != null">
                 and r.create_time >= #{date}
             </if>
-
+        </where>
     </select>
 
     <select id="queryByPage" resultType="cn.jackbin.SimpleRecord.entity.RoleDO">
         select *
         from tb_role r
-        where r.name like CONCAT(CONCAT('%', #{name}), '%')
-        <choose>
-            <when test="deleted">
-                and r.delete_time is not null
-            </when>
-            <otherwise>
-                and r.delete_time is null
-            </otherwise>
-        </choose>
-        <if test="date != null">
-            and r.create_time >= #{date}
-        </if>
+        <where>
+            <if test="name != null">
+                r.name like CONCAT(CONCAT('%', #{name}), '%')
+            </if>
+            <if test="deleted != null">
+                <choose>
+                    <when test="deleted">
+                        and r.delete_time is not null
+                    </when>
+                    <otherwise>
+                        and r.delete_time is null
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="date != null">
+                and r.create_time >= #{date}
+            </if>
+        </where>
         LIMIT #{begin},#{end}
     </select>
 

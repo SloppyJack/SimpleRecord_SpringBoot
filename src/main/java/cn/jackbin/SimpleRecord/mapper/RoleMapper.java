@@ -19,7 +19,7 @@ import java.util.List;
 public interface RoleMapper extends BaseMapper<RoleDO> {
     List<RoleDO> queryByUserId(Long userId);
 
-    int queryTotal(String name, boolean deleted, Date date);
+    int queryTotal(String name, Boolean deleted, Date date);
 
-    List<RoleDO> queryByPage(String name, boolean deleted, Date date, int begin, int end);
+    List<RoleDO> queryByPage(String name, Boolean deleted, Date date, int begin, int end);
 }

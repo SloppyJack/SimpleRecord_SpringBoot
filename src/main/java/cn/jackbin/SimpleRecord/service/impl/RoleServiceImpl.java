@@ -34,7 +34,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements 
     }
 
     @Override
-    public PageBO<RoleDO> getList(String name, boolean deleted, Date date, int pageIndex, int pageSize) {
+    public PageBO<RoleDO> getList(String name, Boolean deleted, Date date, int pageIndex, int pageSize) {
         int total = roleMapper.queryTotal(name, deleted, date);
         List<RoleDO> list = roleMapper.queryByPage(name, deleted, date, pageIndex * pageSize, pageSize);
         return new PageBO<>(list, total);

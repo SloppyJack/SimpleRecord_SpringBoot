@@ -19,5 +19,5 @@ public interface RoleService extends IService<RoleDO> {
 
     List<RoleDO> getByUserId(Long userId);
 
-    PageBO<RoleDO> getList(String name, boolean deleted, Date date, int pageIndex, int pageSize);
+    PageBO<RoleDO> getList(String name, Boolean deleted, Date date, int pageIndex, int pageSize);
 }
