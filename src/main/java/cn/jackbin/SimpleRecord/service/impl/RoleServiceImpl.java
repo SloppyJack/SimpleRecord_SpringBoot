@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -38,5 +39,13 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements 
         int total = roleMapper.queryTotal(name, deleted, date);
         List<RoleDO> list = roleMapper.queryByPage(name, deleted, date, pageIndex * pageSize, pageSize);
         return new PageBO<>(list, total);
+    }
+
+    @Override
+    public boolean add(String name, String info) {
+        RoleDO roleDO = new RoleDO();
+        roleDO.setName(name);
+        roleDO.setInfo(info);
+        return roleMapper.insert(roleDO) > 0;
     }
 }

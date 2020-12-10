@@ -27,6 +27,7 @@ public enum CodeMsg {
     PARAMETER_ILLEGAL(500008,"参数不合法"),
     UPLOAD_IMAGE_ILLEGAL(500009,"上传的图片不能为空"),
     EMPTY_PAGE_SIZE_OR_PAGE_INDEX(500010,"分页大小或页码为空"),
+    ADD_DATA_ERROR(500011,"添加数据失败"),
 
 
     // 用户相关 格式600 xxx

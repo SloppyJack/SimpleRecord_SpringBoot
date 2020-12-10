@@ -2,12 +2,14 @@ package cn.jackbin.SimpleRecord.controller.basic;
 
 
 import cn.jackbin.SimpleRecord.common.LocalUserId;
+import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.constant.MenuConstants;
 import cn.jackbin.SimpleRecord.entity.MenuDO;
 import cn.jackbin.SimpleRecord.entity.RoleDO;
 import cn.jackbin.SimpleRecord.service.MenuService;
 import cn.jackbin.SimpleRecord.service.RoleService;
 import cn.jackbin.SimpleRecord.vo.*;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +50,16 @@ public class RoleController {
     @PostMapping("/list")
     public Result<?> getRoleList(@RequestBody @Validated GetRolesVO vo) {
         return Result.success(roleService.getList(vo.getName(), vo.getDeleted(), vo.getDate(), vo.getPageNo() - 1, vo.getPageSize()));
+    }
+
+    @ApiModelProperty
+    @PostMapping("/add")
+    public Result<?> addRole(@RequestBody @Validated AddRoleVO vo) {
+        if (roleService.add(vo.getName(), vo.getInfo())) {
+            return Result.success();
+        } else {
+            return Result.error(CodeMsg.ADD_DATA_ERROR);
+        }
     }
 
     private List<MenuVO> generatorTree(List<MenuDO> list) {
