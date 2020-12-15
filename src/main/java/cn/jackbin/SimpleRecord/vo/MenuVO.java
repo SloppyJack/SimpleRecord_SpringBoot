@@ -57,6 +57,11 @@ public class MenuVO {
 
     private Integer orderNo;
 
+    /**
+     * 是否拥有
+     */
+    private boolean owned;
+
     List<MenuVO> children;
 
     public MenuVO() {

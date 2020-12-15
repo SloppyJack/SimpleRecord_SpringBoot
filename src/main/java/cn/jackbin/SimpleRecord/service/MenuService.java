@@ -32,4 +32,14 @@ public interface MenuService extends IService<MenuDO> {
      * 分页获取权限
      */
     List<MenuDO> getByPage(int pageIndex, int pageSize);
+
+    /**
+     * 获取所有的菜单权限
+     */
+    List<MenuDO> getAllMenus();
+
+    /**
+     * 获取角色权限
+     */
+    List<MenuDO> getRoleMenus(Long roleId);
 }

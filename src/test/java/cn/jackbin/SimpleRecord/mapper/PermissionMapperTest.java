@@ -25,7 +25,7 @@ public class PermissionMapperTest {
 
     @Test
     public void queryPermissionByUserId() {
-        List<MenuDO> list = mapper.queryMenus(2L);
+        List<MenuDO> list = mapper.queryUserMenus(2L);
         Assert.assertEquals(5,list.size());
     }
 }

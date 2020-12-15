@@ -1,6 +1,8 @@
 package cn.jackbin.SimpleRecord.service;
 
 import cn.jackbin.SimpleRecord.entity.WechatUserDO;
+import cn.jackbin.SimpleRecord.vo.LoginSuccessVO;
+import cn.jackbin.SimpleRecord.vo.WechatUserVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -12,4 +14,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface WechatUserService extends IService<WechatUserDO> {
 
     WechatUserDO getByOpenId(String openId);
+
+    LoginSuccessVO wechatLogin(WechatUserVO vo);
 }

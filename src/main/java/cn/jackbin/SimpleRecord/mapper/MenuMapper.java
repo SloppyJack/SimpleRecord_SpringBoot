@@ -14,5 +14,9 @@ import java.util.List;
  **/
 @Repository
 public interface MenuMapper extends BaseMapper<MenuDO> {
-    List<MenuDO> queryMenus(Long userId);
+    List<MenuDO> queryUserMenus(Long userId);
+
+    List<MenuDO> queryAllMenus();
+
+    List<MenuDO> queryRoleMenus(Long roleId);
 }

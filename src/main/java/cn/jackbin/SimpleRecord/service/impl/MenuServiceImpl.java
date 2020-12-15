@@ -22,7 +22,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuDO> implements 
 
     @Override
     public List<MenuDO> getUserMenus(Long userId) {
-        return menuMapper.queryMenus(userId);
+        return menuMapper.queryUserMenus(userId);
     }
 
     @Override
@@ -38,5 +38,15 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuDO> implements 
     @Override
     public List<MenuDO> getByPage(int pageIndex, int pageSize) {
         return null;
+    }
+
+    @Override
+    public List<MenuDO> getAllMenus() {
+        return menuMapper.queryAllMenus();
+    }
+
+    @Override
+    public List<MenuDO> getRoleMenus(Long roleId) {
+        return menuMapper.queryRoleMenus(roleId);
     }
 }

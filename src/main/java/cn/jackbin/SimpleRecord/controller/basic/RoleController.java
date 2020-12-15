@@ -11,11 +11,13 @@ import cn.jackbin.SimpleRecord.service.RoleService;
 import cn.jackbin.SimpleRecord.vo.*;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Positive;
 import java.util.*;
 
 /**
@@ -41,7 +43,9 @@ public class RoleController {
         List<RoleDO> roleDOS = roleService.getByUserId(LocalUserId.get());
         // 用户菜单权限
         List<MenuDO> menuDOS = menuService.getUserMenus(LocalUserId.get());
-        List<MenuVO> tree = generatorTree(menuDOS);
+        // 复制属性
+        List<MenuVO> voList = copyFromMenuDos(menuDOS);
+        List<MenuVO> tree = generatorTree(voList);
         RoleMenuVO roleMenuVO = new RoleMenuVO(roleDOS, tree);
         return Result.success(roleMenuVO);
     }
@@ -62,10 +66,30 @@ public class RoleController {
         }
     }
 
-    private List<MenuVO> generatorTree(List<MenuDO> list) {
-        // 复制属性
+    @ApiOperation(value = "角色所拥有的权限")
+    @GetMapping(value = "/ownedMenus/{roleId}")
+    public Result<?> getOwnedMenus(@ApiParam("角色Id") @Validated
+                                   @Positive(message = "角色Id为正数") @PathVariable("roleId") Integer roleId) {
+        // 所有权限、
+        List<MenuDO> allMenus = menuService.getAllMenus();
+        // 角色的权限
+        List<MenuDO> roleMenus = menuService.getRoleMenus((long)roleId);
+        List<MenuVO> voList = copyFromMenuDos(allMenus);
+        // 此处使用字典
+        Map<Integer,Object> dictionaries = new HashMap<>();
+        roleMenus.forEach(n -> dictionaries.put(n.getId().intValue(), null));
+        voList.forEach(n -> {
+            if (dictionaries.containsKey(n.getId())) {
+                n.setOwned(true);
+            }
+        });
+        return Result.success(generatorTree(voList));
+    }
+
+
+    private List<MenuVO> copyFromMenuDos(List<MenuDO> menuDOS) {
         List<MenuVO> voList = new ArrayList<>();
-        list.forEach(n -> {
+        menuDOS.forEach(n -> {
             MenuVO temp = new MenuVO();
             BeanUtils.copyProperties(n, temp);
             temp.setId(n.getId().intValue());
@@ -74,6 +98,10 @@ public class RoleController {
             }
             voList.add(temp);
         });
+        return voList;
+    }
+
+    private List<MenuVO> generatorTree(List<MenuVO> voList) {
         List<MenuVO> tree = list2Tree(voList, null);
         sortTree(tree);
         return tree;

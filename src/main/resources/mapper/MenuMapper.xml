@@ -8,7 +8,7 @@
         <result column="permission_id" property="permissionId"/>
     </resultMap>
 
-    <select id="queryMenus" resultType="cn.jackbin.SimpleRecord.entity.MenuDO">
+    <select id="queryUserMenus" resultType="cn.jackbin.SimpleRecord.entity.MenuDO">
     select distinct m.*
     from tb_menu m
         LEFT JOIN tb_role_menu rm on rm.menu_id = m.id
@@ -20,5 +20,20 @@
             LEFT JOIN tb_user_role ur on ur.user_id = u.id
         where u.id = #{userId}
         )
+        and m.delete_time is null
+    </select>
+
+    <select id="queryAllMenus" resultType="cn.jackbin.SimpleRecord.entity.MenuDO">
+    select distinct m.*
+    from tb_menu m
+    </select>
+
+    <select id="queryRoleMenus" resultType="cn.jackbin.SimpleRecord.entity.MenuDO">
+    select distinct m.*
+    from tb_menu m
+        LEFT JOIN tb_role_menu rm on rm.menu_id = m.id
+    WHERE
+        rm.role_id = #{roleId}
+        and m.delete_time is null
     </select>
 </mapper>
