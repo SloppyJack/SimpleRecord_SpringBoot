@@ -35,6 +35,7 @@ public enum CodeMsg {
     USERNAME_EXIST(600002,"用户名重复"),
     PSW_FORMAT_ERROR(600003,"密码是由8至16位的数字和字母组成，请重新输入"),
     SEX_FORMAT_ERROR(600003,"性别未识别"),
+    ROLE_NAME_EXIST(600004, "角色名重复"),
 
     // 记账相关 格式700 xxx
     INSERT_RECORD_ERROR(700001,"新增记账记录失败"),

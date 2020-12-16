@@ -1,9 +1,14 @@
 package cn.jackbin.SimpleRecord.service.impl;
 
 import cn.jackbin.SimpleRecord.bo.PageBO;
+import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.entity.RoleDO;
+import cn.jackbin.SimpleRecord.entity.RoleMenuDO;
+import cn.jackbin.SimpleRecord.exception.BusinessException;
 import cn.jackbin.SimpleRecord.mapper.RoleMapper;
 import cn.jackbin.SimpleRecord.mapper.RoleMenuMapper;
+import cn.jackbin.SimpleRecord.service.MenuService;
+import cn.jackbin.SimpleRecord.service.RoleMenuService;
 import cn.jackbin.SimpleRecord.service.RoleService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -13,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +34,8 @@ import java.util.List;
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements RoleService {
     @Autowired
     private RoleMapper roleMapper;
+    @Autowired
+    private RoleMenuService roleMenuService;
 
     @Override
     public List<RoleDO> getByUserId(Long userId) {
@@ -47,5 +55,22 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements 
         roleDO.setName(name);
         roleDO.setInfo(info);
         return roleMapper.insert(roleDO) > 0;
+    }
+
+    @Transactional
+    @Override
+    public void editRole(Long id, String name, String info, Integer... menuIds) {
+        RoleDO roleDO = new RoleDO(id, name, info);
+        roleMapper.updateById(roleDO);
+        if (menuIds.length != 0) {
+            // 删除该角色所拥有的菜单权限
+            roleMenuService.removeByRoleId(id.intValue());
+            // 添加该角色的菜单权限
+            List<RoleMenuDO> list = new ArrayList<>();
+            for (Integer i : menuIds) {
+                list.add(new RoleMenuDO(id.intValue(), i));
+            }
+            roleMenuService.saveBatch(list);
+        }
     }
 }

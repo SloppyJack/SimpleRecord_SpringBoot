@@ -2,6 +2,7 @@ package cn.jackbin.SimpleRecord.service;
 
 import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.entity.RoleDO;
+import cn.jackbin.SimpleRecord.vo.EditRoleVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.Date;
@@ -22,4 +23,6 @@ public interface RoleService extends IService<RoleDO> {
     PageBO<RoleDO> getList(String name, Boolean deleted, Date date, int pageIndex, int pageSize);
 
     boolean add(String name, String info);
+
+    void editRole(Long id, String name, String info, Integer ...menuIds);
 }

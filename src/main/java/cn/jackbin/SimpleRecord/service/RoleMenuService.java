@@ -15,4 +15,9 @@ import java.util.List;
  */
 public interface RoleMenuService extends IService<RoleMenuDO> {
     List<RoleMenuDO> getByRoleId(int id);
+
+    /**
+     * 删除角色权限
+     */
+    void removeByRoleId(Integer roleId);
 }

@@ -86,6 +86,13 @@ public class RoleController {
         return Result.success(generatorTree(voList));
     }
 
+    @ApiOperation(value = "角色所拥有的权限")
+    @PutMapping(value = "/edit")
+    public Result<?> editRole(@RequestBody @Validated EditRoleVO vo) {
+        roleService.editRole(vo.getId(), vo.getName(), vo.getInfo(), vo.getMenuIds().toArray(Integer[]::new));
+        return Result.success();
+    }
+
 
     private List<MenuVO> copyFromMenuDos(List<MenuDO> menuDOS) {
         List<MenuVO> voList = new ArrayList<>();

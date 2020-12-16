@@ -38,5 +38,8 @@ public class RoleMenuDO extends BaseDO implements Serializable {
      */
     private Integer menuId;
 
-
+    public RoleMenuDO(Integer roleId, Integer menuId) {
+        this.roleId = roleId;
+        this.menuId = menuId;
+    }
 }

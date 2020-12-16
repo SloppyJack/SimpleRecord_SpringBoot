@@ -11,7 +11,7 @@ import cn.jackbin.SimpleRecord.constant.CodeMsg;
 public class BusinessException extends BaseException {
     public BusinessException(String message) {
         super(message);
-        super.codeMsg = CodeMsg.NOT_FIND_DATA;
+        super.codeMsg = CodeMsg.BUSINESS_ERROR;
     }
 
     public BusinessException(CodeMsg codeMsg,String message) {
