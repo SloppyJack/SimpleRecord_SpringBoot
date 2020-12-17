@@ -26,7 +26,7 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenuDO>
     @Override
     public List<RoleMenuDO> getByRoleId(int id) {
         QueryWrapper<RoleMenuDO> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("group_id",id);
+        queryWrapper.eq("role_id",id);
         return list(queryWrapper);
     }
 

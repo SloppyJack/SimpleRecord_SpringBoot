@@ -18,9 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * <p>
@@ -59,12 +57,30 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements 
 
     @Transactional
     @Override
-    public void editRole(Long id, String name, String info, Integer... menuIds) {
+    public void editRole(Long id, String name, String info, List<Integer> menuIds) {
+        QueryWrapper<RoleDO> queryWrapper = new QueryWrapper<>();
+        queryWrapper.ne("id", id);
+        queryWrapper.eq("name", name);
+        if (roleMapper.selectOne(queryWrapper) != null) {
+            throw new BusinessException(CodeMsg.ROLE_NAME_EXIST);
+        }
         RoleDO roleDO = new RoleDO(id, name, info);
         roleMapper.updateById(roleDO);
-        if (menuIds.length != 0) {
-            // 删除该角色所拥有的菜单权限
-            roleMenuService.removeByRoleId(id.intValue());
+        if (menuIds.size() != 0) {
+            // 查询该角色的所有的菜单权限
+            List<RoleMenuDO> existedRDs = roleMenuService.getByRoleId(id.intValue());
+            Iterator<RoleMenuDO> iterator = existedRDs.iterator();
+            while (iterator.hasNext()) {
+                RoleMenuDO temp = iterator.next();
+                if (menuIds.contains(temp.getMenuId())) {
+                    menuIds.remove(temp.getMenuId());
+                    iterator.remove();
+                }
+            }
+            List<Integer> delIds = new ArrayList<>();
+            existedRDs.forEach(n -> delIds.add(n.getId().intValue()));
+            // 删除菜单权限
+            roleMenuService.removeByIds(delIds);
             // 添加该角色的菜单权限
             List<RoleMenuDO> list = new ArrayList<>();
             for (Integer i : menuIds) {

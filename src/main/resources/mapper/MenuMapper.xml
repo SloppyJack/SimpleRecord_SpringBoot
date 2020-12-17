@@ -34,6 +34,7 @@
         LEFT JOIN tb_role_menu rm on rm.menu_id = m.id
     WHERE
         rm.role_id = #{roleId}
+        and rm.delete_time is null
         and m.delete_time is null
     </select>
 </mapper>
