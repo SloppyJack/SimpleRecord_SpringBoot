@@ -1,5 +1,6 @@
 package cn.jackbin.SimpleRecord.bo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -62,6 +63,7 @@ public class MenuBO {
      */
     private boolean owned;
 
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     List<MenuBO> children;
 
     public MenuBO() {

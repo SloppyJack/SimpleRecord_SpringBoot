@@ -37,4 +37,51 @@
         and rm.delete_time is null
         and m.delete_time is null
     </select>
+
+    <select id="queryTotal" resultType="int">
+        select count(1)
+        from tb_menu m
+        <where>
+            <if test="title != null">
+                m.menu_title like CONCAT(CONCAT('%', #{title}), '%')
+            </if>
+            <if test="deleted != null">
+                <choose>
+                    <when test="deleted">
+                        and r.delete_time is not null
+                    </when>
+                    <otherwise>
+                        and r.delete_time is null
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="date != null">
+                and r.create_time >= #{date}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryByPage" resultType="cn.jackbin.SimpleRecord.entity.MenuDO">
+    select distinct m.*
+    from tb_menu m
+        <where>
+            <if test="title != null">
+                m.menu_title like CONCAT(CONCAT('%', #{title}), '%')
+            </if>
+            <if test="deleted != null">
+                <choose>
+                    <when test="deleted">
+                        and r.delete_time is not null
+                    </when>
+                    <otherwise>
+                        and r.delete_time is null
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="date != null">
+                and r.create_time >= #{date}
+            </if>
+        </where>
+    LIMIT #{begin},#{end}
+    </select>
 </mapper>

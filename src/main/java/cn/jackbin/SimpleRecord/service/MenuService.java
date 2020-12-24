@@ -1,9 +1,11 @@
 package cn.jackbin.SimpleRecord.service;
 
 import cn.jackbin.SimpleRecord.bo.MenuBO;
+import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.entity.MenuDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,7 +34,7 @@ public interface MenuService extends IService<MenuDO> {
     /**
      * 分页获取权限
      */
-    List<MenuDO> getByPage(int pageIndex, int pageSize);
+    PageBO<MenuBO> getByPage(String title, Boolean deleted, Date date, int pageIndex, int pageSize);
 
     /**
      * 获取所有的菜单权限

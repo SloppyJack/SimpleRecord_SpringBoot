@@ -1,10 +1,12 @@
 package cn.jackbin.SimpleRecord.controller.basic;
 
 
+import cn.jackbin.SimpleRecord.bo.MenuBO;
+import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.entity.MenuDO;
 import cn.jackbin.SimpleRecord.service.MenuService;
-import cn.jackbin.SimpleRecord.vo.PageVO;
+import cn.jackbin.SimpleRecord.vo.GetMenusVO;
 import cn.jackbin.SimpleRecord.vo.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -44,8 +46,9 @@ public class MenuController {
 
     @ApiOperation(value = "分页获取权限列表")
     @PostMapping(value = "/page")
-    public Result<?> getByPage(@RequestBody @Validated PageVO vo) {
-        List<MenuDO> list = menuService.getByPage(vo.getPageIndex(), vo.getPageSize());
-        return Result.success(list);
+    public Result<?> getByPage(@RequestBody @Validated GetMenusVO vo) {
+        // 权限列表
+        PageBO<MenuBO> pageBO = menuService.getByPage(vo.getTitle(), vo.getDeleted(), vo.getDate(), vo.getPageNo() - 1, vo.getPageSize());
+        return Result.success(pageBO);
     }
 }

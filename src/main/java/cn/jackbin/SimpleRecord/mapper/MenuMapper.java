@@ -4,6 +4,7 @@ import cn.jackbin.SimpleRecord.entity.MenuDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,4 +20,8 @@ public interface MenuMapper extends BaseMapper<MenuDO> {
     List<MenuDO> queryAllMenus();
 
     List<MenuDO> queryRoleMenus(Long roleId);
+
+    int queryTotal(String title, Boolean deleted, Date date);
+
+    List<MenuDO> queryByPage(String title, Boolean deleted, Date date, int begin, int end);
 }

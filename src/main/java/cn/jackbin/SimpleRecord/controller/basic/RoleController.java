@@ -68,7 +68,7 @@ public class RoleController {
     @GetMapping(value = "/ownedMenus/{roleId}")
     public Result<?> getOwnedMenus(@ApiParam("角色Id") @Validated
                                    @Positive(message = "角色Id为正数") @PathVariable("roleId") Integer roleId) {
-        // 所有权限、
+        // 所有权限
         List<MenuDO> allMenus = menuService.getAllMenus();
         // 角色的权限
         List<MenuDO> roleMenus = menuService.getRoleMenus((long)roleId);

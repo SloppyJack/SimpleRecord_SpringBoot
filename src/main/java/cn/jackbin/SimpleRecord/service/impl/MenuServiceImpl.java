@@ -1,6 +1,7 @@
 package cn.jackbin.SimpleRecord.service.impl;
 
 import cn.jackbin.SimpleRecord.bo.MenuBO;
+import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.constant.MenuConstants;
 import cn.jackbin.SimpleRecord.entity.MenuDO;
 import cn.jackbin.SimpleRecord.mapper.MenuMapper;
@@ -10,10 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author: create by bin
@@ -42,8 +40,12 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuDO> implements 
     }
 
     @Override
-    public List<MenuDO> getByPage(int pageIndex, int pageSize) {
-        return null;
+    public PageBO<MenuBO> getByPage(String title, Boolean deleted, Date date, int pageIndex, int pageSize) {
+        int total = menuMapper.queryTotal(title, deleted, date);
+        List<MenuDO> menuDOS = menuMapper.queryByPage(title, deleted, date, pageIndex * pageSize, pageSize);
+        List<MenuBO> menuBOS = copyFromMenuDos(menuDOS);
+        List<MenuBO> tree = generatorMenuTree(menuBOS);
+        return new PageBO<>(tree, total);
     }
 
     @Override
