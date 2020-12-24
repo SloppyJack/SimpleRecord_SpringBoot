@@ -1,5 +1,6 @@
 package cn.jackbin.SimpleRecord.service;
 
+import cn.jackbin.SimpleRecord.bo.MenuBO;
 import cn.jackbin.SimpleRecord.entity.MenuDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -42,4 +43,11 @@ public interface MenuService extends IService<MenuDO> {
      * 获取角色权限
      */
     List<MenuDO> getRoleMenus(Long roleId);
+
+    List<MenuBO> copyFromMenuDos(List<MenuDO> menuDOS);
+
+    /**
+     *
+     */
+    List<MenuBO> generatorMenuTree(List<MenuBO> boList);
 }

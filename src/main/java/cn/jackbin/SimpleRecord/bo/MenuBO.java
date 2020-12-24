@@ -1,4 +1,4 @@
-package cn.jackbin.SimpleRecord.vo;
+package cn.jackbin.SimpleRecord.bo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,13 +9,13 @@ import java.util.List;
 /**
  * @author: create by bin
  * @version: v1.0
- * @description: 菜单视图类
+ * @description: 菜单业务类
  * @date: 2020/12/1 19:54
  **/
 @Data
 @AllArgsConstructor
 @Builder
-public class MenuVO {
+public class MenuBO {
 
     private Integer id;
 
@@ -62,8 +62,8 @@ public class MenuVO {
      */
     private boolean owned;
 
-    List<MenuVO> children;
+    List<MenuBO> children;
 
-    public MenuVO() {
+    public MenuBO() {
     }
 }

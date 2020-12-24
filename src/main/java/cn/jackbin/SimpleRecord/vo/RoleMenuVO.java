@@ -1,5 +1,6 @@
 package cn.jackbin.SimpleRecord.vo;
 
+import cn.jackbin.SimpleRecord.bo.MenuBO;
 import cn.jackbin.SimpleRecord.entity.RoleDO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,5 +18,5 @@ import java.util.List;
 public class RoleMenuVO {
     private List<RoleDO> roles;
 
-    private List<MenuVO> menus;
+    private List<MenuBO> menus;
 }
