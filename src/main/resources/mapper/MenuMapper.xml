@@ -48,15 +48,15 @@
             <if test="deleted != null">
                 <choose>
                     <when test="deleted">
-                        and r.delete_time is not null
+                        and m.delete_time is not null
                     </when>
                     <otherwise>
-                        and r.delete_time is null
+                        and m.delete_time is null
                     </otherwise>
                 </choose>
             </if>
             <if test="date != null">
-                and r.create_time >= #{date}
+                and m.create_time >= #{date}
             </if>
         </where>
     </select>
@@ -71,15 +71,15 @@
             <if test="deleted != null">
                 <choose>
                     <when test="deleted">
-                        and r.delete_time is not null
+                        and m.delete_time is not null
                     </when>
                     <otherwise>
-                        and r.delete_time is null
+                        and m.delete_time is null
                     </otherwise>
                 </choose>
             </if>
             <if test="date != null">
-                and r.create_time >= #{date}
+                and m.create_time >= #{date}
             </if>
         </where>
     LIMIT #{begin},#{end}

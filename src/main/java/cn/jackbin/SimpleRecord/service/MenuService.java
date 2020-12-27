@@ -27,11 +27,6 @@ public interface MenuService extends IService<MenuDO> {
     MenuDO getById(Long id);
 
     /**
-     * 获取所有的权限
-     */
-    List<MenuDO> getAll();
-
-    /**
      * 分页获取权限
      */
     PageBO<MenuBO> getByPage(String title, Boolean deleted, Date date, int pageIndex, int pageSize);
@@ -39,7 +34,7 @@ public interface MenuService extends IService<MenuDO> {
     /**
      * 获取所有的菜单权限
      */
-    List<MenuDO> getAllMenus();
+    List<MenuDO> getAll();
 
     /**
      * 获取角色权限

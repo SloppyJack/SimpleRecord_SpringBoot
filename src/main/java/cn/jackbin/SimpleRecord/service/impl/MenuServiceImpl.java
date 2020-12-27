@@ -35,11 +35,6 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuDO> implements 
     }
 
     @Override
-    public List<MenuDO> getAll() {
-        return null;
-    }
-
-    @Override
     public PageBO<MenuBO> getByPage(String title, Boolean deleted, Date date, int pageIndex, int pageSize) {
         int total = menuMapper.queryTotal(title, deleted, date);
         List<MenuDO> menuDOS = menuMapper.queryByPage(title, deleted, date, pageIndex * pageSize, pageSize);
@@ -49,7 +44,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuDO> implements 
     }
 
     @Override
-    public List<MenuDO> getAllMenus() {
+    public List<MenuDO> getAll() {
         return menuMapper.queryAllMenus();
     }
 

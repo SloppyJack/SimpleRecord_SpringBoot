@@ -51,4 +51,13 @@ public class MenuController {
         PageBO<MenuBO> pageBO = menuService.getByPage(vo.getTitle(), vo.getDeleted(), vo.getDate(), vo.getPageNo() - 1, vo.getPageSize());
         return Result.success(pageBO);
     }
+
+    @ApiOperation(value = "获取所有的权限")
+    @PostMapping(value = "/all")
+    public Result<?> getAll() {
+        List<MenuDO> menuDOS = menuService.getAll();
+        List<MenuBO> menuBOS = menuService.copyFromMenuDos(menuDOS);
+        List<MenuBO> tree = menuService.generatorMenuTree(menuBOS);
+        return Result.success(tree);
+    }
 }
