@@ -53,7 +53,7 @@ public class MenuController {
     }
 
     @ApiOperation(value = "获取所有的权限")
-    @PostMapping(value = "/all")
+    @GetMapping(value = "/all")
     public Result<?> getAll() {
         List<MenuDO> menuDOS = menuService.getAll();
         List<MenuBO> menuBOS = menuService.copyFromMenuDos(menuDOS);
