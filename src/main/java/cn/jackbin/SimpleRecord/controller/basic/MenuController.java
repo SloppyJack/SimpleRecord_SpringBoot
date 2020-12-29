@@ -6,6 +6,7 @@ import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.entity.MenuDO;
 import cn.jackbin.SimpleRecord.service.MenuService;
+import cn.jackbin.SimpleRecord.vo.AddMenuVO;
 import cn.jackbin.SimpleRecord.vo.GetMenusVO;
 import cn.jackbin.SimpleRecord.vo.Result;
 import io.swagger.annotations.Api;
@@ -59,5 +60,13 @@ public class MenuController {
         List<MenuBO> menuBOS = menuService.copyFromMenuDos(menuDOS);
         List<MenuBO> tree = menuService.generatorMenuTree(menuBOS);
         return Result.success(tree);
+    }
+
+    @ApiOperation(value = "添加菜单")
+    @PostMapping(value = "/add")
+    public Result<?> add(@RequestBody @Validated AddMenuVO vo) {
+        // todo 待完成
+        vo.getIconName();
+        return Result.success();
     }
 }
