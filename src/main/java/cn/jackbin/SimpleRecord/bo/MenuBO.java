@@ -1,10 +1,12 @@
 package cn.jackbin.SimpleRecord.bo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -62,6 +64,9 @@ public class MenuBO {
      * 是否拥有
      */
     private boolean owned;
+
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss",timezone = "GMT+8")
+    private Date deleteTime;
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     List<MenuBO> children;

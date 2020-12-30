@@ -44,7 +44,10 @@ public interface MenuService extends IService<MenuDO> {
     List<MenuBO> copyFromMenuDos(List<MenuDO> menuDOS);
 
     /**
-     *
+     * 生成菜单树
      */
     List<MenuBO> generatorMenuTree(List<MenuBO> boList);
+
+    void reset(Integer id);
+
 }

@@ -24,4 +24,6 @@ public interface MenuMapper extends BaseMapper<MenuDO> {
     int queryTotal(String title, Boolean deleted, Date date);
 
     List<MenuDO> queryByPage(String title, Boolean deleted, Date date, int begin, int end);
+
+    void notDelete(Long id);
 }

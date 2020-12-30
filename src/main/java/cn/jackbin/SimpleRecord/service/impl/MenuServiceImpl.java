@@ -6,6 +6,7 @@ import cn.jackbin.SimpleRecord.constant.MenuConstants;
 import cn.jackbin.SimpleRecord.entity.MenuDO;
 import cn.jackbin.SimpleRecord.mapper.MenuMapper;
 import cn.jackbin.SimpleRecord.service.MenuService;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +74,11 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuDO> implements 
         return generatorTree(boList);
     }
 
+    @Override
+    public void reset(Integer id) {
+        menuMapper.notDelete(Long.valueOf(id));
+    }
+
     private List<MenuBO> generatorTree(List<MenuBO> voList) {
         List<MenuBO> tree = list2Tree(voList, null);
         sortTree(tree);
@@ -107,7 +113,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuDO> implements 
             // 冒泡排序
             for (int i=0; i<list.size() -1; i++) {
                 for (int j=0; j<list.size()- i -1; j++) {
-                    if (list.get(j).getOrderNo() > list.get(j + 1).getOrderNo()) {
+                    if (list.get(j).getOrderNo() == null || list.get(j).getOrderNo() > list.get(j + 1).getOrderNo()) {
                         // 交换
                         Collections.swap(list, j, j + 1);
                     }

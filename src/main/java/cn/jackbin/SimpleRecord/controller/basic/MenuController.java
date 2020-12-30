@@ -4,6 +4,7 @@ package cn.jackbin.SimpleRecord.controller.basic;
 import cn.jackbin.SimpleRecord.bo.MenuBO;
 import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
+import cn.jackbin.SimpleRecord.constant.MenuConstants;
 import cn.jackbin.SimpleRecord.entity.MenuDO;
 import cn.jackbin.SimpleRecord.service.MenuService;
 import cn.jackbin.SimpleRecord.vo.AddMenuVO;
@@ -65,8 +66,37 @@ public class MenuController {
     @ApiOperation(value = "添加菜单")
     @PostMapping(value = "/add")
     public Result<?> add(@RequestBody @Validated AddMenuVO vo) {
-        // todo 待完成
-        vo.getIconName();
+        MenuDO menuDO = toMenuDO(vo);
+        menuService.save(menuDO);
         return Result.success();
+    }
+
+    @ApiOperation(value = "删除菜单")
+    @GetMapping(value = "/del/{id}")
+    public Result<?> del(@PathVariable @Validated @Positive(message = "菜单Id需为正数") Integer id) {
+        menuService.removeById(id);
+        return Result.success();
+    }
+
+    @ApiOperation(value = "还原菜单")
+    @GetMapping(value = "/reset/{id}")
+    public Result<?> reset(@PathVariable @Validated @Positive(message = "菜单Id需为正数") Integer id) {
+        menuService.reset(id);
+        return Result.success();
+    }
+
+    private MenuDO toMenuDO(AddMenuVO vo) {
+        MenuDO menuDO = new MenuDO();
+        menuDO.setMenuTitle(vo.getMenuTitle());
+        menuDO.setMenuName(vo.getMenuName());
+        menuDO.setParentId(vo.getParentId());
+        menuDO.setOrderNo(vo.getOrderNo());
+        menuDO.setPath(vo.getPath());
+        menuDO.setComponent(vo.getComponent());
+        menuDO.setOuterChain(vo.getIsOuterChain() ? MenuConstants.OC : MenuConstants.notOC);
+        menuDO.setMenuType(vo.getMenuType());
+        menuDO.setPermissionSign(vo.getPermissionSign());
+        menuDO.setIconName(vo.getIconName());
+        return menuDO;
     }
 }

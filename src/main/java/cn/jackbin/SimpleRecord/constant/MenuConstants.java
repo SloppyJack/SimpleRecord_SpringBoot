@@ -27,4 +27,9 @@ public class MenuConstants {
      * 外链
      */
     public static final Integer OC = 1;
+
+    /**
+     * 外链
+     */
+    public static final Integer notOC = 0;
 }

@@ -84,4 +84,8 @@
         </where>
     LIMIT #{begin},#{end}
     </select>
+
+    <update id="notDelete">
+        update tb_menu set delete_time = null where id = #{id}
+    </update>
 </mapper>
