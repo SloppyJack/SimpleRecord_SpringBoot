@@ -93,7 +93,9 @@ public class MenuController {
         menuDO.setOrderNo(vo.getOrderNo());
         menuDO.setPath(vo.getPath());
         menuDO.setComponent(vo.getComponent());
-        menuDO.setOuterChain(vo.getIsOuterChain() ? MenuConstants.OC : MenuConstants.notOC);
+        if (vo.getIsOuterChain() != null) {
+            menuDO.setOuterChain(vo.getIsOuterChain() ? MenuConstants.OC : MenuConstants.notOC);
+        }
         menuDO.setMenuType(vo.getMenuType());
         menuDO.setPermissionSign(vo.getPermissionSign());
         menuDO.setIconName(vo.getIconName());
