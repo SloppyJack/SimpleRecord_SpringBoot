@@ -46,12 +46,12 @@ public class MenuController {
         return Result.success(menuDO);
     }
 
-    @ApiOperation(value = "分页获取权限列表")
-    @PostMapping(value = "/page")
-    public Result<?> getByPage(@RequestBody @Validated GetMenusVO vo) {
+    @ApiOperation(value = "分页获取树形权限列表")
+    @PostMapping(value = "/tree")
+    public Result<?> getTreeByPage(@RequestBody @Validated GetMenusVO vo) {
         // 权限列表
-        PageBO<MenuBO> pageBO = menuService.getByPage(vo.getTitle(), vo.getDeleted(), vo.getDate(), vo.getPageNo() - 1, vo.getPageSize());
-        return Result.success(pageBO);
+        List<MenuBO> treeList = menuService.getTreeList(vo.getTitle(), vo.getDeleted(), vo.getDate());
+        return Result.success(treeList);
     }
 
     @ApiOperation(value = "获取所有的权限")

@@ -26,18 +26,4 @@ public class GetMenusVO {
     @ApiModelProperty(required = true, value = "年月日（yyyy-MM-dd）")
     @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date date;
-
-    /**
-     * 分页的索引
-     */
-    @ApiModelProperty(required = true, value = "分页的索引")
-    @Positive(message = "当前页数须为正数")
-    int pageNo;
-
-    /**
-     * 分页的大小
-     */
-    @ApiModelProperty(required = true, value = "分页的大小")
-    @Positive(message = "分页的大小须为正数")
-    int pageSize;
 }

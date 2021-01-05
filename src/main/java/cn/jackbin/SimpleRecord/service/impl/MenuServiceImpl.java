@@ -36,12 +36,10 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuDO> implements 
     }
 
     @Override
-    public PageBO<MenuBO> getByPage(String title, Boolean deleted, Date date, int pageIndex, int pageSize) {
-        int total = menuMapper.queryTotal(title, deleted, date);
-        List<MenuDO> menuDOS = menuMapper.queryByPage(title, deleted, date, pageIndex * pageSize, pageSize);
+    public List<MenuBO> getTreeList(String title, Boolean deleted, Date date) {
+        List<MenuDO> menuDOS = menuMapper.queryAllMenus();
         List<MenuBO> menuBOS = copyFromMenuDos(menuDOS);
-        List<MenuBO> tree = generatorMenuTree(menuBOS);
-        return new PageBO<>(tree, total);
+        return generatorTree(menuBOS);
     }
 
     @Override
@@ -121,6 +119,6 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuDO> implements 
             }
         }
         // 则继续向下
-        list.forEach(n -> sortTree(n.getChildren()));
+        list.stream().filter(n -> n.getChildren() != null).forEach(n -> sortTree(n.getChildren()));
     }
 }

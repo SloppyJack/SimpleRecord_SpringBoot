@@ -21,9 +21,5 @@ public interface MenuMapper extends BaseMapper<MenuDO> {
 
     List<MenuDO> queryRoleMenus(Long roleId);
 
-    int queryTotal(String title, Boolean deleted, Date date);
-
-    List<MenuDO> queryByPage(String title, Boolean deleted, Date date, int begin, int end);
-
     void notDelete(Long id);
 }
