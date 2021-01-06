@@ -2,12 +2,12 @@ package cn.jackbin.SimpleRecord.controller.basic;
 
 
 import cn.jackbin.SimpleRecord.bo.MenuBO;
-import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.constant.MenuConstants;
 import cn.jackbin.SimpleRecord.entity.MenuDO;
 import cn.jackbin.SimpleRecord.service.MenuService;
 import cn.jackbin.SimpleRecord.vo.AddMenuVO;
+import cn.jackbin.SimpleRecord.vo.EditMenuVO;
 import cn.jackbin.SimpleRecord.vo.GetMenusVO;
 import cn.jackbin.SimpleRecord.vo.Result;
 import io.swagger.annotations.Api;
@@ -66,7 +66,7 @@ public class MenuController {
     @ApiOperation(value = "添加菜单")
     @PostMapping(value = "/add")
     public Result<?> add(@RequestBody @Validated AddMenuVO vo) {
-        MenuDO menuDO = toMenuDO(vo);
+        MenuDO menuDO = toMenuDO(null, vo.getMenuTitle(), vo.getMenuName(), vo.getParentId(), vo.getOrderNo(), vo.getPath(), vo.getComponent(), vo.getIsOuterChain(), vo.getMenuType(), vo.getPermissionSign(), vo.getIconName());
         menuService.save(menuDO);
         return Result.success();
     }
@@ -85,20 +85,31 @@ public class MenuController {
         return Result.success();
     }
 
-    private MenuDO toMenuDO(AddMenuVO vo) {
+    @ApiOperation(value = "修改菜单")
+    @PutMapping(value = "/edit")
+    public Result<?> edit(@RequestBody @Validated EditMenuVO vo) {
+        MenuDO menuDO = toMenuDO(Long.valueOf(vo.getId()), vo.getMenuTitle(), vo.getMenuName(), vo.getParentId(), vo.getOrderNo(), vo.getPath(), vo.getComponent(), vo.getIsOuterChain(), vo.getMenuType(), vo.getPermissionSign(), vo.getIconName());
+        menuService.updateById(menuDO);
+        return Result.success();
+    }
+
+    private MenuDO toMenuDO(Long id, String menuTitle, String menuName, Integer parentId, Integer orderNo, String path, String component, Boolean isOuterChain, String menuType, String permissionSign, String iconName) {
         MenuDO menuDO = new MenuDO();
-        menuDO.setMenuTitle(vo.getMenuTitle());
-        menuDO.setMenuName(vo.getMenuName());
-        menuDO.setParentId(vo.getParentId());
-        menuDO.setOrderNo(vo.getOrderNo());
-        menuDO.setPath(vo.getPath());
-        menuDO.setComponent(vo.getComponent());
-        if (vo.getIsOuterChain() != null) {
-            menuDO.setOuterChain(vo.getIsOuterChain() ? MenuConstants.OC : MenuConstants.notOC);
+        if (id != null) {
+            menuDO.setId(id);
         }
-        menuDO.setMenuType(vo.getMenuType());
-        menuDO.setPermissionSign(vo.getPermissionSign());
-        menuDO.setIconName(vo.getIconName());
+        menuDO.setMenuTitle(menuTitle);
+        menuDO.setMenuName(menuName);
+        menuDO.setParentId(parentId);
+        menuDO.setOrderNo(orderNo);
+        menuDO.setPath(path);
+        menuDO.setComponent(component);
+        if (isOuterChain != null) {
+            menuDO.setOuterChain(isOuterChain ? MenuConstants.OC : MenuConstants.notOC);
+        }
+        menuDO.setMenuType(menuType);
+        menuDO.setPermissionSign(permissionSign);
+        menuDO.setIconName(iconName);
         return menuDO;
     }
 }
