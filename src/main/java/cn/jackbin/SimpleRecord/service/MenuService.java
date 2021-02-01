@@ -29,7 +29,7 @@ public interface MenuService extends IService<MenuDO> {
     /**
      * 分页获取权限
      */
-    List<MenuBO> getTreeList(String title, Boolean deleted, Date date);
+    List<MenuBO> getTreeList();
 
     /**
      * 获取所有的菜单权限

@@ -36,7 +36,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuDO> implements 
     }
 
     @Override
-    public List<MenuBO> getTreeList(String title, Boolean deleted, Date date) {
+    public List<MenuBO> getTreeList() {
         List<MenuDO> menuDOS = menuMapper.queryAllMenus();
         List<MenuBO> menuBOS = copyFromMenuDos(menuDOS);
         return generatorTree(menuBOS);

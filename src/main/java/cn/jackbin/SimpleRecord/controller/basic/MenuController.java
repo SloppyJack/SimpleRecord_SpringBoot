@@ -47,10 +47,10 @@ public class MenuController {
     }
 
     @ApiOperation(value = "分页获取树形权限列表")
-    @PostMapping(value = "/tree")
-    public Result<?> getTreeByPage(@RequestBody @Validated GetMenusVO vo) {
+    @GetMapping(value = "/allTree")
+    public Result<?> getAllTree() {
         // 权限列表
-        List<MenuBO> treeList = menuService.getTreeList(vo.getTitle(), vo.getDeleted(), vo.getDate());
+        List<MenuBO> treeList = menuService.getTreeList();
         return Result.success(treeList);
     }
 
@@ -89,8 +89,11 @@ public class MenuController {
     @PutMapping(value = "/edit")
     public Result<?> edit(@RequestBody @Validated EditMenuVO vo) {
         MenuDO menuDO = toMenuDO(Long.valueOf(vo.getId()), vo.getMenuTitle(), vo.getMenuName(), vo.getParentId(), vo.getOrderNo(), vo.getPath(), vo.getComponent(), vo.getIsOuterChain(), vo.getMenuType(), vo.getPermissionSign(), vo.getIconName());
-        menuService.updateById(menuDO);
-        return Result.success();
+        boolean flag = menuService.updateById(menuDO);
+        if (flag)
+            return Result.success();
+        else
+            return Result.error(CodeMsg.ADD_DATA_ERROR);
     }
 
     private MenuDO toMenuDO(Long id, String menuTitle, String menuName, Integer parentId, Integer orderNo, String path, String component, Boolean isOuterChain, String menuType, String permissionSign, String iconName) {
