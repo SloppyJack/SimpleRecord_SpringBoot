@@ -1,6 +1,7 @@
 package cn.jackbin.SimpleRecord.controller.basic;
 
 
+import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.constant.SexConstant;
 import cn.jackbin.SimpleRecord.vo.*;
@@ -28,7 +29,7 @@ import java.util.List;
  * @author jackbin
  * @since 2020-07-21
  */
-@Api(value = "UserController", tags = { "用户访问接口" })
+@Api(value = "UserController", tags = { "用户管理" })
 @RestController
 @RequestMapping("/user")
 @Slf4j
@@ -36,65 +37,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @ApiOperation(value = "注册用户")
-    @PostMapping(value = "/register")
-    public Result<?> register(@RequestBody @Validated RegisterVO vo) {
-        if (userService.getByName(vo.getUsername()) != null) {
-            return Result.error(CodeMsg.USERNAME_EXIST);
-        }
-        if (!PasswordUtil.check(vo.getPassword())) {
-            return Result.error(CodeMsg.PSW_FORMAT_ERROR);
-        }
-        if (SexConstant.MAN !=vo.getSex() && SexConstant.WOMAN != vo.getSex()) {
-            return Result.error(CodeMsg.SEX_FORMAT_ERROR);
-        }
-        UserDO userDO = new UserDO();
-        BeanUtils.copyProperties(vo, userDO);
-        userDO.setCredential(PasswordUtil.encoder(vo.getPassword()));
-        userService.save(userDO);
-        return Result.success();
-    }
-
-    @ApiOperation(value = "用户登录")
-    @PostMapping("/login")
-    public Result<?> userLogin(@RequestBody LoginVO dto) {
-        log.info("用户登录：{}", dto.getUsername());
-        return Result.success();
-    }
-
-    @ApiOperation(value = "通过Id获取用户")
-    @GetMapping
-    public Result<?> getById(@ApiParam(required = true, value = "用户Id") @Validated
-                          @Positive(message = "用户Id为整数") @RequestParam(value = "id")Integer id) {
-        UserDO userDO = userService.getById(id);
-        if (userDO == null) {
-            return Result.error(CodeMsg.NOT_FIND_DATA);
-        }
-        UserVO userVO = new UserVO();
-        BeanUtils.copyProperties(userDO, userVO);
-        return Result.success(userVO);
-    }
-
-    @ApiOperation(value = "通过Name获取用户")
-    @GetMapping(value = "/getByName")
-    public Result<?> get(@ApiParam(required = true, value = "用户名") @Validated
-                          @NotBlank(message = "用户名不能为空") @RequestParam(value = "id")String userName) {
-        UserDO userDO = userService.getByName(userName);
-        if (userDO == null) {
-            return Result.error(CodeMsg.NOT_FIND_DATA);
-        }
-        UserVO userVO = new UserVO();
-        BeanUtils.copyProperties(userDO, userVO);
-        return Result.success(userVO);
-    }
-
-
     @ApiOperation(value = "分页获取用户列表")
-    @GetMapping(value = "/getByPage")
-    public Result<?> getByPage(@Validated PageVO vo) {
-        List<UserDO> userDOList = userService.getByPage(vo.getPageIndex(), vo.getPageSize());
-        List<UserVO> userVOList = new ArrayList<>();
-        BeanUtils.copyProperties(userDOList, userVOList);
-        return Result.success(userVOList);
+    @PostMapping(value = "/page")
+    public Result<?> getByPage(@RequestBody @Validated GetUsersVO vo) {
+        PageBO<UserDO> pageBO = userService.getByPage(vo.getUsername(), vo.getDeleted(), vo.getDate(),
+                vo.getPageNo() - 1, vo.getPageSize());
+        return Result.success(pageBO);
     }
 }

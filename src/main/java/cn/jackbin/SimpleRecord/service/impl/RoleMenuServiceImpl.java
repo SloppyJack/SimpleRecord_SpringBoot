@@ -36,4 +36,9 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenuDO>
         queryWrapper.eq("role_id", roleId);
         roleMenuMapper.delete(queryWrapper);
     }
+
+    @Override
+    public int removeByIds(List<Long> ids) {
+        return roleMenuMapper.deleteBatch(ids);
+    }
 }

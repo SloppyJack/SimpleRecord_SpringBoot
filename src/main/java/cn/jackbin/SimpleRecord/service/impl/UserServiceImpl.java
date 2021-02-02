@@ -1,5 +1,6 @@
 package cn.jackbin.SimpleRecord.service.impl;
 
+import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.mapper.UserMapper;
 import cn.jackbin.SimpleRecord.service.UserService;
@@ -9,6 +10,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,9 +45,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     }
 
     @Override
-    public List<UserDO> getByPage(int pageIndex, int pageSize) {
-        IPage<UserDO> page = new Page<>(pageIndex, pageSize);//参数一是当前页，参数二是每页个数
-        page = userMapper.selectPage(page, null);
-        return page.getRecords();
+    public PageBO<UserDO> getByPage(String username, Boolean deleted, Date date, int pageIndex, int pageSize) {
+        int total = userMapper.queryTotal(username, deleted, date);
+        List<UserDO> list = userMapper.queryByPage(username, deleted, date, pageIndex, pageSize);
+        return new PageBO<>(list, total);
     }
 }

@@ -1,0 +1,27 @@
+package cn.jackbin.SimpleRecord.controller.basic;
+
+import cn.jackbin.SimpleRecord.vo.LoginVO;
+import cn.jackbin.SimpleRecord.vo.Result;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+/**
+ * @author: create by bin
+ * @version: v1.0
+ * @description: cn.jackbin.SimpleRecord.controller.basic
+ * @date: 2021/2/1 20:48
+ **/
+@Slf4j
+@RequestMapping(value = "/")
+public class LoginController {
+
+    @ApiOperation(value = "用户登录")
+    @PostMapping("user/login")
+    public Result<?> userLogin(@RequestBody LoginVO dto) {
+        log.info("用户登录：{}", dto.getUsername());
+        return Result.success();
+    }
+}

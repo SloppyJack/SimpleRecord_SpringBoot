@@ -1,8 +1,12 @@
 package cn.jackbin.SimpleRecord.mapper;
 
+import cn.jackbin.SimpleRecord.entity.RoleDO;
 import cn.jackbin.SimpleRecord.entity.RoleMenuDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -15,4 +19,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RoleMenuMapper extends BaseMapper<RoleMenuDO> {
 
+    int deleteBatch(List<Long> ids);
 }

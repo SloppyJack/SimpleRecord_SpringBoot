@@ -2,7 +2,10 @@ package cn.jackbin.SimpleRecord.service;
 
 import cn.jackbin.SimpleRecord.entity.RoleMenuDO;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -20,4 +23,9 @@ public interface RoleMenuService extends IService<RoleMenuDO> {
      * 删除角色权限
      */
     void removeByRoleId(Integer roleId);
+
+    /**
+     * 批量删除
+     */
+    int removeByIds(List<Long> ids);
 }

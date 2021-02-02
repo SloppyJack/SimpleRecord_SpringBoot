@@ -8,7 +8,6 @@ import cn.jackbin.SimpleRecord.entity.MenuDO;
 import cn.jackbin.SimpleRecord.service.MenuService;
 import cn.jackbin.SimpleRecord.vo.AddMenuVO;
 import cn.jackbin.SimpleRecord.vo.EditMenuVO;
-import cn.jackbin.SimpleRecord.vo.GetMenusVO;
 import cn.jackbin.SimpleRecord.vo.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

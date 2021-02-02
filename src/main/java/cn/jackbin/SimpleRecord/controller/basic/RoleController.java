@@ -49,9 +49,9 @@ public class RoleController {
     }
 
     @ApiOperation(value = "获取角色列表")
-    @PostMapping("/list")
+    @PostMapping("/page")
     public Result<?> getRoleList(@RequestBody @Validated GetRolesVO vo) {
-        return Result.success(roleService.getList(vo.getName(), vo.getDeleted(), vo.getDate(), vo.getPageNo() - 1, vo.getPageSize()));
+        return Result.success(roleService.getByPage(vo.getName(), vo.getDeleted(), vo.getDate(), vo.getPageNo() - 1, vo.getPageSize()));
     }
 
     @ApiModelProperty

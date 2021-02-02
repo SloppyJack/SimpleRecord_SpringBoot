@@ -1,8 +1,10 @@
 package cn.jackbin.SimpleRecord.service;
 
+import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,5 +35,5 @@ public interface UserService extends IService<UserDO> {
     /**
      * 分页获取用户
      */
-    List<UserDO> getByPage(int pageIndex, int pageSize);
+    PageBO<UserDO> getByPage(String username, Boolean deleted, Date date, int pageIndex, int pageSize);
 }

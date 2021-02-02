@@ -41,7 +41,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements 
     }
 
     @Override
-    public PageBO<RoleDO> getList(String name, Boolean deleted, Date date, int pageIndex, int pageSize) {
+    public PageBO<RoleDO> getByPage(String name, Boolean deleted, Date date, int pageIndex, int pageSize) {
         int total = roleMapper.queryTotal(name, deleted, date);
         List<RoleDO> list = roleMapper.queryByPage(name, deleted, date, pageIndex * pageSize, pageSize);
         return new PageBO<>(list, total);
@@ -77,10 +77,12 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements 
                     iterator.remove();
                 }
             }
-            List<Integer> delIds = new ArrayList<>();
-            existedRDs.forEach(n -> delIds.add(n.getId().intValue()));
+            List<Long> delIds = new ArrayList<>();
+            existedRDs.forEach(n -> delIds.add(n.getId()));
             // 删除菜单权限
-            roleMenuService.removeByIds(delIds);
+            if (delIds.size() > 0) {
+                roleMenuService.removeByIds(delIds);
+            }
             // 添加该角色的菜单权限
             List<RoleMenuDO> list = new ArrayList<>();
             for (Integer i : menuIds) {

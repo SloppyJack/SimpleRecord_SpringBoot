@@ -2,4 +2,50 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.jackbin.SimpleRecord.mapper.UserMapper">
 
+    <select id="queryTotal" resultType="int">
+        select count(1)
+        from tb_user r
+        <where>
+            <if test="username != null">
+                r.username like CONCAT(CONCAT('%', #{username}), '%')
+            </if>
+            <if test="deleted != null">
+                <choose>
+                    <when test="deleted">
+                        and r.delete_time is not null
+                    </when>
+                    <otherwise>
+                        and r.delete_time is null
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="date != null">
+                and r.create_time >= #{date}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryByPage" resultType="cn.jackbin.SimpleRecord.entity.UserDO">
+        select *
+        from tb_user r
+        <where>
+            <if test="username != null">
+                r.username like CONCAT(CONCAT('%', #{username}), '%')
+            </if>
+            <if test="deleted != null">
+                <choose>
+                    <when test="deleted">
+                        and r.delete_time is not null
+                    </when>
+                    <otherwise>
+                        and r.delete_time is null
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="date != null">
+                and r.create_time >= #{date}
+            </if>
+        </where>
+        LIMIT #{begin},#{end}
+    </select>
 </mapper>
