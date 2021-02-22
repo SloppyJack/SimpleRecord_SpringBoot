@@ -41,5 +41,7 @@ public class UserRoleDTO {
      */
     private String email;
 
-    List<RoleDO> roles;
+    List<RoleDO> ownedRoles;
+
+    List<RoleDO> allRoles;
 }

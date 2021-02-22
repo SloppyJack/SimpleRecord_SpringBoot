@@ -57,7 +57,15 @@ public class UserController {
         UserRoleDTO ur = new UserRoleDTO();
         BeanUtils.copyProperties(userDO, ur);
         List<RoleDO> list = roleService.getByUserId(Long.valueOf(userId));
-        ur.setRoles(list);
+        ur.setOwnedRoles(list);
+        ur.setAllRoles(roleService.getRoles());
         return Result.success(ur);
+    }
+
+    @ApiOperation(value = "编辑用户")
+    @PutMapping(value = "/edit")
+    public Result<?> editRole(@RequestBody @Validated EditRoleVO vo) {
+        roleService.editRole(vo.getId(), vo.getName(), vo.getInfo(), vo.getMenuIds());
+        return Result.success();
     }
 }
