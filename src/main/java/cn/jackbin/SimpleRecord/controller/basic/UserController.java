@@ -7,11 +7,10 @@ import cn.jackbin.SimpleRecord.constant.SexConstant;
 import cn.jackbin.SimpleRecord.dto.UserRoleDTO;
 import cn.jackbin.SimpleRecord.entity.RoleDO;
 import cn.jackbin.SimpleRecord.service.RoleService;
+import cn.jackbin.SimpleRecord.service.UserRoleService;
 import cn.jackbin.SimpleRecord.vo.*;
-import cn.jackbin.SimpleRecord.vo.PageVO;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.service.UserService;
-import cn.jackbin.SimpleRecord.utils.PasswordUtil;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -19,9 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,6 +38,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private UserRoleService userRoleService;
 
     @ApiOperation(value = "分页获取用户列表")
     @PostMapping(value = "/page")
@@ -64,8 +63,14 @@ public class UserController {
 
     @ApiOperation(value = "编辑用户")
     @PutMapping(value = "/edit")
-    public Result<?> editRole(@RequestBody @Validated EditRoleVO vo) {
-        roleService.editRole(vo.getId(), vo.getName(), vo.getInfo(), vo.getMenuIds());
+    public Result<?> editRole(@RequestBody @Validated EditUserVO vo) {
+        if (SexConstant.MAN !=vo.getSex() && SexConstant.WOMAN != vo.getSex()) {
+            return Result.error(CodeMsg.SEX_FORMAT_ERROR);
+        }
+        // 编辑用户
+        userService.edit(vo.getId(), vo.getNickname(), vo.getSex(), vo.getEmail());
+        // 编辑用户角色
+        userRoleService.edit(vo.getId(), vo.getRoles());
         return Result.success();
     }
 }

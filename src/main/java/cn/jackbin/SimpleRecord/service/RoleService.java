@@ -26,5 +26,5 @@ public interface RoleService extends IService<RoleDO> {
 
     boolean add(String name, String info);
 
-    void editRole(Long id, String name, String info, List<Integer> menuIds);
+    void edit(Long id, String name, String info, List<Integer> menuIds);
 }

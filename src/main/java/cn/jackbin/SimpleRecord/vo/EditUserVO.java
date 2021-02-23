@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * @author: create by bin
  * @version: v1.0
@@ -14,9 +16,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class EditUserVO {
+    private Integer id;
+
     private String nickname;
 
     private Integer sex;
 
     private String email;
+
+    private List<Integer> roles;
 }

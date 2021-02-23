@@ -88,7 +88,7 @@ public class RoleController {
     @ApiOperation(value = "编辑角色")
     @PutMapping(value = "/edit")
     public Result<?> editRole(@RequestBody @Validated EditRoleVO vo) {
-        roleService.editRole(vo.getId(), vo.getName(), vo.getInfo(), vo.getMenuIds());
+        roleService.edit(vo.getId(), vo.getName(), vo.getInfo(), vo.getMenuIds());
         return Result.success();
     }
 }

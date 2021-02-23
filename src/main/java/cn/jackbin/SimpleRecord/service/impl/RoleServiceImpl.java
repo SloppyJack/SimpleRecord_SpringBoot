@@ -62,7 +62,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements 
 
     @Transactional
     @Override
-    public void editRole(Long id, String name, String info, List<Integer> menuIds) {
+    public void edit(Long id, String name, String info, List<Integer> menuIds) {
         QueryWrapper<RoleDO> queryWrapper = new QueryWrapper<>();
         queryWrapper.ne("id", id);
         queryWrapper.eq("name", name);
@@ -72,28 +72,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements 
         RoleDO roleDO = new RoleDO(id, name, info);
         roleMapper.updateById(roleDO);
         if (menuIds.size() != 0) {
-            // 查询该角色的所有的菜单权限
-            List<RoleMenuDO> existedRDs = roleMenuService.getByRoleId(id.intValue());
-            Iterator<RoleMenuDO> iterator = existedRDs.iterator();
-            while (iterator.hasNext()) {
-                RoleMenuDO temp = iterator.next();
-                if (menuIds.contains(temp.getMenuId())) {
-                    menuIds.remove(temp.getMenuId());
-                    iterator.remove();
-                }
-            }
-            List<Long> delIds = new ArrayList<>();
-            existedRDs.forEach(n -> delIds.add(n.getId()));
-            // 删除菜单权限
-            if (delIds.size() > 0) {
-                roleMenuService.removeByIds(delIds);
-            }
-            // 添加该角色的菜单权限
-            List<RoleMenuDO> list = new ArrayList<>();
-            for (Integer i : menuIds) {
-                list.add(new RoleMenuDO(id.intValue(), i));
-            }
-            roleMenuService.saveBatch(list);
+            roleMenuService.edit(id.intValue(), menuIds);
         }
     }
 }

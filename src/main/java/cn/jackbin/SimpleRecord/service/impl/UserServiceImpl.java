@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -49,5 +50,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         int total = userMapper.queryTotal(username, deleted, date);
         List<UserDO> list = userMapper.queryByPage(username, deleted, date, pageIndex, pageSize);
         return new PageBO<>(list, total);
+    }
+
+    @Transactional
+    @Override
+    public void edit(Integer id, String nickname, Integer sex, String email) {
+        // 更新用户
+        UserDO user = new UserDO();
+        user.setId(id.longValue());
+        user.setNickname(nickname);
+        user.setSex(sex);
+        user.setEmail(email);
+        userMapper.updateById(user);
     }
 }

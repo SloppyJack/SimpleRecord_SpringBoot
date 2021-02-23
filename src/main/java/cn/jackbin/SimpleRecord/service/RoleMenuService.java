@@ -28,4 +28,9 @@ public interface RoleMenuService extends IService<RoleMenuDO> {
      * 批量删除
      */
     int removeByIds(List<Long> ids);
+
+    /**
+     * 编辑角色的菜单
+     */
+    void edit(Integer roleId, List<Integer> menuIds);
 }

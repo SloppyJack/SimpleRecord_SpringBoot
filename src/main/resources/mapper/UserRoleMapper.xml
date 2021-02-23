@@ -2,4 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.jackbin.SimpleRecord.mapper.UserRoleMapper">
 
+    <delete id="deleteByUserId">
+        delete from tb_user_role where user_id = #{userId}
+    </delete>
+
 </mapper>
