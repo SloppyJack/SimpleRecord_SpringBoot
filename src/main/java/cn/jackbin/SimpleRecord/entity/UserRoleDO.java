@@ -20,7 +20,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@TableName("tb_user_group")
+@TableName("tb_user_role")
 public class UserRoleDO extends BaseDO implements Serializable {
 
     private static final long serialVersionUID = 1L;
