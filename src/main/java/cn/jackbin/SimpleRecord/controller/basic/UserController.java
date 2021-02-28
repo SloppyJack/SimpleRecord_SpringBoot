@@ -97,4 +97,18 @@ public class UserController {
         userRoleService.edit(userDO.getId().intValue(), vo.getRoles());
         return Result.success();
     }
+
+    @ApiOperation(value = "删除用户")
+    @DeleteMapping("/{id}")
+    public Result<?> delUser(@PathVariable @Validated @Positive(message = "用户Id需为正数") Integer id) {
+        userService.removeById(id);
+        return Result.success();
+    }
+
+    @ApiOperation(value = "恢复用户")
+    @PutMapping("/reset/{id}")
+    public Result<?> resetUser(@PathVariable @Validated @Positive(message = "用户Id需为正数") Integer id) {
+        userService.reset(id);
+        return Result.success();
+    }
 }

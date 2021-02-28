@@ -20,4 +20,6 @@ public interface UserMapper extends BaseMapper<UserDO> {
     int queryTotal(String username, Boolean deleted, Date date);
 
     List<UserDO> queryByPage(String username, Boolean deleted, Date date, int begin, int end);
+
+    void notDelete(Long id);
 }

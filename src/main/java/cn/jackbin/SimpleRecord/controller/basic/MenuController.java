@@ -71,14 +71,14 @@ public class MenuController {
     }
 
     @ApiOperation(value = "删除菜单")
-    @GetMapping(value = "/del/{id}")
+    @DeleteMapping(value = "/{id}")
     public Result<?> del(@PathVariable @Validated @Positive(message = "菜单Id需为正数") Integer id) {
         menuService.removeById(id);
         return Result.success();
     }
 
     @ApiOperation(value = "还原菜单")
-    @GetMapping(value = "/reset/{id}")
+    @PutMapping(value = "/reset/{id}")
     public Result<?> reset(@PathVariable @Validated @Positive(message = "菜单Id需为正数") Integer id) {
         menuService.reset(id);
         return Result.success();

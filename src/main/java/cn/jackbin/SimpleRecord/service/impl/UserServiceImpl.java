@@ -75,4 +75,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         user.setCredential(new BCryptPasswordEncoder().encode(credential));
         save(user);
     }
+
+    @Override
+    public void reset(Integer id) {
+        userMapper.notDelete(Long.valueOf(id));
+    }
 }

@@ -40,4 +40,6 @@ public interface UserService extends IService<UserDO> {
     void edit(Integer id, String nickname, Integer sex, String email);
 
     void add(String username, String nickname, Integer sex, String email, String credential);
+
+    void reset(Integer id);
 }
