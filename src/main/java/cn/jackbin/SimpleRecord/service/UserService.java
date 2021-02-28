@@ -38,4 +38,6 @@ public interface UserService extends IService<UserDO> {
     PageBO<UserDO> getByPage(String username, Boolean deleted, Date date, int pageIndex, int pageSize);
 
     void edit(Integer id, String nickname, Integer sex, String email);
+
+    void add(String username, String nickname, Integer sex, String email, String credential);
 }

@@ -8,6 +8,7 @@ import cn.jackbin.SimpleRecord.dto.UserRoleDTO;
 import cn.jackbin.SimpleRecord.entity.RoleDO;
 import cn.jackbin.SimpleRecord.service.RoleService;
 import cn.jackbin.SimpleRecord.service.UserRoleService;
+import cn.jackbin.SimpleRecord.utils.PasswordUtil;
 import cn.jackbin.SimpleRecord.vo.*;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.service.UserService;
@@ -19,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 /**
@@ -51,19 +53,21 @@ public class UserController {
 
     @ApiOperation(value = "根据用户编号获取详细信息")
     @GetMapping(value = "/{userId}")
-    public Result<?> getUserById(@Validated @Positive @PathVariable(value = "userId") Integer userId) {
-        UserDO userDO = userService.getById(userId);
+    public Result<?> getUserById(@Validated @PositiveOrZero @PathVariable(value = "userId") Integer userId) {
         UserRoleDTO ur = new UserRoleDTO();
-        BeanUtils.copyProperties(userDO, ur);
-        List<RoleDO> list = roleService.getByUserId(Long.valueOf(userId));
-        ur.setOwnedRoles(list);
+        if (userId > 0) {
+            UserDO userDO = userService.getById(userId);
+            BeanUtils.copyProperties(userDO, ur);
+            List<RoleDO> list = roleService.getByUserId(Long.valueOf(userId));
+            ur.setOwnedRoles(list);
+        }
         ur.setAllRoles(roleService.getRoles());
         return Result.success(ur);
     }
 
     @ApiOperation(value = "编辑用户")
     @PutMapping(value = "/edit")
-    public Result<?> editRole(@RequestBody @Validated EditUserVO vo) {
+    public Result<?> editUser(@RequestBody @Validated EditUserVO vo) {
         if (SexConstant.MAN !=vo.getSex() && SexConstant.WOMAN != vo.getSex()) {
             return Result.error(CodeMsg.SEX_FORMAT_ERROR);
         }
@@ -71,6 +75,26 @@ public class UserController {
         userService.edit(vo.getId(), vo.getNickname(), vo.getSex(), vo.getEmail());
         // 编辑用户角色
         userRoleService.edit(vo.getId(), vo.getRoles());
+        return Result.success();
+    }
+
+    @ApiOperation(value = "添加用户")
+    @PostMapping(value = "/add")
+    public Result<?> addUser(@RequestBody @Validated AddUserVO vo) {
+        if (userService.getByName(vo.getUsername()) != null) {
+            return Result.error(CodeMsg.USERNAME_EXIST);
+        }
+        if (!PasswordUtil.check(vo.getCredential())) {
+            return Result.error(CodeMsg.PSW_FORMAT_ERROR);
+        }
+        if (SexConstant.MAN !=vo.getSex() && SexConstant.WOMAN != vo.getSex()) {
+            return Result.error(CodeMsg.SEX_FORMAT_ERROR);
+        }
+        /// 新增用户
+        userService.add(vo.getUsername(), vo.getNickname(), vo.getSex(), vo.getEmail(), vo.getCredential());
+        // 编辑用户角色
+        UserDO userDO = userService.getByName(vo.getUsername());
+        userRoleService.edit(userDO.getId().intValue(), vo.getRoles());
         return Result.success();
     }
 }

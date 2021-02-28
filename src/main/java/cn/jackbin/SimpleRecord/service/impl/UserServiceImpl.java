@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,7 +49,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     @Override
     public PageBO<UserDO> getByPage(String username, Boolean deleted, Date date, int pageIndex, int pageSize) {
         int total = userMapper.queryTotal(username, deleted, date);
-        List<UserDO> list = userMapper.queryByPage(username, deleted, date, pageIndex, pageSize);
+        List<UserDO> list = userMapper.queryByPage(username, deleted, date, pageIndex * pageSize, pageSize);
         return new PageBO<>(list, total);
     }
 
@@ -62,5 +63,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         user.setSex(sex);
         user.setEmail(email);
         userMapper.updateById(user);
+    }
+
+    @Override
+    public void add(String username, String nickname, Integer sex, String email, String credential) {
+        UserDO user = new UserDO();
+        user.setUsername(username);
+        user.setNickname(nickname);
+        user.setSex(sex);
+        user.setEmail(email);
+        user.setCredential(new BCryptPasswordEncoder().encode(credential));
+        save(user);
     }
 }

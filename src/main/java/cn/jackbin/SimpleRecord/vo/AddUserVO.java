@@ -1,25 +1,20 @@
 package cn.jackbin.SimpleRecord.vo;
 
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 import java.util.List;
 
 /**
  * @author: create by bin
  * @version: v1.0
  * @description: cn.jackbin.SimpleRecord.vo
- * @date: 2021/2/19 20:24
+ * @date: 2021/2/27 19:22
  **/
-@ApiModel(value="EditUserVO对象", description="编辑用户对象")
 @Data
-@NoArgsConstructor
-public class EditUserVO {
-    @Positive(message = "用户Id为正数")
-    private Integer id;
+public class AddUserVO {
+    @NotNull(message = "用户名不能为空")
+    private String username;
 
     @NotNull(message = "昵称不能为空")
     private String nickname;
@@ -27,8 +22,10 @@ public class EditUserVO {
     @NotNull(message = "性别不能为空")
     private Integer sex;
 
-    @NotNull(message = "邮箱不能为空")
     private String email;
+
+    @NotNull(message = "密码不能为空")
+    private String credential;
 
     private List<Integer> roles;
 }
