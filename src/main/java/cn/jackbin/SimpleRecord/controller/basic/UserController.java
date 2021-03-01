@@ -16,6 +16,7 @@ import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,6 +45,7 @@ public class UserController {
     private UserRoleService userRoleService;
 
     @ApiOperation(value = "分页获取用户列表")
+    @PreAuthorize("hasAuthority('system:user:view')" )
     @PostMapping(value = "/page")
     public Result<?> getByPage(@RequestBody @Validated GetUsersVO vo) {
         PageBO<UserDO> pageBO = userService.getByPage(vo.getUsername(), vo.getDeleted(), vo.getDate(),
@@ -52,6 +54,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "根据用户编号获取详细信息")
+    @PreAuthorize("hasAuthority('system:user:detail')" )
     @GetMapping(value = "/{userId}")
     public Result<?> getUserById(@Validated @PositiveOrZero @PathVariable(value = "userId") Integer userId) {
         UserRoleDTO ur = new UserRoleDTO();
@@ -66,6 +69,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "编辑用户")
+    @PreAuthorize("hasAuthority('system:user:edit')" )
     @PutMapping(value = "/edit")
     public Result<?> editUser(@RequestBody @Validated EditUserVO vo) {
         if (SexConstant.MAN !=vo.getSex() && SexConstant.WOMAN != vo.getSex()) {
@@ -79,6 +83,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "添加用户")
+    @PreAuthorize("hasAuthority('system:user:add')" )
     @PostMapping(value = "/add")
     public Result<?> addUser(@RequestBody @Validated AddUserVO vo) {
         if (userService.getByName(vo.getUsername()) != null) {
@@ -99,6 +104,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "删除用户")
+    @PreAuthorize("hasAuthority('system:user:del')" )
     @DeleteMapping("/{id}")
     public Result<?> delUser(@PathVariable @Validated @Positive(message = "用户Id需为正数") Integer id) {
         userService.removeById(id);
@@ -107,6 +113,7 @@ public class UserController {
 
     @ApiOperation(value = "恢复用户")
     @PutMapping("/reset/{id}")
+    @PreAuthorize("hasAuthority('system:user:reset')" )
     public Result<?> resetUser(@PathVariable @Validated @Positive(message = "用户Id需为正数") Integer id) {
         userService.reset(id);
         return Result.success();

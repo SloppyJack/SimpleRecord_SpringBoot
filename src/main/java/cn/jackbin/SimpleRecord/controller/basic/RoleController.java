@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +37,7 @@ public class RoleController {
     private MenuService menuService;
 
     @ApiOperation(value = "获取用户的角色及菜单")
+    @PreAuthorize("hasAuthority('system:role:menus')")
     @GetMapping("/menus")
     public Result<?> getRoleMenus() {
         // 用户角色
@@ -49,12 +51,14 @@ public class RoleController {
     }
 
     @ApiOperation(value = "获取角色列表")
+    @PreAuthorize("hasAuthority('system:role:view')")
     @PostMapping("/page")
     public Result<?> getRoleList(@RequestBody @Validated GetRolesVO vo) {
         return Result.success(roleService.getByPage(vo.getName(), vo.getDeleted(), vo.getDate(), vo.getPageNo() - 1, vo.getPageSize()));
     }
 
-    @ApiModelProperty
+    @ApiModelProperty(value = "添加菜单")
+    @PreAuthorize("hasAuthority('system:role:add')")
     @PostMapping("/add")
     public Result<?> addRole(@RequestBody @Validated AddRoleVO vo) {
         if (roleService.add(vo.getName(), vo.getInfo())) {
@@ -65,6 +69,7 @@ public class RoleController {
     }
 
     @ApiOperation(value = "角色所拥有的权限")
+    @PreAuthorize("hasAuthority('system:role:ownedMenus')")
     @GetMapping(value = "/ownedMenus/{roleId}")
     public Result<?> getOwnedMenus(@ApiParam("角色Id") @Validated
                                    @Positive(message = "角色Id为正数") @PathVariable("roleId") Integer roleId) {
@@ -86,6 +91,7 @@ public class RoleController {
     }
 
     @ApiOperation(value = "编辑角色")
+    @PreAuthorize("hasAuthority('system:role:edit')")
     @PutMapping(value = "/edit")
     public Result<?> editRole(@RequestBody @Validated EditRoleVO vo) {
         roleService.edit(vo.getId(), vo.getName(), vo.getInfo(), vo.getMenuIds());

@@ -27,7 +27,7 @@ import java.util.List;
  * @author jackbin
  * @since 2020-07-21
  */
-@Api(value = "PermissionController", tags = { "菜单访问接口" })
+@Api(value = "MenuController", tags = { "菜单访问接口" })
 @RestController
 @RequestMapping("/menu")
 public class MenuController {
