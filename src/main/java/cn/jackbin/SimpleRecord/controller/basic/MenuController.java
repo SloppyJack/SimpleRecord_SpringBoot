@@ -13,6 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,9 +36,10 @@ public class MenuController {
     private MenuService menuService;
 
     @ApiOperation(value = "获取指定权限")
-    @GetMapping
+    @PreAuthorize("hasAuthority('system:menu:detail')")
+    @GetMapping("/{id}")
     public Result<?> getPermission(@ApiParam(value = "权限Id") @Validated
-                          @Positive(message = "权限Id为整数") @RequestParam(value = "id") Integer id) {
+                          @Positive(message = "权限Id为整数") @PathVariable Integer id) {
         MenuDO menuDO = menuService.getById(id);
         if (menuDO == null) {
             return Result.error(CodeMsg.NOT_FIND_DATA);
@@ -46,6 +48,7 @@ public class MenuController {
     }
 
     @ApiOperation(value = "分页获取树形权限列表")
+    @PreAuthorize("hasAuthority('system:menu:treeView')")
     @GetMapping(value = "/allTree")
     public Result<?> getAllTree() {
         // 权限列表
@@ -54,6 +57,7 @@ public class MenuController {
     }
 
     @ApiOperation(value = "获取所有的权限")
+    @PreAuthorize("hasAuthority('system:menu:all')")
     @GetMapping(value = "/all")
     public Result<?> getAll() {
         List<MenuDO> menuDOS = menuService.getAll();
@@ -63,6 +67,7 @@ public class MenuController {
     }
 
     @ApiOperation(value = "添加菜单")
+    @PreAuthorize("hasAuthority('system:menu:add')")
     @PostMapping(value = "/add")
     public Result<?> add(@RequestBody @Validated AddMenuVO vo) {
         MenuDO menuDO = toMenuDO(null, vo.getMenuTitle(), vo.getMenuName(), vo.getParentId(), vo.getOrderNo(), vo.getPath(), vo.getComponent(), vo.getIsOuterChain(), vo.getMenuType(), vo.getPermissionSign(), vo.getIconName());
@@ -71,22 +76,25 @@ public class MenuController {
     }
 
     @ApiOperation(value = "删除菜单")
+    @PreAuthorize("hasAuthority('system:menu:del')")
     @DeleteMapping(value = "/{id}")
-    public Result<?> del(@PathVariable @Validated @Positive(message = "菜单Id需为正数") Integer id) {
+    public Result<?> delMenu(@PathVariable @Validated @Positive(message = "菜单Id需为正数") Integer id) {
         menuService.removeById(id);
         return Result.success();
     }
 
     @ApiOperation(value = "还原菜单")
+    @PreAuthorize("hasAuthority('system:menu:reset')")
     @PutMapping(value = "/reset/{id}")
-    public Result<?> reset(@PathVariable @Validated @Positive(message = "菜单Id需为正数") Integer id) {
+    public Result<?> resetMenu(@PathVariable @Validated @Positive(message = "菜单Id需为正数") Integer id) {
         menuService.reset(id);
         return Result.success();
     }
 
     @ApiOperation(value = "修改菜单")
+    @PreAuthorize("hasAuthority('system:menu:edit')")
     @PutMapping(value = "/edit")
-    public Result<?> edit(@RequestBody @Validated EditMenuVO vo) {
+    public Result<?> editMenu(@RequestBody @Validated EditMenuVO vo) {
         MenuDO menuDO = toMenuDO(Long.valueOf(vo.getId()), vo.getMenuTitle(), vo.getMenuName(), vo.getParentId(), vo.getOrderNo(), vo.getPath(), vo.getComponent(), vo.getIsOuterChain(), vo.getMenuType(), vo.getPermissionSign(), vo.getIconName());
         boolean flag = menuService.updateById(menuDO);
         if (flag)

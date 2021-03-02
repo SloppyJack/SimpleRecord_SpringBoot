@@ -31,6 +31,8 @@ public interface MenuService extends IService<MenuDO> {
      */
     List<MenuBO> getTreeList();
 
+    List<MenuDO> getList();
+
     /**
      * 获取所有的菜单权限
      */

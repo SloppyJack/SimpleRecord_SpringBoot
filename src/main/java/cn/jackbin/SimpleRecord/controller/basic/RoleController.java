@@ -37,7 +37,6 @@ public class RoleController {
     private MenuService menuService;
 
     @ApiOperation(value = "获取用户的角色及菜单")
-    @PreAuthorize("hasAuthority('system:role:menus')")
     @GetMapping("/menus")
     public Result<?> getRoleMenus() {
         // 用户角色
@@ -95,6 +94,22 @@ public class RoleController {
     @PutMapping(value = "/edit")
     public Result<?> editRole(@RequestBody @Validated EditRoleVO vo) {
         roleService.edit(vo.getId(), vo.getName(), vo.getInfo(), vo.getMenuIds());
+        return Result.success();
+    }
+
+    @ApiOperation(value = "删除角色")
+    @PreAuthorize("hasAuthority('system:role:del')")
+    @DeleteMapping(value = "/{id}")
+    public Result<?> delRole(@PathVariable @Validated @Positive(message = "角色Id需为正数") Integer id) {
+        roleService.removeById(id);
+        return Result.success();
+    }
+
+    @ApiOperation(value = "还原角色")
+    @PreAuthorize("hasAuthority('system:role:reset')")
+    @PutMapping(value = "/reset/{id}")
+    public Result<?> resetRole(@PathVariable @Validated @Positive(message = "角色Id需为正数") Integer id) {
+        roleService.reset(id);
         return Result.success();
     }
 }

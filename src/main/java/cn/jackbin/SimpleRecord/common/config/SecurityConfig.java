@@ -64,12 +64,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
-                .authorizeRequests()
-                // 测试用资源，需要验证了的用户才能访问
-                .antMatchers("/jianzhang/**").hasAuthority("root")
-                // 其他请求都放行
-                .anyRequest().permitAll()
-                .and()
+//                .authorizeRequests()
+//                // 测试用资源，需要验证了的用户才能访问
+//                .antMatchers("/jianzhang/**").hasAuthority("root")
+//                // 其他请求都放行
+//                .anyRequest().permitAll()
+//                .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager()))
                 // 不需要session

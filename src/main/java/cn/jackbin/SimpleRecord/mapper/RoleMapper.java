@@ -22,4 +22,6 @@ public interface RoleMapper extends BaseMapper<RoleDO> {
     int queryTotal(String name, Boolean deleted, Date date);
 
     List<RoleDO> queryByPage(String name, Boolean deleted, Date date, int begin, int end);
+
+    void notDelete(Long id);
 }

@@ -57,4 +57,7 @@
         LIMIT #{begin},#{end}
     </select>
 
+    <update id="notDelete">
+        update tb_role set delete_time = null where id = #{id}
+    </update>
 </mapper>

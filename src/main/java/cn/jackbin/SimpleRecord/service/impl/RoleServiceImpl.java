@@ -75,4 +75,9 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements 
             roleMenuService.edit(id.intValue(), menuIds);
         }
     }
+
+    @Override
+    public void reset(Integer id) {
+        roleMapper.notDelete(Long.valueOf(id));
+    }
 }

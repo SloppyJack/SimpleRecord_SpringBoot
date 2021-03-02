@@ -3,9 +3,13 @@ package cn.jackbin.SimpleRecord.service.impl;
 import cn.jackbin.SimpleRecord.bo.MenuBO;
 import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.constant.MenuConstants;
+import cn.jackbin.SimpleRecord.constant.RoleConstant;
 import cn.jackbin.SimpleRecord.entity.MenuDO;
+import cn.jackbin.SimpleRecord.entity.RoleDO;
 import cn.jackbin.SimpleRecord.mapper.MenuMapper;
 import cn.jackbin.SimpleRecord.service.MenuService;
+import cn.jackbin.SimpleRecord.service.RoleService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
@@ -13,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * @author: create by bin
@@ -24,10 +29,20 @@ import java.util.*;
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuDO> implements MenuService {
     @Autowired
     private MenuMapper menuMapper;
+    @Autowired
+    private RoleService roleService;
 
     @Override
     public List<MenuDO> getUserMenus(Long userId) {
-        return menuMapper.queryUserMenus(userId);
+        List<MenuDO> ret;
+        RoleDO role = roleService.getByUserId(userId).stream().
+                filter(n -> RoleConstant.ROOT.equals(n.getName())).findFirst().orElse(null);
+        if (role == null) {
+            ret = menuMapper.queryUserMenus(userId);
+        } else {
+            ret = getList();
+        }
+        return ret;
     }
 
     @Override
@@ -40,6 +55,11 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuDO> implements 
         List<MenuDO> menuDOS = menuMapper.queryAllMenus();
         List<MenuBO> menuBOS = copyFromMenuDos(menuDOS);
         return generatorTree(menuBOS);
+    }
+
+    @Override
+    public List<MenuDO> getList() {
+        return list();
     }
 
     @Override
