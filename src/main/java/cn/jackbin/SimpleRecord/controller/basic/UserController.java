@@ -1,11 +1,17 @@
 package cn.jackbin.SimpleRecord.controller.basic;
 
 
+import cn.jackbin.SimpleRecord.bo.MenuBO;
 import cn.jackbin.SimpleRecord.bo.PageBO;
+import cn.jackbin.SimpleRecord.common.LocalUser;
+import cn.jackbin.SimpleRecord.common.LocalUserId;
+import cn.jackbin.SimpleRecord.common.ioc.LoginRequired;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.constant.SexConstant;
 import cn.jackbin.SimpleRecord.dto.UserRoleDTO;
+import cn.jackbin.SimpleRecord.entity.MenuDO;
 import cn.jackbin.SimpleRecord.entity.RoleDO;
+import cn.jackbin.SimpleRecord.service.MenuService;
 import cn.jackbin.SimpleRecord.service.RoleService;
 import cn.jackbin.SimpleRecord.service.UserRoleService;
 import cn.jackbin.SimpleRecord.utils.PasswordUtil;
@@ -43,6 +49,22 @@ public class UserController {
     private RoleService roleService;
     @Autowired
     private UserRoleService userRoleService;
+    @Autowired
+    private MenuService menuService;
+
+    @LoginRequired
+    @ApiOperation(value = "获取用户的角色及菜单")
+    @GetMapping("/roleMenus")
+    public Result<?> getRoleMenus() {
+        // 用户角色
+        List<RoleDO> roleDOS = roleService.getByUserId(LocalUserId.get());
+        // 用户菜单权限
+        List<MenuDO> menuDOS = menuService.getUserMenus(LocalUserId.get());
+        List<MenuBO> menuBOS =  menuService.copyFromMenuDos(menuDOS);
+        List<MenuBO> tree = menuService.generatorMenuTree(menuBOS);
+        RoleMenuVO roleMenuVO = new RoleMenuVO(LocalUser.get(), roleDOS, tree);
+        return Result.success(roleMenuVO);
+    }
 
     @ApiOperation(value = "分页获取用户列表")
     @PreAuthorize("hasAuthority('system:user:view')" )

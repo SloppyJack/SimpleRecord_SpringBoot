@@ -36,19 +36,6 @@ public class RoleController {
     @Autowired
     private MenuService menuService;
 
-    @ApiOperation(value = "获取用户的角色及菜单")
-    @GetMapping("/menus")
-    public Result<?> getRoleMenus() {
-        // 用户角色
-        List<RoleDO> roleDOS = roleService.getByUserId(LocalUserId.get());
-        // 用户菜单权限
-        List<MenuDO> menuDOS = menuService.getUserMenus(LocalUserId.get());
-        List<MenuBO> menuBOS =  menuService.copyFromMenuDos(menuDOS);
-        List<MenuBO> tree = menuService.generatorMenuTree(menuBOS);
-        RoleMenuVO roleMenuVO = new RoleMenuVO(roleDOS, tree);
-        return Result.success(roleMenuVO);
-    }
-
     @ApiOperation(value = "获取角色列表")
     @PreAuthorize("hasAuthority('system:role:view')")
     @PostMapping("/page")

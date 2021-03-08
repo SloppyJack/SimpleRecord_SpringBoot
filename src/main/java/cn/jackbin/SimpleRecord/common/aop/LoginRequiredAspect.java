@@ -40,12 +40,7 @@ public class LoginRequiredAspect {
 
     @Pointcut("@annotation(cn.jackbin.SimpleRecord.common.ioc.LoginRequired)")
     private void doHandler(){
-        // step 3
-        UserDO userDO = userService.getById(userId);
-        if (userDO == null) {
-            throw new NotFoundException("未找到指定用户");
-        }
-        LocalUser.set(userDO);
+
     }
 
     // 开始环绕
@@ -70,6 +65,12 @@ public class LoginRequiredAspect {
         // step 2
         // 进行token校验
         verifyHeader(token);
+        // step 3
+        UserDO userDO = userService.getById(userId);
+        if (userDO == null) {
+            throw new NotFoundException("未找到指定用户");
+        }
+        LocalUser.set(userDO);
     }
 
     @After("doHandler()")
