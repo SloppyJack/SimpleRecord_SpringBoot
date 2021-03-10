@@ -5,6 +5,7 @@ import cn.jackbin.SimpleRecord.bo.MenuBO;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.constant.MenuConstants;
 import cn.jackbin.SimpleRecord.entity.MenuDO;
+import cn.jackbin.SimpleRecord.exception.BusinessException;
 import cn.jackbin.SimpleRecord.service.MenuService;
 import cn.jackbin.SimpleRecord.vo.AddMenuVO;
 import cn.jackbin.SimpleRecord.vo.EditMenuVO;
@@ -95,12 +96,14 @@ public class MenuController {
     @PreAuthorize("hasAuthority('system:menu:edit')")
     @PutMapping(value = "/edit")
     public Result<?> editMenu(@RequestBody @Validated EditMenuVO vo) {
+        if (vo.getId().equals(vo.getParentId()))
+            throw new BusinessException(CodeMsg.EDIT_DATA_ERROR);
         MenuDO menuDO = toMenuDO(Long.valueOf(vo.getId()), vo.getMenuTitle(), vo.getMenuName(), vo.getParentId(), vo.getOrderNo(), vo.getPath(), vo.getComponent(), vo.getIsOuterChain(), vo.getMenuType(), vo.getPermissionSign(), vo.getIconName());
         boolean flag = menuService.updateById(menuDO);
         if (flag)
             return Result.success();
         else
-            return Result.error(CodeMsg.ADD_DATA_ERROR);
+            return Result.error(CodeMsg.EDIT_DATA_ERROR);
     }
 
     private MenuDO toMenuDO(Long id, String menuTitle, String menuName, Integer parentId, Integer orderNo, String path, String component, Boolean isOuterChain, String menuType, String permissionSign, String iconName) {
