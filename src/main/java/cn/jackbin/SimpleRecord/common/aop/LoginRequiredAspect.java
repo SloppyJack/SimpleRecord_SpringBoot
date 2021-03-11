@@ -76,7 +76,7 @@ public class LoginRequiredAspect {
     @After("doHandler()")
     public void after(){
         // step 4
-        log.info("userId:{}通过token验证",userId);
+        log.info("userId:{} 通过token验证",userId);
     }
 
     private void verifyHeader(String token) {

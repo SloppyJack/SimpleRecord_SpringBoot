@@ -1,10 +1,12 @@
 package cn.jackbin.SimpleRecord.controller.record;
 
 import cn.jackbin.SimpleRecord.bo.MonthRecordBO;
+import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.common.ioc.LoginRequired;
 import cn.jackbin.SimpleRecord.dto.RecordDTO;
 import cn.jackbin.SimpleRecord.dto.SpendCategoryTotalDTO;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
+import cn.jackbin.SimpleRecord.exception.BusinessException;
 import cn.jackbin.SimpleRecord.utils.DateUtil;
 import cn.jackbin.SimpleRecord.vo.GetSixMonthRecordsVO;
 import cn.jackbin.SimpleRecord.vo.RecordVO;
@@ -60,14 +62,13 @@ public class RecordController {
         }
     }
 
+    @LoginRequired
     @ApiOperation(value = "修改当前登录用户的记账记录")
     @PutMapping("/{id}")
     public Result<?> updateRecord(@PathVariable("id") @Validated @Positive(message = "{id}") Long id, @RequestBody @Validated RecordVO vo) {
         RecordDetailDO recordDO = recordDetailService.getById(id);
-        Result<?> checkResult = checkRecord(recordDO);
-        if (checkResult != null) {
-            return checkResult;
-        }
+        // 校验
+        checkRecord(recordDO);
         RecordDTO dto = new RecordDTO();
         BeanUtils.copyProperties(vo, dto);
         boolean uFlag = recordDetailService.updateRecord(recordDO, dto);
@@ -78,14 +79,12 @@ public class RecordController {
         }
     }
 
+    @LoginRequired
     @ApiOperation(value = "删除当前登录用户的记账记录")
     @DeleteMapping("/{id}")
     public Result<?> deleteBook(@PathVariable("id") @Positive(message = "{id}") Long id) {
         RecordDetailDO recordDO = recordDetailService.getById(id);
-        Result<?> checkResult = checkRecord(recordDO);
-        if (checkResult != null) {
-            return checkResult;
-        }
+        checkRecord(recordDO);
         boolean delFlag = recordDetailService.deleteById(recordDO.getId());
         if (delFlag) {
             return Result.success();
@@ -139,7 +138,7 @@ public class RecordController {
             return Result.error(CodeMsg.RECORD_TYPE_CODE_ERROR);
         }
         UserDO userDO = LocalUser.get();
-        List<RecordDetailDTO> list = recordDetailService.getListByMonth(userDO.getId(), vo.getRecordTypeCode(), vo.getDate(), vo.getPageIndex(), vo.getPageSize());
+        PageBO<RecordDetailDTO> list = recordDetailService.getListByMonth(userDO.getId(), vo.getRecordTypeCode(), vo.getDate(), vo.getPageIndex(), vo.getPageSize());
         return Result.success(list);
     }
 
@@ -156,15 +155,14 @@ public class RecordController {
         return Result.success(list);
     }
 
-    private Result<?> checkRecord(RecordDetailDO recordDetailDO) {
+    private void checkRecord(RecordDetailDO recordDetailDO) {
         if (recordDetailDO == null) {
-            return Result.error(CodeMsg.NOT_FIND_DATA);
+            throw new BusinessException(CodeMsg.NOT_FIND_DATA);
         }
         // 校验是否为当前登录人的记账记录
         UserDO userDO = LocalUser.get();
         if (!recordDetailDO.getUserId().equals(userDO.getId().intValue())) {
-            return Result.error(CodeMsg.DEL_RECORD_FORBIDDEN);
+            throw new BusinessException(CodeMsg.DEL_RECORD_FORBIDDEN);
         }
-        return null;
     }
 }

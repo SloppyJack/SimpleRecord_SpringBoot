@@ -1,5 +1,6 @@
 package cn.jackbin.SimpleRecord.service.impl;
 
+import cn.jackbin.SimpleRecord.dto.SpendCategoryDTO;
 import cn.jackbin.SimpleRecord.entity.SpendCategoryDO;
 import cn.jackbin.SimpleRecord.mapper.SpendCategoryMapper;
 import cn.jackbin.SimpleRecord.service.SpendCategoryService;
@@ -24,8 +25,8 @@ public class SpendCategoryServiceImpl extends ServiceImpl<SpendCategoryMapper, S
     private SpendCategoryMapper spendCategoryMapper;
 
     @Override
-    public List<SpendCategoryDO> findAll() {
-        return spendCategoryMapper.selectList(null);
+    public List<SpendCategoryDTO> findAll() {
+        return spendCategoryMapper.queryAll();
     }
 
     @Override

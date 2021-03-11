@@ -1,5 +1,6 @@
 package cn.jackbin.SimpleRecord.service;
 
+import cn.jackbin.SimpleRecord.dto.SpendCategoryDTO;
 import cn.jackbin.SimpleRecord.entity.SpendCategoryDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -18,7 +19,7 @@ public interface SpendCategoryService extends IService<SpendCategoryDO> {
      * 列出所有花费分类
      * @return
      */
-    List<SpendCategoryDO> findAll();
+    List<SpendCategoryDTO> findAll();
 
     /**
      * 通过记账类别Id获取花费分类

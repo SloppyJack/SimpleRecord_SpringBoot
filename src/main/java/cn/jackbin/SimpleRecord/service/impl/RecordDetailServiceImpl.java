@@ -1,11 +1,10 @@
 package cn.jackbin.SimpleRecord.service.impl;
 
-import cn.jackbin.SimpleRecord.common.LocalUser;
+import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
 import cn.jackbin.SimpleRecord.dto.SpendCategoryTotalDTO;
 import cn.jackbin.SimpleRecord.dto.RecordDTO;
 import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
-import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.mapper.RecordDetailMapper;
 import cn.jackbin.SimpleRecord.service.RecordDetailService;
 import cn.jackbin.SimpleRecord.dto.RecordDetailDTO;
@@ -16,6 +15,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
     public boolean createRecord(RecordDTO recordDTO, Long userId) {
         RecordDetailDO recordDO = new RecordDetailDO();
         recordDO.setUserId(userId.intValue());
-        recordDO.setSpendCategoryId(recordDTO.getSpendCategoryId().intValue());
+        recordDO.setSpendCategoryId(recordDTO.getSpendCategoryId());
         recordDO.setAmount(recordDTO.getAmount());
         recordDO.setOccurTime(recordDTO.getOccurTime());
         recordDO.setRemarks(recordDTO.getRemarks());
@@ -105,8 +105,9 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
     }
 
     @Override
-    public List<RecordDetailDTO> getListByMonth(Long userId, String recordTypeCode, Date date, int pageIndex, int pageSize) {
-        return recordDetailMapper.queryByMonth(userId, recordTypeCode, date, pageIndex * pageSize, pageSize);
+    public PageBO<RecordDetailDTO> getListByMonth(Long userId, String recordTypeCode, Date date, int pageIndex, int pageSize) {
+        IPage<RecordDetailDTO> dto = recordDetailMapper.queryByMonth(new Page<>(pageIndex * pageSize, pageSize), userId, recordTypeCode, date);
+        return new PageBO<>(dto.getRecords(), (int) dto.getTotal());
     }
 
     @Override

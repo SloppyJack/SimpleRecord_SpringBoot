@@ -19,7 +19,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class RecordDTO {
     @Positive(message = "花费类别为整数")
-    private Long spendCategoryId;
+    private Integer spendCategoryId;
 
     @NotNull(message = "金额不能为空")
     private Double amount;

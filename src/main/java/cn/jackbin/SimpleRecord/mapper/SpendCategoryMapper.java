@@ -1,8 +1,11 @@
 package cn.jackbin.SimpleRecord.mapper;
 
+import cn.jackbin.SimpleRecord.dto.SpendCategoryDTO;
 import cn.jackbin.SimpleRecord.entity.SpendCategoryDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author: create by bin
@@ -12,4 +15,5 @@ import org.springframework.stereotype.Repository;
  **/
 @Repository
 public interface SpendCategoryMapper extends BaseMapper<SpendCategoryDO> {
+    List<SpendCategoryDTO> queryAll();
 }

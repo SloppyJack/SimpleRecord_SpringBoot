@@ -5,7 +5,9 @@ import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
 import cn.jackbin.SimpleRecord.dto.RecordDetailDTO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -46,7 +48,7 @@ public interface RecordDetailMapper extends BaseMapper<RecordDetailDO> {
     /**
      * 查询用户某个月内的记账记录
      */
-    List<RecordDetailDTO> queryByMonth(Long userId, String recordTypeCode, Date date, int begin, int end);
+    IPage<RecordDetailDTO> queryByMonth(Page<?> page, Long userId, String recordTypeCode, Date date);
 
     List<RecordDetailDTO> queryByInterval(Long userId, String recordTypeCode, Date beginDate, Date endDate);
 }

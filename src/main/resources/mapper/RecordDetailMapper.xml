@@ -50,8 +50,6 @@
             and date_format(t1.occur_time, '%Y-%m') = date_format(#{date}, '%Y-%m')
             and t1.delete_time is null
         ORDER BY t1.occur_time asc
-        LIMIT #{begin},#{end}
-
     </select>
 
     <select id="queryByInterval" resultType="cn.jackbin.SimpleRecord.dto.RecordDetailDTO">

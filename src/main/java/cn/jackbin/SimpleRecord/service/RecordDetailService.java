@@ -1,6 +1,7 @@
 package cn.jackbin.SimpleRecord.service;
 
 import cn.jackbin.SimpleRecord.bo.MonthRecordBO;
+import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.dto.SpendCategoryTotalDTO;
 import cn.jackbin.SimpleRecord.dto.RecordDTO;
 import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
@@ -65,7 +66,7 @@ public interface RecordDetailService extends IService<RecordDetailDO> {
     /**
      * 查询用户某个月内的记账记录
      */
-    List<RecordDetailDTO> getListByMonth(Long userId, String recordTypeCode, Date date, int pageIndex, int pageSize);
+    PageBO<RecordDetailDTO> getListByMonth(Long userId, String recordTypeCode, Date date, int pageIndex, int pageSize);
 
     /**
      * 查询用户六个月内的记账记录
