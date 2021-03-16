@@ -20,7 +20,7 @@ import java.util.List;
  **/
 @Api(value = "RecordTypeController", tags = { "记账类别访问接口" })
 @RestController
-@RequestMapping("/v1/recordType")
+@RequestMapping("/recordType")
 public class RecordTypeController {
     @Autowired
     private RecordTypeService recordTypeService;

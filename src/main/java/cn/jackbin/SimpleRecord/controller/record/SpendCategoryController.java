@@ -28,7 +28,7 @@ import java.util.Map;
  **/
 @Api(value = "SpendCategoryController", tags = { "花费类别访问接口" })
 @RestController
-@RequestMapping("/v1/spendCategory")
+@RequestMapping("/spendCategory")
 public class SpendCategoryController {
     @Autowired
     private SpendCategoryService spendCategoryService;
