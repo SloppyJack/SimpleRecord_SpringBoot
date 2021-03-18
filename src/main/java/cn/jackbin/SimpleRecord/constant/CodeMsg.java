@@ -32,7 +32,7 @@ public enum CodeMsg {
 
 
     // 用户相关 格式600 xxx
-    LOGIN_ERROR(600001,"登录失败"),
+    LOGIN_ERROR(600001,"用户名或密码错误，请重新登录"),
     USERNAME_EXIST(600002,"用户名重复"),
     PSW_FORMAT_ERROR(600003,"密码是由8至16位的数字和字母组成，请重新输入"),
     SEX_FORMAT_ERROR(600003,"性别未识别"),

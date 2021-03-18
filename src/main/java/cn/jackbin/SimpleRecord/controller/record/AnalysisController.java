@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +39,7 @@ public class AnalysisController {
 
     @LoginRequired
     @ApiOperation(value = "获取某年所有消费类别的总额")
+    @PreAuthorize("hasAuthority('record:analysis:spendCategoryTotal')")
     @GetMapping("/spendCategoryTotal/{year}/{recordType}")
     public Result<?> getSpendCategoryTotalInYear(@ApiParam(required = true, value = "年（yyyy）") @Validated
                                                  @DateTimeFormat(pattern="yyyy") @PathVariable(value = "year") Date date,
@@ -53,6 +55,7 @@ public class AnalysisController {
 
     @LoginRequired
     @ApiOperation(value = "获取最近六个月的支出和收入")
+    @PreAuthorize("hasAuthority('record:analysis:latestSixMonthList')")
     @PostMapping("/latestSixMonthList")
     public Result<?> getLatestSixMonthList(@RequestBody @Validated GetSixMonthRecordsVO vo) {
         if (!vo.getRecordTypeCode().equals(RecordConstant.EXPEND_RECORD_TYPE) && !vo.getRecordTypeCode().equals(RecordConstant.INCOME_RECORD_TYPE)) {
