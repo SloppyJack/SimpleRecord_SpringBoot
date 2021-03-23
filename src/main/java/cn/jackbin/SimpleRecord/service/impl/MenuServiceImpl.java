@@ -69,7 +69,15 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuDO> implements 
 
     @Override
     public List<MenuDO> getRoleMenus(Long roleId) {
-        return menuMapper.queryRoleMenus(roleId);
+        // 如为root返回所有的权限
+        String roleName = roleService.getById(roleId).getName();
+        List<MenuDO> list;
+        if(RoleConstant.ROOT.equals(roleName)) {
+            list = getList();
+        } else {
+            list = menuMapper.queryRoleMenus(roleId);
+        }
+        return list;
     }
 
     @Override
