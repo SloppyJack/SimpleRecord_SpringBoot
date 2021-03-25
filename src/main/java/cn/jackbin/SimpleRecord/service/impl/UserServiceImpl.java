@@ -1,8 +1,12 @@
 package cn.jackbin.SimpleRecord.service.impl;
 
 import cn.jackbin.SimpleRecord.bo.PageBO;
+import cn.jackbin.SimpleRecord.constant.RoleConstant;
 import cn.jackbin.SimpleRecord.entity.UserDO;
+import cn.jackbin.SimpleRecord.entity.UserRoleDO;
 import cn.jackbin.SimpleRecord.mapper.UserMapper;
+import cn.jackbin.SimpleRecord.service.RoleService;
+import cn.jackbin.SimpleRecord.service.UserRoleService;
 import cn.jackbin.SimpleRecord.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -28,6 +32,10 @@ import java.util.List;
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements UserService {
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private UserRoleService userRoleService;
+    @Autowired
+    private RoleService roleService;
 
     @Override
     public UserDO getByName(String userName) {
@@ -79,5 +87,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     @Override
     public void reset(Integer id) {
         userMapper.notDelete(Long.valueOf(id));
+    }
+
+    @Transactional
+    @Override
+    public void saveWithDefaultRole(UserDO userDO) {
+        // 保存用户
+        save(userDO);
+        // 找到默认角色Id
+        Long roleId = roleService.getByName(RoleConstant.DEFAULT).getId();
+        // 保存默认角色
+        userRoleService.save(new UserRoleDO(userDO.getId().intValue(), roleId.intValue()));
     }
 }

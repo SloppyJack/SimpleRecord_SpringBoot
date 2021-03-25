@@ -42,4 +42,9 @@ public interface UserService extends IService<UserDO> {
     void add(String username, String nickname, Integer sex, String email, String credential);
 
     void reset(Integer id);
+
+    /**
+     * 保存用户并添加默认角色
+     */
+    void saveWithDefaultRole(UserDO userDO);
 }

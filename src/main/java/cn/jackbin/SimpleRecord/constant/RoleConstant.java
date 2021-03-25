@@ -8,4 +8,6 @@ package cn.jackbin.SimpleRecord.constant;
  **/
 public class RoleConstant {
     public static final String ROOT = "root";
+
+    public static final String DEFAULT = "default";
 }

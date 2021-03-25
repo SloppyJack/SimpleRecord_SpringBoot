@@ -25,6 +25,11 @@ public class UserRoleDO extends BaseDO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public UserRoleDO(Integer userId, Integer roleId) {
+        this.userId = userId;
+        this.roleId = roleId;
+    }
+
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 

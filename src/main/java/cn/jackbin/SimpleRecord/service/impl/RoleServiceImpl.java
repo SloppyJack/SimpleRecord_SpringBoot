@@ -80,4 +80,11 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements 
     public void reset(Integer id) {
         roleMapper.notDelete(Long.valueOf(id));
     }
+
+    @Override
+    public RoleDO getByName(String name) {
+        QueryWrapper<RoleDO> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("name", name);
+        return roleMapper.selectOne(queryWrapper);
+    }
 }

@@ -41,7 +41,7 @@ public class RegisterController {
         UserDO userDO = new UserDO();
         BeanUtils.copyProperties(vo, userDO);
         userDO.setCredential(PasswordUtil.encoder(vo.getPassword()));
-        userService.save(userDO);
+        userService.saveWithDefaultRole(userDO);
         return Result.success();
     }
 }

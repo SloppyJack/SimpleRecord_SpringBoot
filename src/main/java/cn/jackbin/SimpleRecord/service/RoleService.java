@@ -29,4 +29,6 @@ public interface RoleService extends IService<RoleDO> {
     void edit(Long id, String name, String info, List<Integer> menuIds);
 
     void reset(Integer id);
+
+    RoleDO getByName(String name);
 }

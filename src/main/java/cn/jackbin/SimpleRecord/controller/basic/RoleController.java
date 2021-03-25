@@ -4,8 +4,10 @@ package cn.jackbin.SimpleRecord.controller.basic;
 import cn.jackbin.SimpleRecord.bo.MenuBO;
 import cn.jackbin.SimpleRecord.common.LocalUserId;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
+import cn.jackbin.SimpleRecord.constant.RoleConstant;
 import cn.jackbin.SimpleRecord.entity.MenuDO;
 import cn.jackbin.SimpleRecord.entity.RoleDO;
+import cn.jackbin.SimpleRecord.exception.BusinessException;
 import cn.jackbin.SimpleRecord.service.MenuService;
 import cn.jackbin.SimpleRecord.service.RoleService;
 import cn.jackbin.SimpleRecord.vo.*;
@@ -80,6 +82,8 @@ public class RoleController {
     @PreAuthorize("hasAuthority('system:role:edit')")
     @PutMapping(value = "/edit")
     public Result<?> editRole(@RequestBody @Validated EditRoleVO vo) {
+        RoleDO role = roleService.getById(vo.getId());
+        checkRoleName(role.getName());
         roleService.edit(vo.getId(), vo.getName(), vo.getInfo(), vo.getMenuIds());
         return Result.success();
     }
@@ -88,6 +92,8 @@ public class RoleController {
     @PreAuthorize("hasAuthority('system:role:del')")
     @DeleteMapping(value = "/{id}")
     public Result<?> delRole(@PathVariable @Validated @Positive(message = "角色Id需为正数") Integer id) {
+        RoleDO role = roleService.getById(id);
+        checkRoleName(role.getName());
         roleService.removeById(id);
         return Result.success();
     }
@@ -98,5 +104,11 @@ public class RoleController {
     public Result<?> resetRole(@PathVariable @Validated @Positive(message = "角色Id需为正数") Integer id) {
         roleService.reset(id);
         return Result.success();
+    }
+
+    private void checkRoleName(String name) {
+        if (RoleConstant.ROOT.equals(name) || RoleConstant.DEFAULT.equals(name)) {
+            throw new BusinessException(CodeMsg.ROLE_EDIT_NOT_ALLOWED);
+        }
     }
 }

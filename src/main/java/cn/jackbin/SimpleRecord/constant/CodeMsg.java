@@ -31,12 +31,13 @@ public enum CodeMsg {
     EDIT_DATA_ERROR(500012,"编辑数据失败"),
 
 
-    // 用户相关 格式600 xxx
+    // 系统相关 格式600 xxx
     LOGIN_ERROR(600001,"用户名或密码错误，请重新登录"),
     USERNAME_EXIST(600002,"用户名重复"),
     PSW_FORMAT_ERROR(600003,"密码是由8至16位的数字和字母组成，请重新输入"),
     SEX_FORMAT_ERROR(600003,"性别未识别"),
     ROLE_NAME_EXIST(600004, "角色名重复"),
+    ROLE_EDIT_NOT_ALLOWED(600005, "系统内置角色请勿删除或改名"),
 
     // 记账相关 格式700 xxx
     INSERT_RECORD_ERROR(700001,"新增记账记录失败"),
