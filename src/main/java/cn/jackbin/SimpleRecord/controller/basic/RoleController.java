@@ -83,7 +83,10 @@ public class RoleController {
     @PutMapping(value = "/edit")
     public Result<?> editRole(@RequestBody @Validated EditRoleVO vo) {
         RoleDO role = roleService.getById(vo.getId());
-        checkRoleName(role.getName());
+        // 修改的角色名与原角色名不相等才需要校验
+        if (!role.getName().equals(vo.getName())) {
+            checkRoleName(role.getName());
+        }
         roleService.edit(vo.getId(), vo.getName(), vo.getInfo(), vo.getMenuIds());
         return Result.success();
     }
