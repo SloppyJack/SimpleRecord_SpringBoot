@@ -32,6 +32,7 @@ public class JWTUser implements UserDetails {
         // 设置当前用户的权限集合
         List<GrantedAuthority> list = new ArrayList<>();
         userPermissionBO.getMenuDOList().stream()
+                // 跳过空权限字符（注：菜单和目录没有权限字符）
                 .filter(n -> StringUtils.isNoneBlank(n.getPermissionSign()))
                 .forEach(n-> list.add(new SimpleGrantedAuthority(n.getPermissionSign())));
         this.authorities = list;

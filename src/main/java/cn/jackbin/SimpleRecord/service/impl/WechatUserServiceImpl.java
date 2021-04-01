@@ -13,6 +13,7 @@ import cn.jackbin.SimpleRecord.vo.LoginSuccessVO;
 import cn.jackbin.SimpleRecord.vo.WechatUserVO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -75,7 +76,8 @@ public class WechatUserServiceImpl extends ServiceImpl<WechatUserMapper, WechatU
     private String generateToken(Long userId) {
         List<MenuDO> menuDOList = menuService.getUserMenus(userId);
         List<String> permissionList = new ArrayList<>();
-        menuDOList.forEach(n -> permissionList.add(n.getPermissionSign()));
+        // 跳过空权限字符（注：菜单和目录没有权限字符）
+        menuDOList.stream().filter(n -> StringUtils.isNoneBlank(n.getPermissionSign())).forEach(n -> permissionList.add(n.getPermissionSign()));
         JWTConfig jwtConfig = SpringContextUtil.getBean(JWTConfig.class);
         return jwtConfig.createToken(userId.toString(),permissionList);
     }
