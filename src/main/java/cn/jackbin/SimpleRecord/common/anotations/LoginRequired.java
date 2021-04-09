@@ -1,4 +1,4 @@
-package cn.jackbin.SimpleRecord.common.ioc;
+package cn.jackbin.SimpleRecord.common.anotations;
 
 import java.lang.annotation.*;
 

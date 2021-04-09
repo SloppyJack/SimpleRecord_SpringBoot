@@ -5,7 +5,7 @@ import cn.jackbin.SimpleRecord.bo.MenuBO;
 import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.common.LocalUser;
 import cn.jackbin.SimpleRecord.common.LocalUserId;
-import cn.jackbin.SimpleRecord.common.ioc.LoginRequired;
+import cn.jackbin.SimpleRecord.common.anotations.LoginRequired;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.constant.SexConstant;
 import cn.jackbin.SimpleRecord.dto.UserRoleDTO;

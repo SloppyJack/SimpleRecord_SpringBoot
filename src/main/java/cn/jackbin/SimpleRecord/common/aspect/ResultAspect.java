@@ -1,4 +1,4 @@
-package cn.jackbin.SimpleRecord.common.aop;
+package cn.jackbin.SimpleRecord.common.aspect;
 
 /**
  * @author: create by bin

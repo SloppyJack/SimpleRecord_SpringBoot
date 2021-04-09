@@ -1,4 +1,4 @@
-package cn.jackbin.SimpleRecord.common.aop;
+package cn.jackbin.SimpleRecord.common.aspect;
 
 import cn.jackbin.SimpleRecord.common.LocalUser;
 import cn.jackbin.SimpleRecord.common.config.JWTConfig;
@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -29,7 +30,10 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 @Aspect
 @Slf4j
-public class LoginRequiredAspect {
+public class LoginRequiredAspect implements Ordered {
+    // 执行顺序，越小越先执行（遵从同心圆的概念）
+    private final int order = 10;
+
     @Autowired
     private JWTConfig jwtConfig;
     @Autowired
@@ -38,8 +42,8 @@ public class LoginRequiredAspect {
     private String token;
     private Long userId;
 
-    @Pointcut("@annotation(cn.jackbin.SimpleRecord.common.ioc.LoginRequired)")
-    private void doHandler(){
+    @Pointcut("@annotation(cn.jackbin.SimpleRecord.common.anotations.LoginRequired)")
+    public void doHandler(){
 
     }
 
@@ -92,5 +96,10 @@ public class LoginRequiredAspect {
             throw new ParameterException(CodeMsg.PARAMETER_ILLEGAL,"token已过期");
         }
         userId = Long.valueOf(jwtConfig.getUserIdFromToken(claims));
+    }
+
+    @Override
+    public int getOrder() {
+        return order;
     }
 }

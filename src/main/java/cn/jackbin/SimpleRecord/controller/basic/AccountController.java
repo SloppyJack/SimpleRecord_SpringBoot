@@ -1,7 +1,7 @@
 package cn.jackbin.SimpleRecord.controller.basic;
 
 import cn.jackbin.SimpleRecord.common.LocalUser;
-import cn.jackbin.SimpleRecord.common.ioc.LoginRequired;
+import cn.jackbin.SimpleRecord.common.anotations.LoginRequired;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.service.UserService;
 import cn.jackbin.SimpleRecord.vo.AccountBaseSettingVO;

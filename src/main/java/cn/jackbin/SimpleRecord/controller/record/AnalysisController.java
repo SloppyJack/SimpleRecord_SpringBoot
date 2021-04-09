@@ -2,7 +2,9 @@ package cn.jackbin.SimpleRecord.controller.record;
 
 import cn.jackbin.SimpleRecord.bo.MonthRecordBO;
 import cn.jackbin.SimpleRecord.common.LocalUser;
-import cn.jackbin.SimpleRecord.common.ioc.LoginRequired;
+import cn.jackbin.SimpleRecord.common.anotations.CommonLog;
+import cn.jackbin.SimpleRecord.common.anotations.LoginRequired;
+import cn.jackbin.SimpleRecord.common.enums.BusinessType;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
 import cn.jackbin.SimpleRecord.dto.SpendCategoryTotalDTO;
@@ -38,6 +40,7 @@ public class AnalysisController {
     private RecordDetailService recordDetailService;
 
     @LoginRequired
+    @CommonLog(title = "获取某年所有消费类别的总额", businessType = BusinessType.QUERY)
     @ApiOperation(value = "获取某年所有消费类别的总额")
     @PreAuthorize("hasAuthority('record:analysis:spendCategoryTotal')")
     @GetMapping("/spendCategoryTotal/{year}/{recordType}")
@@ -54,6 +57,7 @@ public class AnalysisController {
     }
 
     @LoginRequired
+    @CommonLog(title = "获取最近六个月的支出和收入", businessType = BusinessType.QUERY)
     @ApiOperation(value = "获取最近六个月的支出和收入")
     @PreAuthorize("hasAuthority('record:analysis:latestSixMonthList')")
     @PostMapping("/latestSixMonthList")

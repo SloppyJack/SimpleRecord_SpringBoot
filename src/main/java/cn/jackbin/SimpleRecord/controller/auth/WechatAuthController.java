@@ -1,6 +1,8 @@
 package cn.jackbin.SimpleRecord.controller.auth;
 
 import cn.hutool.http.HttpUtil;
+import cn.jackbin.SimpleRecord.common.anotations.CommonLog;
+import cn.jackbin.SimpleRecord.common.enums.BusinessType;
 import cn.jackbin.SimpleRecord.constant.UrlConstant;
 import cn.jackbin.SimpleRecord.service.WechatUserService;
 import cn.jackbin.SimpleRecord.vo.LoginSuccessVO;
@@ -48,6 +50,7 @@ public class WechatAuthController {
         return Result.success(JSON.parse(result));
     }
 
+    @CommonLog(title = "微信登录授权", businessType = BusinessType.GRANT)
     @ApiOperation(value = "微信登录授权")
     @PostMapping("/login")
     public Result<?> wechatLogin(@RequestBody @Validated  WechatUserVO vo) {

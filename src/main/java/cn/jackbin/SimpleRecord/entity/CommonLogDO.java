@@ -28,16 +28,66 @@ public class CommonLogDO extends BaseDO implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    private String message;
+    private String title;
 
-    private Integer userId;
+    /**
+     * 业务类型编码
+     */
+    private String businessTypeCode;
 
-    private Integer statusCode;
+    /**
+     * 业务类型名
+     */
+    private String businessTypeName;
 
+    /**
+     * Java中调用的方法
+     */
     private String method;
 
-    private String path;
+    /**
+     * 请求方法
+     */
+    private String requestMethod;
 
-    private String permission;
+    /**
+     * 请求Url
+     */
+    private String requestUrl;
+
+    /**
+     * 请求参数
+     */
+    private String requestParam;
+
+    /**
+     * 操作人IP
+     */
+    private String operIp;
+
+    /**
+     * 操作人地址
+     */
+    private String operAddress;
+
+    /**
+     * 操作人Id
+     */
+    private Integer operId;
+
+    /**
+     * 返回结果
+     */
+    private String jsonResult;
+
+    /**
+     * 状态
+     */
+    private Integer status;
+
+    /**
+     * 错误信息
+     */
+    private String errorMsg;
 
 }
