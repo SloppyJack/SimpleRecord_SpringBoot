@@ -1,4 +1,4 @@
-package cn.jackbin.SimpleRecord.common.config;
+package cn.jackbin.SimpleRecord.common.config.sercurity;
 
 import cn.jackbin.SimpleRecord.common.config.sercurity.UserDetailsServiceImpl;
 import cn.jackbin.SimpleRecord.common.filter.JWTAuthenticationFilter;

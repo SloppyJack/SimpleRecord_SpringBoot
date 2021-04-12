@@ -1,6 +1,6 @@
 package cn.jackbin.SimpleRecord.common.filter;
 
-import cn.jackbin.SimpleRecord.common.config.JWTConfig;
+import cn.jackbin.SimpleRecord.common.config.sercurity.JWTConfig;
 import cn.jackbin.SimpleRecord.common.config.sercurity.JWTUser;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.vo.LoginVO;

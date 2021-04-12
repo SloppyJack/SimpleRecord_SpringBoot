@@ -1,7 +1,7 @@
 package cn.jackbin.SimpleRecord.common.aspect;
 
 import cn.jackbin.SimpleRecord.common.LocalUser;
-import cn.jackbin.SimpleRecord.common.config.JWTConfig;
+import cn.jackbin.SimpleRecord.common.config.sercurity.JWTConfig;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.exception.NotFoundException;

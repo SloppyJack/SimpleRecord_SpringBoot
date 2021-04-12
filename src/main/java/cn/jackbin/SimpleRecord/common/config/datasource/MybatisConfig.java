@@ -1,4 +1,4 @@
-package cn.jackbin.SimpleRecord.common.config;
+package cn.jackbin.SimpleRecord.common.config.datasource;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import org.springframework.context.annotation.Bean;

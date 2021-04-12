@@ -1,4 +1,4 @@
-package cn.jackbin.SimpleRecord.common.config;
+package cn.jackbin.SimpleRecord.common.config.datasource;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import lombok.extern.slf4j.Slf4j;

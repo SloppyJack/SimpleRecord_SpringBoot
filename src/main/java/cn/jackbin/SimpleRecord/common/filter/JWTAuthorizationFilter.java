@@ -4,7 +4,7 @@ import cn.jackbin.SimpleRecord.common.LocalUserId;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.exception.BusinessException;
 import cn.jackbin.SimpleRecord.utils.SpringContextUtil;
-import cn.jackbin.SimpleRecord.common.config.JWTConfig;
+import cn.jackbin.SimpleRecord.common.config.sercurity.JWTConfig;
 import cn.jackbin.SimpleRecord.vo.Result;
 import cn.jackbin.SimpleRecord.exception.BaseException;
 import cn.jackbin.SimpleRecord.exception.ParameterException;

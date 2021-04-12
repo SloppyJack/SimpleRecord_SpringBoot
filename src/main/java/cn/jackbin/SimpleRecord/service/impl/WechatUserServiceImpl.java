@@ -1,9 +1,8 @@
 package cn.jackbin.SimpleRecord.service.impl;
 
-import cn.jackbin.SimpleRecord.common.config.JWTConfig;
+import cn.jackbin.SimpleRecord.common.config.sercurity.JWTConfig;
 import cn.jackbin.SimpleRecord.entity.MenuDO;
 import cn.jackbin.SimpleRecord.entity.UserDO;
-import cn.jackbin.SimpleRecord.entity.UserRoleDO;
 import cn.jackbin.SimpleRecord.entity.WechatUserDO;
 import cn.jackbin.SimpleRecord.mapper.WechatUserMapper;
 import cn.jackbin.SimpleRecord.service.*;
