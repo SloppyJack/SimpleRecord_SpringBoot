@@ -1,6 +1,7 @@
 package cn.jackbin.SimpleRecord.common.manager;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PreDestroy;
 
@@ -11,6 +12,7 @@ import javax.annotation.PreDestroy;
  * @date: 2021/4/8 21:31
  **/
 @Slf4j
+@Component
 public class ShutdownManager {
 
     /**
@@ -30,7 +32,9 @@ public class ShutdownManager {
         try
         {
             log.info("====关闭后台任务任务线程池====");
-            AsyncManager.me().shutdown();
+            if (AsyncManager.me() != null) {
+                AsyncManager.me().shutdown();
+            }
         }
         catch (Exception e)
         {

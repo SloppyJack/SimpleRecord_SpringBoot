@@ -1,6 +1,5 @@
 package cn.jackbin.SimpleRecord.utils;
 
-import cn.hutool.core.convert.Convert;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -29,30 +28,6 @@ public class ServletUtil {
     public static String getParameter(String name)
     {
         return getRequest().getParameter(name);
-    }
-
-    /**
-     * 获取String参数
-     */
-    public static String getParameter(String name, String defaultValue)
-    {
-        return Convert.toStr(getRequest().getParameter(name), defaultValue);
-    }
-
-    /**
-     * 获取Integer参数
-     */
-    public static Integer getParameterToInt(String name)
-    {
-        return Convert.toInt(getRequest().getParameter(name));
-    }
-
-    /**
-     * 获取Integer参数
-     */
-    public static Integer getParameterToInt(String name, Integer defaultValue)
-    {
-        return Convert.toInt(getRequest().getParameter(name), defaultValue);
     }
 
     /**

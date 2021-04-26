@@ -12,7 +12,6 @@ public class SpringbootSimpleRecordApplication {
 
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(SpringbootSimpleRecordApplication.class, args);
-        SpringContextUtil.setApplicationContext(context);
     }
 
 }

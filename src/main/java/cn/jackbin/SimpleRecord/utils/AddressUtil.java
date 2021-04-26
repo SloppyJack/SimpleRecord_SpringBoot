@@ -4,6 +4,9 @@ import cn.jackbin.SimpleRecord.constant.Constants;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author: create by bin
  * @version: v1.0
@@ -29,7 +32,10 @@ public class AddressUtil {
         }
         try
         {
-            String rspStr = HttpUtils.sendGet(IP_URL, "ip=" + ip + "&json=true", Constants.GBK);
+            Map<String, String> map = new HashMap<>();
+            map.put("ip", ip);
+            map.put("json", "true");
+            String rspStr = HttpUtil.doGet(IP_URL, map);
             if (StringUtil.isEmpty(rspStr))
             {
                 log.error("获取地理位置异常 {}", ip);

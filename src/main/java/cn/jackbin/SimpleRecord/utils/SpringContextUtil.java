@@ -2,6 +2,7 @@ package cn.jackbin.SimpleRecord.utils;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,10 +12,10 @@ import org.springframework.stereotype.Component;
  * @date: 2020/8/4 19:33
  **/
 @Component
-public class SpringContextUtil {
+public class SpringContextUtil implements ApplicationContextAware {
     private static ApplicationContext applicationContext;
 
-    public static void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         SpringContextUtil.applicationContext = applicationContext;
     }
 

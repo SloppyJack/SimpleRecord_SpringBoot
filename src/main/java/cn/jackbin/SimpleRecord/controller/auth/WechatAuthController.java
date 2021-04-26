@@ -1,10 +1,10 @@
 package cn.jackbin.SimpleRecord.controller.auth;
 
-import cn.hutool.http.HttpUtil;
 import cn.jackbin.SimpleRecord.common.anotations.CommonLog;
 import cn.jackbin.SimpleRecord.common.enums.BusinessType;
 import cn.jackbin.SimpleRecord.constant.UrlConstant;
-import cn.jackbin.SimpleRecord.service.WechatUserService;
+import cn.jackbin.SimpleRecord.service.WechatAuthService;
+import cn.jackbin.SimpleRecord.utils.HttpUtil;
 import cn.jackbin.SimpleRecord.vo.LoginSuccessVO;
 import cn.jackbin.SimpleRecord.vo.Result;
 import cn.jackbin.SimpleRecord.vo.WechatUserVO;
@@ -36,17 +36,17 @@ public class WechatAuthController {
     private String appSecret;
 
     @Autowired
-    private WechatUserService wechatUserService;
+    private WechatAuthService wechatAuthService;
 
     @ApiOperation(value = "获取微信openId")
     @GetMapping("/openId/{code}")
     public Result<?> getOpenId(@Validated @NotNull(message = "code不能为空") @PathVariable("code") String code) {
-        Map<String, Object> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         map.put("appid", appId);
         map.put("secret", appSecret);
         map.put("js_code", code);
         map.put("grant_type", "authorization_code");
-        String result = HttpUtil.get(UrlConstant.wechatOpenIdUrl, map);
+        String result = HttpUtil.doGet(UrlConstant.wechatOpenIdUrl, map);
         return Result.success(JSON.parse(result));
     }
 
@@ -54,7 +54,7 @@ public class WechatAuthController {
     @ApiOperation(value = "微信登录授权")
     @PostMapping("/login")
     public Result<?> wechatLogin(@RequestBody @Validated  WechatUserVO vo) {
-        LoginSuccessVO successVO = wechatUserService.wechatLogin(vo);
+        LoginSuccessVO successVO = wechatAuthService.wechatLogin(vo);
         return Result.success(successVO);
     }
 }

@@ -29,6 +29,7 @@ public enum CodeMsg {
     EMPTY_PAGE_SIZE_OR_PAGE_INDEX(500010,"分页大小或页码为空"),
     ADD_DATA_ERROR(500011,"添加数据失败"),
     EDIT_DATA_ERROR(500012,"编辑数据失败"),
+    OPERATE_FAILED(500013,"本次操作失败"),
 
 
     // 系统相关 格式600 xxx

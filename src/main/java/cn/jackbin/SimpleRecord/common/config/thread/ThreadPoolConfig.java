@@ -6,9 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.*;
 
 /**
  * @author: create by bin
@@ -28,18 +26,13 @@ public class ThreadPoolConfig {
     private final int queueCapacity = 1000;
 
     // 线程池维护线程所允许的空闲时间
-    private final int keepAliveSeconds = 300;
+    private final int keepAliveSeconds = 60;
 
-    @Bean(name = "threadPoolTaskExecutor")
-    public ThreadPoolTaskExecutor threadPoolTaskExecutor()
+    @Bean(name = "threadPoolExecutor")
+    public ThreadPoolExecutor threadPoolExecutor()
     {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setMaxPoolSize(maxPoolSize);
-        executor.setCorePoolSize(corePoolSize);
-        executor.setQueueCapacity(queueCapacity);
-        executor.setKeepAliveSeconds(keepAliveSeconds);
-        // 线程池对拒绝任务(无线程可用)的处理策略
-        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(corePoolSize, maxPoolSize, keepAliveSeconds,
+                TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(queueCapacity), new ThreadPoolExecutor.CallerRunsPolicy());
         return executor;
     }
 

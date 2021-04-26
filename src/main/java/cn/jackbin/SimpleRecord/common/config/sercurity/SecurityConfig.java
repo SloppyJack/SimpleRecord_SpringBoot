@@ -87,7 +87,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/favicon.ico")
                 // 微信获取openId的Url不拦截
                 .antMatchers("/wx/openId/*")
-                .antMatchers("/wx/login");
+                .antMatchers("/wx/login")
+                // 登录二维码不拦截
+                .antMatchers("/qrcode/**");
         web.expressionHandler(new DefaultWebSecurityExpressionHandler() {
             @Override
             protected SecurityExpressionOperations createSecurityExpressionRoot(Authentication authentication, FilterInvocation fi) {

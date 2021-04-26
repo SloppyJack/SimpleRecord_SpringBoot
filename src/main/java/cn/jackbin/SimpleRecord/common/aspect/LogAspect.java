@@ -103,7 +103,7 @@ public class LogAspect implements Ordered {
                 logDO.setErrorMsg(StringUtil.substring(e.getMessage(), 0, 2000));
             }
             // 异步保存日志
-            AsyncManager.me().execute(AsyncFactory.recordCommonLog(logDO));
+            AsyncManager.me().schedule(AsyncFactory.recordCommonLog(logDO));
         } catch (Exception exception) {
             log.error("日志记录异常，msg{}", exception.getMessage());
         }

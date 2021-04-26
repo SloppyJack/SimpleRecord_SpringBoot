@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 /**
  * @author: create by bin
  * @version: v1.0
- * @description: cn.jackbin.SimpleRecord.controller.basic
+ * @description: 此类仅用于生成Swagger接口信息，并无实际用处
  * @date: 2021/2/1 20:48
  **/
 @Slf4j

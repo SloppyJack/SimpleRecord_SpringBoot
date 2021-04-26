@@ -4,7 +4,9 @@ import cn.jackbin.SimpleRecord.utils.SpringContextUtil;
 import cn.jackbin.SimpleRecord.utils.ThreadUtil;
 
 import java.util.TimerTask;
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -20,16 +22,18 @@ public class AsyncManager {
     private final int OPERATE_DELAY_TIME = 10;
 
     /**
-     * 异步操作任务调度线程池
+     * 异步延时任务调度线程池
      */
-    private ScheduledExecutorService executor = SpringContextUtil.getBean("scheduledExecutorService");
+    private final ScheduledExecutorService scheduledExecutorService = SpringContextUtil.getBean("scheduledExecutorService");
+
+    private final ThreadPoolExecutor poolExecutor = SpringContextUtil.getBean("threadPoolExecutor");
 
     /**
      * 单例模式
      */
     private AsyncManager(){}
 
-    private static AsyncManager me = new AsyncManager();
+    private static final AsyncManager me = new AsyncManager();
 
     public static AsyncManager me()
     {
@@ -37,13 +41,37 @@ public class AsyncManager {
     }
 
     /**
-     * 执行任务
+     * 执行延时任务
      *
      * @param task 任务
      */
-    public void execute(TimerTask task)
+    public void schedule(TimerTask task)
     {
-        executor.schedule(task, OPERATE_DELAY_TIME, TimeUnit.MILLISECONDS);
+        scheduledExecutorService.schedule(task, OPERATE_DELAY_TIME, TimeUnit.MILLISECONDS);
+    }
+
+    /**
+     * 执行延时任务
+     *
+     * @param task 任务
+     */
+    public void schedule(TimerTask task, long delay)
+    {
+        scheduledExecutorService.schedule(task, delay, TimeUnit.MILLISECONDS);
+    }
+
+    /**
+     * 异步执行任务
+     */
+    public void execute(Runnable task) {
+        poolExecutor.execute(task);
+    }
+
+    /**
+     * 异步提交任务
+     */
+    public Future<?> submit(Runnable task) {
+        return poolExecutor.submit(task);
     }
 
     /**
@@ -51,6 +79,7 @@ public class AsyncManager {
      */
     public void shutdown()
     {
-        ThreadUtil.shutdownAndAwaitTermination(executor);
+        ThreadUtil.shutdownAndAwaitTermination(scheduledExecutorService);
+        ThreadUtil.shutdownAndAwaitTermination(poolExecutor);
     }
 }
