@@ -17,6 +17,16 @@ import java.util.List;
 public class DateUtil {
 
     /**
+     * 获取当前时间
+     */
+    public static String getCurrentTime() {
+        SimpleDateFormat sf= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date(System.currentTimeMillis());
+        return sf.format(date);
+    }
+
+
+    /**
      * 添加月份
      */
     public static Date addMonth(Date sourceDate, int month) {

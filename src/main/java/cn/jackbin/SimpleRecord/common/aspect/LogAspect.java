@@ -75,7 +75,6 @@ public class LogAspect implements Ordered {
 
             // 获取当前用户Id
             Long userId = LocalUserId.get();
-            // TODO 此功能需测试
             String ip = IpUtil.getIpAddr(ServletUtil.getRequest());
             // 设置方法名称
             String className = joinPoint.getTarget().getClass().getName();

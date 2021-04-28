@@ -3,10 +3,7 @@ package cn.jackbin.SimpleRecord.controller.auth;
 import cn.jackbin.SimpleRecord.bo.QrCodeInfoBO;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.service.WechatAuthService;
-import cn.jackbin.SimpleRecord.utils.IDUtil;
-import cn.jackbin.SimpleRecord.utils.RedisUtil;
-import cn.jackbin.SimpleRecord.utils.ServletUtil;
-import cn.jackbin.SimpleRecord.utils.SpringContextUtil;
+import cn.jackbin.SimpleRecord.utils.*;
 import cn.jackbin.SimpleRecord.vo.QrcodeAuthorizationVO;
 import cn.jackbin.SimpleRecord.vo.Result;
 import com.alibaba.fastjson.JSON;
@@ -16,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
@@ -81,7 +76,11 @@ public class QrcodeController {
             return Result.error(CodeMsg.PARAMETER_ILLEGAL);
         // 如果redis中存在，则更新状态
         QrCodeInfoBO info = (QrCodeInfoBO) redisUtil.get(uuid);
+        // 判断是否扫描过
+        if (info.getIsScanned())
+            return Result.error(CodeMsg.OPERATE_FAILED);
         info.setIsScanned(true);
+        info.setScannedTime(DateUtil.getCurrentTime());
         redisUtil.set(uuid, info);
         return Result.success();
     }
@@ -106,6 +105,11 @@ public class QrcodeController {
         if (StringUtils.isBlank(uuid))
             return Result.error(CodeMsg.PARAMETER_ILLEGAL);
         QrCodeInfoBO info = (QrCodeInfoBO) redisUtil.get(uuid);
+        // 如不存在则为过期
+        if (info == null) {
+            info = new QrCodeInfoBO();
+            info.setIsExpired(true);
+        }
         return Result.success(info);
     }
 
