@@ -7,6 +7,7 @@ import cn.jackbin.SimpleRecord.utils.*;
 import cn.jackbin.SimpleRecord.vo.QrcodeAuthorizationVO;
 import cn.jackbin.SimpleRecord.vo.Result;
 import com.alibaba.fastjson.JSON;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import java.io.IOException;
  * @description: cn.jackbin.SimpleRecord.controller.basic
  * @date: 2021/4/19 21:28
  **/
+@Api(value = "QrcodeController", tags = { "扫码授权接口" })
 @RestController
 @RequestMapping("/qrcode")
 public class QrcodeController {

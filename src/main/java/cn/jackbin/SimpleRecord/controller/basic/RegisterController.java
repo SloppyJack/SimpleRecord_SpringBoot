@@ -7,6 +7,7 @@ import cn.jackbin.SimpleRecord.service.UserService;
 import cn.jackbin.SimpleRecord.utils.PasswordUtil;
 import cn.jackbin.SimpleRecord.vo.RegisterVO;
 import cn.jackbin.SimpleRecord.vo.Result;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author: create by bin
@@ -21,13 +23,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @description: cn.jackbin.SimpleRecord.controller.basic
  * @date: 2021/2/1 20:48
  **/
-@RequestMapping(value = "/")
+@Api(value = "LoginController", tags = { "用户注册接口" })
+@RestController
+@RequestMapping(value = "/register")
 public class RegisterController {
     @Autowired
     private UserService userService;
 
     @ApiOperation(value = "注册用户")
-    @PostMapping(value = "user/register")
+    @PostMapping
     public Result<?> register(@RequestBody @Validated RegisterVO vo) {
         if (userService.getByName(vo.getUsername()) != null) {
             return Result.error(CodeMsg.USERNAME_EXIST);

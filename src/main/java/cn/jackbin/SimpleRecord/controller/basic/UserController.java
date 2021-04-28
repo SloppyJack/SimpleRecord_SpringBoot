@@ -38,7 +38,7 @@ import java.util.List;
  * @author jackbin
  * @since 2020-07-21
  */
-@Api(value = "UserController", tags = { "用户管理" })
+@Api(value = "UserController", tags = { "用户管理接口" })
 @RestController
 @RequestMapping("/user")
 @Slf4j

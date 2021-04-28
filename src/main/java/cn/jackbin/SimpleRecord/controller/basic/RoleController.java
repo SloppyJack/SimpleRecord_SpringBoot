@@ -11,6 +11,7 @@ import cn.jackbin.SimpleRecord.exception.BusinessException;
 import cn.jackbin.SimpleRecord.service.MenuService;
 import cn.jackbin.SimpleRecord.service.RoleService;
 import cn.jackbin.SimpleRecord.vo.*;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -30,6 +31,7 @@ import java.util.*;
  * @author jackbin
  * @since 2020-07-21
  */
+@Api(value = "RoleController", tags = { "角色相关接口" })
 @RestController
 @RequestMapping("/role")
 public class RoleController {
