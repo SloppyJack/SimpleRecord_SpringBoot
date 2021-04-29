@@ -83,7 +83,8 @@ public class QrcodeController {
             return Result.error(CodeMsg.OPERATE_FAILED);
         info.setIsScanned(true);
         info.setScannedTime(DateUtil.getCurrentTime());
-        redisUtil.set(uuid, info);
+        // 扫描后会有30s过期时间
+        redisUtil.set(uuid, info, 30);
         return Result.success();
     }
 
@@ -98,6 +99,8 @@ public class QrcodeController {
             return Result.error(CodeMsg.OPERATE_FAILED);
         // 更新token
         info.setToken(vo.getToken());
+        // 授权后会有30s过期时间
+        redisUtil.set(vo.getUuid(), info, 30);
         return Result.success();
     }
 

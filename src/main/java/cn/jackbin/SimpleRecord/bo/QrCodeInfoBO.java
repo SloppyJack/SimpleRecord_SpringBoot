@@ -11,8 +11,6 @@ import lombok.Data;
  **/
 @Data
 public class QrCodeInfoBO {
-    // 是否登录
-    private Boolean isLogin = false;
 
     // 是否已扫描
     private Boolean isScanned = false;
