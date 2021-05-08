@@ -1,0 +1,37 @@
+version: "3"
+services:
+  # redis容器
+  redis:
+    image: redis:5.0
+    container_name: redis
+    restart: always
+    # 以配置文件的方式启动 redis.conf
+    command: redis-server /etc/redis/redis.conf
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redis/data:/data
+      - ./redis/conf:/etc/redis/redis.conf
+      - ./redis/logs:/logs
+
+  # mysql容器
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    command:
+      # MySQL8的密码验证方式默认是 caching_sha2_password，但是很多的连接工具还不支持该方式
+      # 就需要手动设置下mysql的密码认证方式为以前的 mysql_native_password 方式
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+    # docker的重启策略
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root # root用户的密码
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+      # 数据库还原目录
+      - ./mysql/source:/docker-entrypoint-initdb.d
+      - ./mysql/logs:/logs

@@ -1,0 +1,3 @@
+# 设置mysql8的密码认证方式为
+default-authentication-plugin=mysql_native_password
+lower-case-table-names=1
