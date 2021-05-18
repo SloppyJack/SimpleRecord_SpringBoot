@@ -51,7 +51,7 @@ public class QrcodeController {
             } else {
                 response.setContentType("image/jpeg");
                 String accessToken = wechatAuthService.getAccessToken();
-                byte[] bytes = wechatAuthService.getMiniAppQrcode(accessToken, uuid, "pages/me/index");
+                byte[] bytes = wechatAuthService.getMiniAppQrcode(accessToken, uuid, "pages/detail/index");
                 response.getOutputStream().write(bytes);
                 // 关闭输出流
                 response.getOutputStream().close();
