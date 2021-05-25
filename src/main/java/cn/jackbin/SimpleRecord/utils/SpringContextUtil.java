@@ -3,7 +3,10 @@ package cn.jackbin.SimpleRecord.utils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
 
 /**
  * @author: create by bin
@@ -41,5 +44,12 @@ public class SpringContextUtil implements ApplicationContextAware {
 
     public static Class<?> getType(String name) {
         return applicationContext.getType(name);
+    }
+
+    // 获取当前的环境
+    public boolean isProEnv() {
+        Environment env = applicationContext.getEnvironment();
+        String envStr = Arrays.stream(env.getActiveProfiles()).filter("prod"::equals).findAny().orElse(null);
+        return envStr != null;
     }
 }

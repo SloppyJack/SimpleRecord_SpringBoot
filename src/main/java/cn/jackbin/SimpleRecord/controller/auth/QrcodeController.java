@@ -31,6 +31,8 @@ public class QrcodeController {
     private RedisUtil redisUtil;
     @Autowired
     private WechatAuthService wechatAuthService;
+    @Autowired
+    private SpringContextUtil springContextUtil;
 
     @ApiOperation(value = "二维码生成")
     @GetMapping
@@ -50,9 +52,12 @@ public class QrcodeController {
                 response.getWriter().close();
             } else {
                 response.setContentType("image/jpeg");
-                String accessToken = wechatAuthService.getAccessToken();
-                byte[] bytes = wechatAuthService.getMiniAppQrcode(accessToken, uuid, "pages/detail/index");
-                response.getOutputStream().write(bytes);
+                // 正式环境才启用二维码信息
+                if (springContextUtil.isProEnv()) {
+                    String accessToken = wechatAuthService.getAccessToken();
+                    byte[] bytes = wechatAuthService.getMiniAppQrcode(accessToken, uuid, "pages/detail/index");
+                    response.getOutputStream().write(bytes);
+                }
                 // 关闭输出流
                 response.getOutputStream().close();
             }
