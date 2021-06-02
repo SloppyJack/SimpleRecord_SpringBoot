@@ -1,4 +1,4 @@
-package cn.jackbin.SimpleRecord.common.filter;
+package cn.jackbin.SimpleRecord.common.config.filter;
 
 import cn.jackbin.SimpleRecord.common.LocalUserId;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * @author: create by bin
  * @version: v1.0
- * @description: 此拦截器进行鉴权操作
+ * @description: 此过滤器进行鉴权操作
  * @date: 2020/8/3 21:04
  **/
 @Slf4j
@@ -49,7 +49,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             checkToken(token);
             // 如果请求头中有token，则进行解析，并且设置认证信息
             SecurityContextHolder.getContext().setAuthentication(getAuthentication(token));
-            super.doFilterInternal(request, response, chain);
+            super.doFilter(request, response, chain);
         } catch (BaseException e) {
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json; charset=utf-8");

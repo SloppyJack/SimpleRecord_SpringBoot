@@ -1,4 +1,4 @@
-package cn.jackbin.SimpleRecord.common.filter;
+package cn.jackbin.SimpleRecord.common.config.filter;
 
 import cn.jackbin.SimpleRecord.common.config.sercurity.JWTConfig;
 import cn.jackbin.SimpleRecord.common.config.sercurity.JWTUser;
@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * @author: create by bin
  * @version: v1.0
- * @description: 该拦截器用于授权
+ * @description: 该过滤器用于授权
  * @date: 2020/8/3 20:47
  **/
 @Slf4j

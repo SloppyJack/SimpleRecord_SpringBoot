@@ -1,11 +1,9 @@
 package cn.jackbin.SimpleRecord.common.config.sercurity;
 
-import cn.jackbin.SimpleRecord.common.config.sercurity.UserDetailsServiceImpl;
-import cn.jackbin.SimpleRecord.common.filter.JWTAuthenticationFilter;
-import cn.jackbin.SimpleRecord.common.filter.JWTAuthorizationFilter;
+import cn.jackbin.SimpleRecord.common.config.filter.JWTAuthenticationFilter;
+import cn.jackbin.SimpleRecord.common.config.filter.JWTAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.expression.SecurityExpressionOperations;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -21,7 +19,6 @@ import org.springframework.security.web.access.expression.DefaultWebSecurityExpr
 import org.springframework.security.web.access.expression.WebSecurityExpressionRoot;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /**
  * @author: create by bin

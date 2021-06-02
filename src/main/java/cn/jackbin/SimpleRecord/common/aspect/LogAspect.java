@@ -9,9 +9,11 @@ import cn.jackbin.SimpleRecord.entity.CommonLogDO;
 import cn.jackbin.SimpleRecord.utils.IpUtil;
 import cn.jackbin.SimpleRecord.utils.ServletUtil;
 import cn.jackbin.SimpleRecord.utils.StringUtil;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.support.spring.PropertyPreFilters;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.protocol.HTTP;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.*;
@@ -19,7 +21,14 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.ServletInputStream;
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Method;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
@@ -35,12 +44,19 @@ public class LogAspect implements Ordered {
     // 执行顺序，越小越先执行（遵从同心圆的概念）
     private final int order = 100;
 
+    ThreadLocal<String> params = new ThreadLocal<>();
+
     /** 排除敏感属性字段 */
     public static final String[] EXCLUDE_PROPERTIES = { "password", "oldPassword", "newPassword", "confirmPassword" };
 
     @Pointcut("@annotation(cn.jackbin.SimpleRecord.common.anotations.CommonLog)")
     public void doHandler(){
 
+    }
+
+    @Before("doHandler()")
+    public void before(JoinPoint joinPoint) {
+        params.set(getRequestParams());
     }
 
     /**
@@ -91,10 +107,13 @@ public class LogAspect implements Ordered {
             // 是否需要保存request，参数和值
             if (annotationLog.isSaveRequestData()) {
                 // 获取参数的信息，传入到数据库中。
-                setRequestValue(logDO);
+//                setRequestValue(logDO);
+                logDO.setRequestParam(params.get());
             }
+            // 设置返回结果
+            logDO.setJsonResult(JSON.toJSONString(jsonResult));
             logDO.setRequestUrl(ServletUtil.getRequest().getRequestURL().toString());
-            logDO.setId(userId);
+            logDO.setOperId(userId.intValue());
             logDO.setOperIp(ip);
             if (e != null)
             {
@@ -125,21 +144,44 @@ public class LogAspect implements Ordered {
     }
 
     /**
-     * 获取请求的参数，放到log中
+     * 获取请求的参数
      *
-     * @param commonLogDO 操作日志
-     * @throws Exception 异常
      */
-    private void setRequestValue(CommonLogDO commonLogDO) throws Exception
+    private String getRequestParams()
     {
-        Map<String, String[]> map = ServletUtil.getRequest().getParameterMap();
-        if (StringUtil.isNotEmpty(map))
-        {
-            PropertyPreFilters.MySimplePropertyPreFilter excludefilter = new PropertyPreFilters().addFilter();
-            excludefilter.addExcludes(EXCLUDE_PROPERTIES);
-            String params = JSONObject.toJSONString(map, excludefilter);
-            commonLogDO.setRequestParam(StringUtil.substring(params, 0, 2000));
+        HttpServletRequest req = ServletUtil.getRequest();
+        String contentType = req.getContentType();
+        String params ="";
+        // 判断contentType类型
+        if (contentType == null) {
+
+            Map<String, String[]> map = req.getParameterMap();
+            if (StringUtil.isNotEmpty(map))
+            {
+                PropertyPreFilters.MySimplePropertyPreFilter excludefilter = new PropertyPreFilters().addFilter();
+                excludefilter.addExcludes(EXCLUDE_PROPERTIES);
+                params = JSONObject.toJSONString(map, excludefilter);
+
+            }
+        } else if (contentType.contains("application/json")) {
+            // 从流中读取请求数据
+            ServletInputStream is;
+            try {
+                is = req.getInputStream();
+                int nRead = 1;
+                int nTotalRead = 0;
+                byte[] bytes = new byte[10240];
+                while (nRead > 0) {
+                    nRead = is.read(bytes, nTotalRead, bytes.length - nTotalRead);
+                    if (nRead > 0)
+                        nTotalRead = nTotalRead + nRead;
+                }
+                params = new String(bytes, 0, nTotalRead, StandardCharsets.UTF_8);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+        return params;
     }
 
     @Override
