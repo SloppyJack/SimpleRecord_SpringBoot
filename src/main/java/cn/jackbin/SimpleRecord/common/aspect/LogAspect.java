@@ -44,19 +44,12 @@ public class LogAspect implements Ordered {
     // 执行顺序，越小越先执行（遵从同心圆的概念）
     private final int order = 100;
 
-    ThreadLocal<String> params = new ThreadLocal<>();
-
     /** 排除敏感属性字段 */
     public static final String[] EXCLUDE_PROPERTIES = { "password", "oldPassword", "newPassword", "confirmPassword" };
 
     @Pointcut("@annotation(cn.jackbin.SimpleRecord.common.anotations.CommonLog)")
     public void doHandler(){
 
-    }
-
-    @Before("doHandler()")
-    public void before(JoinPoint joinPoint) {
-        params.set(getRequestParams());
     }
 
     /**
@@ -107,8 +100,7 @@ public class LogAspect implements Ordered {
             // 是否需要保存request，参数和值
             if (annotationLog.isSaveRequestData()) {
                 // 获取参数的信息，传入到数据库中。
-//                setRequestValue(logDO);
-                logDO.setRequestParam(params.get());
+                logDO.setRequestParam(getRequestParams());
             }
             // 设置返回结果
             logDO.setJsonResult(JSON.toJSONString(jsonResult));
