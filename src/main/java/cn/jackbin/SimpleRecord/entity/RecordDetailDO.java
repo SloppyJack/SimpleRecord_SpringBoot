@@ -45,7 +45,7 @@ public class RecordDetailDO extends BaseDO implements Serializable {
     /**
      * 备注
      */
-    private String remarks;
+    private String remark;
 
     @JsonFormat(pattern ="yyyy-MM-dd",timezone ="GMT+8")
     private Date occurTime;

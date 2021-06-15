@@ -48,5 +48,5 @@ public class SpendCategoryDO extends BaseDO implements Serializable {
     /**
      * 备注
      */
-    private String remarks;
+    private String remark;
 }

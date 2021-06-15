@@ -15,7 +15,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -43,7 +42,7 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
         recordDO.setSpendCategoryId(recordDTO.getSpendCategoryId());
         recordDO.setAmount(recordDTO.getAmount());
         recordDO.setOccurTime(recordDTO.getOccurTime());
-        recordDO.setRemarks(recordDTO.getRemarks());
+        recordDO.setRemark(recordDTO.getRemark());
         return recordDetailMapper.insert(recordDO) > 0;
     }
 
@@ -75,7 +74,7 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
         }
         recordDetailDO.setOccurTime(dto.getOccurTime());
         recordDetailDO.setAmount(dto.getAmount());
-        recordDetailDO.setRemarks(dto.getRemarks());
+        recordDetailDO.setRemark(dto.getRemark());
         return recordDetailMapper.updateById(recordDetailDO) > 0;
     }
 

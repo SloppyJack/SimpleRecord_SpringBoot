@@ -29,5 +29,5 @@ public class RecordDTO {
     private Date occurTime;
 
     // 备注
-    private String remarks;
+    private String remark;
 }

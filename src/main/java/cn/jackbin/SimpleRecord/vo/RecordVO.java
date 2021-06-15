@@ -29,5 +29,5 @@ public class RecordVO {
     private Date occurTime;
 
     // 备注
-    private String remarks;
+    private String remark;
 }

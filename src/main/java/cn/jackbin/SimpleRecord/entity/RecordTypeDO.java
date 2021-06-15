@@ -38,7 +38,7 @@ public class RecordTypeDO extends BaseDO implements Serializable {
     /**
      * 备注
      */
-    private String remarks;
+    private String remark;
 
     /**
      * 排序
