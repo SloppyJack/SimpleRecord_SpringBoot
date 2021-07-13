@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * @author: create by bin
  * @version: v1.0
- * @description: 系统内置类别表
+ * @description: 用户类别表
  * @date: 2021/7/13 21:07
  **/
 @Data
@@ -16,12 +16,17 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@TableName("tb_record_sys_category")
-public class RecordSysCategory extends BaseDO implements Serializable {
+@TableName("tb_record_user_category")
+public class RecordUserCategoryDO extends BaseDO implements Serializable {
 
-    private static final long serialVersionUID = -358045672217191501L;
+    private static final long serialVersionUID = -6983888926685534590L;
 
     private Long id;
+
+    /**
+     * 用户Id
+     */
+    private Integer userId;
 
     /**
      * 记账类型

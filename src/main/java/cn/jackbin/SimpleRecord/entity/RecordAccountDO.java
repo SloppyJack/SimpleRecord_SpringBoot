@@ -17,7 +17,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @TableName("tb_record_account")
-public class RecordAccount extends BaseDO implements Serializable {
+public class RecordAccountDO extends BaseDO implements Serializable {
 
     private static final long serialVersionUID = -7198600840110284750L;
 
