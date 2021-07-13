@@ -23,7 +23,7 @@ import lombok.*;
 @TableName("tb_common_log")
 public class CommonLogDO extends BaseDO implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 959898899499281387L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;

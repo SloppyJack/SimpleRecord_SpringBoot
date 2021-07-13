@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * @author: create by bin
  * @version: v1.0
- * @description: cn.jackbin.SimpleRecord.entity
+ * @description: 菜单表
  * @date: 2020/11/23 21:16
  **/
 @Data
@@ -21,7 +21,7 @@ import java.io.Serializable;
 @TableName("tb_menu")
 public class MenuDO extends BaseDO implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 4652175773392266928L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;

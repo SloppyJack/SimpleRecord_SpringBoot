@@ -10,38 +10,42 @@ import java.io.Serializable;
 /**
  * @author: create by bin
  * @version: v1.0
- * @description: 记账类别
- * @date: 2020/9/16 22:20
+ * @description: 字典表
+ * @date: 2021/7/13 20:35
  **/
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@TableName("tb_record_type")
-public class RecordTypeDO extends BaseDO implements Serializable {
-    private static final long serialVersionUID1 = 1L;
+@TableName("tb_dict")
+public class DictDO extends BaseDO implements Serializable {
+
+    private static final long serialVersionUID = 3248158042590482689L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**
-     * 编码
-     */
-    private String code;
-
-    /**
-     * 名字
+     * 字典名称
      */
     private String name;
 
     /**
-     * 备注
+     * 字典编码
      */
-    private String remark;
+    private String code;
 
     /**
-     * 排序
+     * 状态（0：正常，1：停用）
      */
-    private Integer orderNo;
+    private Integer status;
+
+    /**
+     * 是否系统内置
+     */
+    private Integer isSysDefault;
+
+    private String remark;
+
 }
