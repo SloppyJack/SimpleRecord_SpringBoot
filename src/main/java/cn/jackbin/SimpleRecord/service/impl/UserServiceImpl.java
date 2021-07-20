@@ -55,10 +55,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     }
 
     @Override
-    public PageBO<UserDO> getByPage(String username, Boolean deleted, Date date, int pageIndex, int pageSize) {
+    public void getByPage(String username, Boolean deleted, Date date, PageBO<UserDO> pageBO) {
         int total = userMapper.queryTotal(username, deleted, date);
-        List<UserDO> list = userMapper.queryByPage(username, deleted, date, pageIndex * pageSize, pageSize);
-        return new PageBO<>(list, total);
+        List<UserDO> list = userMapper.queryByPage(username, deleted, date, pageBO.beginPosition(), pageBO.getPageSize());
+        pageBO.setList(list);
+        pageBO.setTotal(total);
     }
 
     @Transactional

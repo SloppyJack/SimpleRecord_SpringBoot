@@ -2,7 +2,7 @@ package cn.jackbin.SimpleRecord.controller.basic;
 
 
 import cn.jackbin.SimpleRecord.bo.MenuBO;
-import cn.jackbin.SimpleRecord.common.LocalUserId;
+import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.constant.RoleConstant;
 import cn.jackbin.SimpleRecord.entity.MenuDO;
@@ -44,7 +44,9 @@ public class RoleController {
     @PreAuthorize("hasAuthority('system:role:view')")
     @PostMapping("/page")
     public Result<?> getRoleList(@RequestBody @Validated GetRolesVO vo) {
-        return Result.success(roleService.getByPage(vo.getName(), vo.getDeleted(), vo.getDate(), vo.getPageNo() - 1, vo.getPageSize()));
+        PageBO<RoleDO> pageBO = new PageBO<>(vo.getPageNo(), vo.getPageSize());
+        roleService.getByPage(vo.getName(), vo.getDeleted(), vo.getDate(), pageBO);
+        return Result.success(pageBO);
     }
 
     @ApiModelProperty(value = "添加菜单")

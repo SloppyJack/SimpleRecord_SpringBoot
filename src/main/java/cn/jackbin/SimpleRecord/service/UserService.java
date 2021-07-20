@@ -35,7 +35,7 @@ public interface UserService extends IService<UserDO> {
     /**
      * 分页获取用户
      */
-    PageBO<UserDO> getByPage(String username, Boolean deleted, Date date, int pageIndex, int pageSize);
+    void getByPage(String username, Boolean deleted, Date date, PageBO<UserDO> pageBO);
 
     void edit(Integer id, String nickname, Integer sex, String email);
 

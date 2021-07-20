@@ -2,6 +2,7 @@ package cn.jackbin.SimpleRecord.bo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -13,8 +14,26 @@ import java.util.List;
  **/
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class PageBO<T> {
+
+    public PageBO(int pageNo, int pageSize) {
+        this.pageNo = pageNo;
+        this.pageSize = pageSize;
+    }
+
     List<T> list;
 
+    // 页数
+    int pageNo;
+
+    // 分页大小
+    int pageSize;
+
+    // 总数
     int total;
+
+    public int beginPosition() {
+        return (pageNo -1) * pageSize;
+    }
 }

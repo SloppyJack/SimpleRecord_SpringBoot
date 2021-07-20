@@ -20,8 +20,8 @@ public class PageVO {
      * 分页的索引
      */
     @ApiModelProperty(required = true, value = "分页的索引")
-    @PositiveOrZero(message = "当前页数须为整数")
-    int pageIndex;
+    @Positive(message = "当前页数须为正数")
+    int pageNo;
 
     /**
      * 分页的大小

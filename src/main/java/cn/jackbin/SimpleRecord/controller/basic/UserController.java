@@ -23,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -70,8 +71,8 @@ public class UserController {
     @PreAuthorize("hasAuthority('system:user:view')" )
     @PostMapping(value = "/page")
     public Result<?> getByPage(@RequestBody @Validated GetUsersVO vo) {
-        PageBO<UserDO> pageBO = userService.getByPage(vo.getUsername(), vo.getDeleted(), vo.getDate(),
-                vo.getPageNo() - 1, vo.getPageSize());
+        PageBO<UserDO> pageBO = new PageBO<>(vo.getPageNo(), vo.getPageSize());
+        userService.getByPage(vo.getUsername(), vo.getDeleted(), vo.getDate(), pageBO);
         return Result.success(pageBO);
     }
 

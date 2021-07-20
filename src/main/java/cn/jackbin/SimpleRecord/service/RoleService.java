@@ -22,7 +22,7 @@ public interface RoleService extends IService<RoleDO> {
 
     List<RoleDO> getRoles();
 
-    PageBO<RoleDO> getByPage(String name, Boolean deleted, Date date, int pageIndex, int pageSize);
+    void getByPage(String name, Boolean deleted, Date date, PageBO<RoleDO> pageBO);
 
     boolean add(String name, String info);
 

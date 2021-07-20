@@ -106,7 +106,7 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
     @Override
     public PageBO<RecordDetailDTO> getListByMonth(Long userId, String recordTypeCode, Date date, int pageIndex, int pageSize) {
         IPage<RecordDetailDTO> dto = recordDetailMapper.queryByMonth(new Page<>(pageIndex * pageSize, pageSize), userId, recordTypeCode, date);
-        return new PageBO<>(dto.getRecords(), (int) dto.getTotal());
+        return new PageBO<>(dto.getRecords(), pageIndex, pageSize, (int) dto.getTotal());
     }
 
     @Override
