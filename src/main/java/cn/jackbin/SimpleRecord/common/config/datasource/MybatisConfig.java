@@ -19,4 +19,12 @@ public class MybatisConfig {
     public PaginationInterceptor paginationInterceptor() {
         return new PaginationInterceptor();
     }
+
+    /**
+     * 自定义sql注入器
+     */
+    @Bean
+    public MySqlInjector mySqlInjector(){
+        return new MySqlInjector();
+    }
 }

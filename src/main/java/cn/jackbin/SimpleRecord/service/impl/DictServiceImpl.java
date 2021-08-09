@@ -1,6 +1,7 @@
 package cn.jackbin.SimpleRecord.service.impl;
 
 import cn.jackbin.SimpleRecord.bo.PageBO;
+import cn.jackbin.SimpleRecord.constant.CommonConstants;
 import cn.jackbin.SimpleRecord.entity.DictDO;
 import cn.jackbin.SimpleRecord.mapper.DictMapper;
 import cn.jackbin.SimpleRecord.service.DictService;
@@ -39,5 +40,36 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, DictDO> implements 
         page = dictMapper.selectPage(page, queryWrapper);
         pageBO.setTotal((int) page.getTotal());
         pageBO.setList(page.getRecords());
+    }
+
+    @Override
+    public void add(String name, String code, String remark) {
+        DictDO dictDO = new DictDO();
+        dictDO.setName(name);
+        dictDO.setCode(code);
+        dictDO.setRemark(remark);
+        dictDO.setStatus(CommonConstants.STATUS_NORMAL);
+        dictDO.setIsSysDefault(CommonConstants.NOT_SYS_DEFAULT);
+        dictMapper.insert(dictDO);
+    }
+
+    @Override
+    public void edit(Integer id, String name, String code, Integer orderNo, String remark) {
+        DictDO dictDO = new DictDO();
+        dictDO.setId(Long.valueOf(id));
+        dictDO.setName(name);
+        dictDO.setCode(code);
+        dictDO.setRemark(remark);
+        dictDO.setOrderNo(orderNo);
+        dictMapper.updateById(dictDO);
+    }
+
+    @Override
+    public DictDO getByCode(String code) {
+        QueryWrapper<DictDO> queryWrapper = new QueryWrapper<>();
+        DictDO dictDO = new DictDO();
+        dictDO.setCode(code);
+        queryWrapper.eq("code", code);
+        return dictMapper.selectOneWithoutLogicDel(queryWrapper);
     }
 }

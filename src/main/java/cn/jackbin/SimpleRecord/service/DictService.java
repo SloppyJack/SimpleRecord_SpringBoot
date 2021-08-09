@@ -12,4 +12,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  **/
 public interface DictService extends IService<DictDO> {
     void getByPage(String name, String code, Integer status, PageBO<DictDO> pageBO);
+
+    void add(String name, String code, String remark);
+
+    void edit(Integer id, String name, String code, Integer orderNo, String remark);
+
+    DictDO getByCode(String code);
 }

@@ -1,8 +1,6 @@
 package cn.jackbin.SimpleRecord.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.*;
 
 import java.io.Serializable;
@@ -45,6 +43,11 @@ public class DictDO extends BaseDO implements Serializable {
      * 是否系统内置
      */
     private Integer isSysDefault;
+
+    /**
+     * 排序
+     */
+    private Integer orderNo;
 
     private String remark;
 
