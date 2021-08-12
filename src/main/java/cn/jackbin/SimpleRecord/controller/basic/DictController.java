@@ -67,7 +67,7 @@ public class DictController {
 
     @DeleteMapping("/{id}")
     public Result<?> delDict(@PathVariable @Validated @Positive(message = "字典Id需为正数") Integer id) {
-        dictService.removeById(id);
+        dictService.removeById(DictDO.builder().id(Long.valueOf(id)).build());
         return Result.success();
     }
 

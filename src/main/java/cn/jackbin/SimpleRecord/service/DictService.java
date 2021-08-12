@@ -18,4 +18,6 @@ public interface DictService extends IService<DictDO> {
     void edit(Integer id, String name, String code, Integer orderNo, String remark);
 
     DictDO getByCode(String code);
+
+    boolean removeById(DictDO dictDO);
 }

@@ -2,8 +2,8 @@ package cn.jackbin.SimpleRecord.common.config.datasource;
 
 import cn.jackbin.SimpleRecord.common.config.datasource.method.SelectOneWithoutLogicDel;
 import com.baomidou.mybatisplus.core.injector.AbstractMethod;
-import com.baomidou.mybatisplus.core.injector.AbstractSqlInjector;
 import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
+import com.baomidou.mybatisplus.extension.injector.methods.LogicDeleteByIdWithFill;
 
 import java.util.List;
 
@@ -19,6 +19,7 @@ public class MySqlInjector extends DefaultSqlInjector {
     public List<AbstractMethod> getMethodList(Class<?> mapperClass) {
         List<AbstractMethod> methodList = super.getMethodList(mapperClass);
         methodList.add(new SelectOneWithoutLogicDel());
+        methodList.add(new LogicDeleteByIdWithFill());
         return methodList;
     }
 }
