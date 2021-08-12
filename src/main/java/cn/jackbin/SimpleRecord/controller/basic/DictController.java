@@ -25,7 +25,7 @@ import java.util.List;
  * @description: 字典相关
  * @date: 2021/7/19 21:21
  **/
-@Api(value = "CommonLogController", tags = { "日志相关接口" })
+@Api(value = "DictController", tags = { "字典相关接口" })
 @RestController
 @RequestMapping("/dict")
 public class DictController {
@@ -53,12 +53,13 @@ public class DictController {
 
     @PutMapping("/edit")
     public Result<?> editDict(@RequestBody @Validated EditDictVO vo) {
+        DictDO dictDO = dictService.getById(vo.getId());
         // 校验记录是否存在
-        if (dictService.getById(vo.getId()) == null) {
+        if (dictDO == null) {
             throw new BusinessException(CodeMsg.NOT_FIND_DATA);
         }
         // 校验code是否唯一
-        if (dictService.getByCode(vo.getCode()) != null ) {
+        if (!dictDO.getCode().equals(vo.getCode()) && dictService.getByCode(vo.getCode()) != null ) {
             throw new BusinessException(CodeMsg.DICT_CODE_EXIST);
         }
         dictService.edit(vo.getId(), vo.getName(), vo.getCode(), vo.getOrderNo(), vo.getRemark());
