@@ -7,10 +7,7 @@ import cn.jackbin.SimpleRecord.entity.DictItemDO;
 import cn.jackbin.SimpleRecord.exception.BusinessException;
 import cn.jackbin.SimpleRecord.service.DictItemService;
 import cn.jackbin.SimpleRecord.service.DictService;
-import cn.jackbin.SimpleRecord.vo.AddDictVO;
-import cn.jackbin.SimpleRecord.vo.EditDictVO;
-import cn.jackbin.SimpleRecord.vo.GetDictVO;
-import cn.jackbin.SimpleRecord.vo.Result;
+import cn.jackbin.SimpleRecord.vo.*;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -72,10 +69,11 @@ public class DictController {
         return Result.success();
     }
 
-    @GetMapping("/dictData/{id}")
-    public Result<?> getDictData(@PathVariable @Validated @Positive(message = "字典Id需为正数") Integer id) {
-        List<DictItemDO> list = dictItemService.getDictItemsByDictId(id);
-        return Result.success(list);
+    @PostMapping("/dictData/page")
+    public Result<?> getDictData(@RequestBody @Validated GetDictItemVO vo) {
+        PageBO<DictItemDO> pageBO = new PageBO<>(vo.getPageNo(), vo.getPageSize());
+        dictItemService.getByPage(vo.getDictId(), pageBO);
+        return Result.success(pageBO);
     }
 
 }

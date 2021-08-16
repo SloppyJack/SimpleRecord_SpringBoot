@@ -1,6 +1,6 @@
 package cn.jackbin.SimpleRecord.service;
 
-import cn.jackbin.SimpleRecord.entity.DictDO;
+import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.entity.DictItemDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -14,4 +14,6 @@ import java.util.List;
  **/
 public interface DictItemService extends IService<DictItemDO> {
     List<DictItemDO> getDictItemsByDictId(Integer dictId);
+
+    void getByPage(Integer dictId, PageBO<DictItemDO> pageBO);
 }
