@@ -77,6 +77,6 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, DictDO> implements 
     @Transactional
     @Override
     public boolean removeById(DictDO dictDO) {
-        return dictMapper.deleteByIdWithFill(dictDO) > 0;
+        return dictMapper.delByIdFillStatus(dictDO) > 0;
     }
 }

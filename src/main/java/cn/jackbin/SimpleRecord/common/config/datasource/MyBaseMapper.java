@@ -19,5 +19,5 @@ public interface MyBaseMapper<T> extends BaseMapper<T> {
 
     int logicDelByIdFillStatus(Serializable id);
 
-    int deleteByIdWithFill(T t);
+    int delByIdFillStatus(T t);
 }
