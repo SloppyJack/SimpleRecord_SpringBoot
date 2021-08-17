@@ -9,12 +9,12 @@ import cn.jackbin.SimpleRecord.service.DictItemService;
 import cn.jackbin.SimpleRecord.service.DictService;
 import cn.jackbin.SimpleRecord.vo.*;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Positive;
-import java.util.List;
 
 /**
  * @author: create by bin
@@ -74,6 +74,13 @@ public class DictController {
         PageBO<DictItemDO> pageBO = new PageBO<>(vo.getPageNo(), vo.getPageSize());
         dictItemService.getByPage(vo.getDictId(), pageBO);
         return Result.success(pageBO);
+    }
+
+    @ApiOperation(value = "恢复字典")
+    @PutMapping("/reset/{id}")
+    public Result<?> resetDict(@PathVariable @Validated @Positive(message = "Id需为正数") Integer id) {
+        dictService.reset(id);
+        return Result.success();
     }
 
 }

@@ -2,6 +2,7 @@ package cn.jackbin.SimpleRecord.common.config.datasource;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import org.apache.ibatis.annotations.Param;
 
@@ -20,4 +21,12 @@ public interface MyBaseMapper<T> extends BaseMapper<T> {
     int logicDelByIdFillStatus(Serializable id);
 
     int delByIdFillStatus(T t);
+
+    /**
+     * 根据 entity 条件，分页查询记录（无逻辑删除条件限制）
+     *
+     * @param page         分页查询条件（可以为 RowBounds.DEFAULT）
+     * @param queryWrapper 实体对象封装操作类（可以为 null）
+     */
+    <E extends IPage<T>> E selectPageWithoutLogicDel(E page, @Param(Constants.WRAPPER) Wrapper<T> queryWrapper);
 }

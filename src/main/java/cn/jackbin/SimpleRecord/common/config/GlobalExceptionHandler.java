@@ -33,13 +33,13 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public Result<?> handleException(Exception e){
-        log.error(e.getMessage(),e);
+        log.error(e.getMessage());
         return Result.error(CodeMsg.ERROR);
     }
 
     @ExceptionHandler(JwtException.class)
     public Result<?> handleJwtException(JwtException e) {
-        log.error(e.getMessage(),e);
+        log.error(e.getMessage());
         return Result.error(CodeMsg.JWT_EXCEPTION,e.getMessage());
     }
 
@@ -52,7 +52,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Result<?> handleValidationBodyException(MethodArgumentNotValidException e){
-        log.error(e.getMessage(),e);
+        log.error(e.getMessage());
         for (ObjectError s : e.getBindingResult().getAllErrors()) {
             return Result.error(CodeMsg.FAILED, s.getDefaultMessage());
         }
@@ -61,19 +61,19 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
     public Result<?> handleConstraintViolationException(ConstraintViolationException e) {
-        log.error(e.getMessage(),e);
+        log.error(e.getMessage());
         return Result.error(CodeMsg.FAILED,e.getMessage());
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public Result<?> handleAccessDeniedException(AccessDeniedException e) {
-        log.error(e.getMessage(),e);
+        log.error(e.getMessage());
         return Result.error(CodeMsg.WITHOUT_PERMISSION);
     }
 
     @ExceptionHandler(BindException.class)
     public Result<?> handleBindException(BindException e) {
-        log.error(e.getMessage(),e);
+        log.error(e.getMessage());
         return Result.error(CodeMsg.PARAMETER_ILLEGAL);
     }
 
@@ -86,7 +86,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(BaseException.class)
     public Result<?> handleBusinessException(BaseException e){
-        log.error(e.getMessage(),e);
+        log.error(e.getMessage());
         return Result.error(e.getCodeMsg(),e.getMessage());
     }
 }

@@ -37,7 +37,6 @@ public class DictDO extends BaseDO implements Serializable {
     /**
      * 状态（0：正常，1：停用）
      */
-    @TableField(value = "status",fill = FieldFill.UPDATE)
     private Integer status;
 
     /**

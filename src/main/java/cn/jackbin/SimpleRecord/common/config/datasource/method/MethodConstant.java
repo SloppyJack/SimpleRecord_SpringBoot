@@ -9,6 +9,7 @@ package cn.jackbin.SimpleRecord.common.config.datasource.method;
 public enum  MethodConstant {
     SELECT_ONE_WITHOUT_LOGIC_DEL("selectOneWithoutLogicDel", "查询满足条件一条数据（无逻辑删除条件限制）", "<script>%s SELECT %s FROM %s %s %s\n</script>"),
     DEL_BY_ID_WITH_FILL_STATUS("delByIdFillStatus", "逻辑删除自动填充status字段", "<script>\nUPDATE %s %s WHERE %s=#{%s} %s\n</script>"),
+    SELECT_PAGE_WITHOUT_LOGIC_DEL("selectPageWithoutLogicDel", "分页查询满足条件所有数据（无逻辑删除条件限制）", "<script>%s SELECT %s FROM %s %s %s\n</script>"),
     ;
 
     private final String method;

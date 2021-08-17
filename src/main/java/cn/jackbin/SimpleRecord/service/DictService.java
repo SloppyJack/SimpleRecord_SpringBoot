@@ -20,4 +20,6 @@ public interface DictService extends IService<DictDO> {
     DictDO getByCode(String code);
 
     boolean removeById(DictDO dictDO);
+
+    void reset(Integer id);
 }

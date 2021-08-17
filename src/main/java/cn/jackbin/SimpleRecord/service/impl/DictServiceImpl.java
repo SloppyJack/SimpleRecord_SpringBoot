@@ -38,7 +38,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, DictDO> implements 
         if (status != null) {
             queryWrapper.eq("status", status);
         }
-        page = dictMapper.selectPage(page, queryWrapper);
+        page = dictMapper.selectPageWithoutLogicDel(page, queryWrapper);
         pageBO.setTotal((int) page.getTotal());
         pageBO.setList(page.getRecords());
     }
@@ -78,5 +78,14 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, DictDO> implements 
     @Override
     public boolean removeById(DictDO dictDO) {
         return dictMapper.delByIdFillStatus(dictDO) > 0;
+    }
+
+    @Override
+    public void reset(Integer id) {
+        DictDO dictDO = new DictDO();
+        dictDO.setId(Long.valueOf(id));
+        dictDO.setStatus(CommonConstants.STATUS_NORMAL);
+        dictDO.setDeleteTime(null);
+        dictMapper.updateById(dictDO);
     }
 }

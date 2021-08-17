@@ -25,6 +25,5 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     public void updateFill(MetaObject metaObject) {
         log.info("start update fill ....");
         this.strictUpdateFill(metaObject, "updateTime", Date.class, new Date());
-        this.strictUpdateFill(metaObject, "status", Integer.class, 1);
     }
 }
