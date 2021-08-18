@@ -40,4 +40,29 @@ public class DictItemServiceImpl extends ServiceImpl<DictItemMapper, DictItemDO>
         pageBO.setTotal((int) page.getTotal());
         pageBO.setList(page.getRecords());
     }
+
+    @Override
+    public void add(Integer dictId, String text, String value) {
+        DictItemDO dictItemDO = new DictItemDO();
+        dictItemDO.setDictId(dictId);
+        dictItemDO.setText(text);
+        dictItemDO.setValue(value);
+        dictItemMapper.insert(dictItemDO);
+    }
+
+    @Override
+    public void edit(Integer id, String text, String value, Integer orderNo, String remark) {
+        DictItemDO dictItemDO = new DictItemDO();
+        dictItemDO.setId(Long.valueOf(id));
+        dictItemDO.setText(text);
+        dictItemDO.setValue(value);
+        dictItemDO.setOrderNo(orderNo);
+        dictItemDO.setRemark(remark);
+        dictItemMapper.updateById(dictItemDO);
+    }
+
+    @Override
+    public void removeById(Long id) {
+        dictItemMapper.delById(id);
+    }
 }

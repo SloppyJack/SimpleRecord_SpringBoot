@@ -16,4 +16,10 @@ public interface DictItemService extends IService<DictItemDO> {
     List<DictItemDO> getDictItemsByDictId(Integer dictId);
 
     void getByPage(Integer dictId, PageBO<DictItemDO> pageBO);
+
+    void add(Integer dictId, String text, String value);
+
+    void edit(Integer id, String text, String value, Integer orderNo, String remark);
+
+    void removeById(Long id);
 }

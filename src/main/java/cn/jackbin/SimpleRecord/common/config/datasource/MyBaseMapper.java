@@ -36,4 +36,11 @@ public interface MyBaseMapper<T> extends BaseMapper<T> {
      * @param entity 实体对象
      */
     int updateByIdWithoutLogicDel(@Param(Constants.ENTITY) T entity);
+
+    /**
+     * 根据 ID 删除
+     *
+     * @param id 主键ID
+     */
+    int delById(Serializable id);
 }
