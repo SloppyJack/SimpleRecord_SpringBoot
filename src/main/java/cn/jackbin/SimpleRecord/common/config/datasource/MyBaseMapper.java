@@ -29,4 +29,11 @@ public interface MyBaseMapper<T> extends BaseMapper<T> {
      * @param queryWrapper 实体对象封装操作类（可以为 null）
      */
     <E extends IPage<T>> E selectPageWithoutLogicDel(E page, @Param(Constants.WRAPPER) Wrapper<T> queryWrapper);
+
+    /**
+     * 根据 ID 修改（无逻辑删除条件限制）
+     *
+     * @param entity 实体对象
+     */
+    int updateByIdWithoutLogicDel(@Param(Constants.ENTITY) T entity);
 }

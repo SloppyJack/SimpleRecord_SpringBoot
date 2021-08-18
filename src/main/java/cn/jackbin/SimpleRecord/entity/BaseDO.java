@@ -1,6 +1,7 @@
 package cn.jackbin.SimpleRecord.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -25,5 +26,6 @@ public class BaseDO {
     private Date updateTime;
 
     @TableLogic
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private Date deleteTime;
 }

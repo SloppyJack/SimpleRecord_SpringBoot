@@ -3,6 +3,7 @@ package cn.jackbin.SimpleRecord.common.config.datasource;
 import cn.jackbin.SimpleRecord.common.config.datasource.method.LogicDelWithFillStatus;
 import cn.jackbin.SimpleRecord.common.config.datasource.method.SelectOneWithoutLogicDel;
 import cn.jackbin.SimpleRecord.common.config.datasource.method.SelectPageWithoutLogicDel;
+import cn.jackbin.SimpleRecord.common.config.datasource.method.UpdateByIdWithoutLogicDel;
 import com.baomidou.mybatisplus.core.injector.AbstractMethod;
 import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
 
@@ -22,6 +23,7 @@ public class MySqlInjector extends DefaultSqlInjector {
         methodList.add(new SelectOneWithoutLogicDel());
         methodList.add(new LogicDelWithFillStatus());
         methodList.add(new SelectPageWithoutLogicDel());
+        methodList.add(new UpdateByIdWithoutLogicDel());
         return methodList;
     }
 }

@@ -69,7 +69,7 @@ public class DictController {
         return Result.success();
     }
 
-    @PostMapping("/dictData/page")
+    @PostMapping("/dictItem/page")
     public Result<?> getDictData(@RequestBody @Validated GetDictItemVO vo) {
         PageBO<DictItemDO> pageBO = new PageBO<>(vo.getPageNo(), vo.getPageSize());
         dictItemService.getByPage(vo.getDictId(), pageBO);

@@ -86,6 +86,6 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, DictDO> implements 
         dictDO.setId(Long.valueOf(id));
         dictDO.setStatus(CommonConstants.STATUS_NORMAL);
         dictDO.setDeleteTime(null);
-        dictMapper.updateById(dictDO);
+        dictMapper.updateByIdWithoutLogicDel(dictDO);
     }
 }
