@@ -44,12 +44,13 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, DictDO> implements 
     }
 
     @Override
-    public void add(String name, String code, String remark) {
+    public void add(String name, String code, Integer orderNo, String remark) {
         DictDO dictDO = new DictDO();
         dictDO.setName(name);
         dictDO.setCode(code);
         dictDO.setRemark(remark);
         dictDO.setStatus(CommonConstants.STATUS_NORMAL);
+        dictDO.setOrderNo(orderNo);
         dictDO.setIsSysDefault(CommonConstants.NOT_SYS_DEFAULT);
         dictMapper.insert(dictDO);
     }

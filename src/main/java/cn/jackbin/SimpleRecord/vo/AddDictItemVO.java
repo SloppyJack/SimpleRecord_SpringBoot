@@ -23,5 +23,7 @@ public class AddDictItemVO {
     @NotBlank(message = "字典项值不能为空")
     private String value;
 
+    private Integer orderNo;
+
     private String remark;
 }

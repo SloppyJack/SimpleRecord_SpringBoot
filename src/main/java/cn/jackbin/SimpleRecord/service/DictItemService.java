@@ -17,7 +17,7 @@ public interface DictItemService extends IService<DictItemDO> {
 
     void getByPage(Integer dictId, PageBO<DictItemDO> pageBO);
 
-    void add(Integer dictId, String text, String value);
+    void add(Integer dictId, String text, String value, Integer orderNo, String remark);
 
     void edit(Integer id, String text, String value, Integer orderNo, String remark);
 

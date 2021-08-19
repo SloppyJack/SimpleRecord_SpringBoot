@@ -44,7 +44,7 @@ public class DictController {
         if (dictService.getByCode(vo.getCode()) != null ) {
             throw new BusinessException(CodeMsg.DICT_CODE_EXIST);
         }
-        dictService.add(vo.getName(), vo.getCode(), vo.getRemark());
+        dictService.add(vo.getName(), vo.getCode(), vo.getOrderNo(), vo.getRemark());
         return Result.success();
     }
 

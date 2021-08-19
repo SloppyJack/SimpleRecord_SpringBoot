@@ -1,6 +1,7 @@
 package cn.jackbin.SimpleRecord.service.impl;
 
 import cn.jackbin.SimpleRecord.bo.PageBO;
+import cn.jackbin.SimpleRecord.constant.CommonConstants;
 import cn.jackbin.SimpleRecord.entity.DictItemDO;
 import cn.jackbin.SimpleRecord.mapper.DictItemMapper;
 import cn.jackbin.SimpleRecord.service.DictItemService;
@@ -42,11 +43,14 @@ public class DictItemServiceImpl extends ServiceImpl<DictItemMapper, DictItemDO>
     }
 
     @Override
-    public void add(Integer dictId, String text, String value) {
+    public void add(Integer dictId, String text, String value, Integer orderNo, String remark) {
         DictItemDO dictItemDO = new DictItemDO();
         dictItemDO.setDictId(dictId);
         dictItemDO.setText(text);
         dictItemDO.setValue(value);
+        dictItemDO.setOrderNo(orderNo);
+        dictItemDO.setRemark(remark);
+        dictItemDO.setStatus(CommonConstants.STATUS_NORMAL);
         dictItemMapper.insert(dictItemDO);
     }
 

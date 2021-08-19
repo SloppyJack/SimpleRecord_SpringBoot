@@ -26,7 +26,7 @@ public class DictItemController {
 
     @PostMapping("/add")
     public Result<?> addDictItem(@RequestBody @Validated AddDictItemVO vo) {
-        dictItemService.add(vo.getDictId(), vo.getText(), vo.getValue());
+        dictItemService.add(vo.getDictId(), vo.getText(), vo.getValue(), vo.getOrderNo(), vo.getRemark());
         return Result.success();
     }
 

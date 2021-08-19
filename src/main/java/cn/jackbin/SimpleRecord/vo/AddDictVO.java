@@ -24,6 +24,7 @@ public class AddDictVO {
     @NotBlank(message = "字典编码不能为空")
     private String code;
 
+    private Integer orderNo;
 
     private String remark;
 }
