@@ -30,6 +30,7 @@ public enum CodeMsg {
     ADD_DATA_ERROR(500011,"添加数据失败"),
     EDIT_DATA_ERROR(500012,"编辑数据失败"),
     OPERATE_FAILED(500013,"本次操作失败"),
+    CANT_OPERATE_SYS_DATA(500014,"系统内置数据不可操作"),
 
 
     // 系统相关 格式600 xxx

@@ -2,6 +2,7 @@ package cn.jackbin.SimpleRecord.controller.basic;
 
 import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
+import cn.jackbin.SimpleRecord.constant.CommonConstants;
 import cn.jackbin.SimpleRecord.entity.DictDO;
 import cn.jackbin.SimpleRecord.entity.DictItemDO;
 import cn.jackbin.SimpleRecord.exception.BusinessException;
@@ -59,12 +60,14 @@ public class DictController {
         if (!dictDO.getCode().equals(vo.getCode()) && dictService.getByCode(vo.getCode()) != null ) {
             throw new BusinessException(CodeMsg.DICT_CODE_EXIST);
         }
+        checkDict(dictDO);
         dictService.edit(vo.getId(), vo.getName(), vo.getCode(), vo.getOrderNo(), vo.getRemark());
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
     public Result<?> delDict(@PathVariable @Validated @Positive(message = "字典Id需为正数") Integer id) {
+        checkDict( dictService.getById(id));
         dictService.removeById(DictDO.builder().id(Long.valueOf(id)).build());
         return Result.success();
     }
@@ -81,6 +84,11 @@ public class DictController {
     public Result<?> resetDict(@PathVariable @Validated @Positive(message = "Id需为正数") Integer id) {
         dictService.reset(id);
         return Result.success();
+    }
+
+    public static void checkDict(DictDO dictDO) {
+        if (CommonConstants.SYS_DEFAULT == dictDO.getIsSysDefault())
+            throw new BusinessException(CodeMsg.CANT_OPERATE_SYS_DATA);
     }
 
 }

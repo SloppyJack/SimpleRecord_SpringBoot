@@ -37,6 +37,7 @@ public class DictItemServiceImpl extends ServiceImpl<DictItemMapper, DictItemDO>
         IPage<DictItemDO> page = new Page<>(pageBO.beginPosition(), pageBO.getPageSize());
         QueryWrapper<DictItemDO> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("dict_id", dictId);
+        queryWrapper.orderByAsc("order_no");
         page = dictItemMapper.selectPage(page, queryWrapper);
         pageBO.setTotal((int) page.getTotal());
         pageBO.setList(page.getRecords());

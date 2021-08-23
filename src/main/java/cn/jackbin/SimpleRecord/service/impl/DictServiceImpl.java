@@ -38,6 +38,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, DictDO> implements 
         if (status != null) {
             queryWrapper.eq("status", status);
         }
+        queryWrapper.orderByAsc("order_no");
         page = dictMapper.selectPageWithoutLogicDel(page, queryWrapper);
         pageBO.setTotal((int) page.getTotal());
         pageBO.setList(page.getRecords());
