@@ -15,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 /**
  * @author: create by bin
@@ -84,6 +86,15 @@ public class DictController {
     public Result<?> resetDict(@PathVariable @Validated @Positive(message = "Id需为正数") Integer id) {
         dictService.reset(id);
         return Result.success();
+    }
+
+    @PostMapping("/dictItems/{dictCode}}")
+    public Result<?> getDictData(@PathVariable @Validated @NotNull(message = "字典编码不能为空") String dictCode) {
+        DictDO dictDO = dictService.getByCode(dictCode);
+        if (dictDO == null)
+            throw new BusinessException(CodeMsg.NOT_FIND_DATA);
+        List<DictItemDO> list = dictItemService.getDictItemsByDictId(dictDO.getId().intValue());
+        return Result.success(list);
     }
 
     public static void checkDict(DictDO dictDO) {

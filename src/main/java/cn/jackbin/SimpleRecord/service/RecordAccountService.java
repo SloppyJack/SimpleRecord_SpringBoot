@@ -3,6 +3,8 @@ package cn.jackbin.SimpleRecord.service;
 import cn.jackbin.SimpleRecord.entity.RecordAccountDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * @author: create by bin
  * @version: v1.0
@@ -11,5 +13,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  **/
 public interface RecordAccountService extends IService<RecordAccountDO> {
 
+    List<RecordAccountDO> getListByUserId(Integer userId);
+
+    void add(Integer userId, Integer type, String name, Integer isNetAssets);
 
 }

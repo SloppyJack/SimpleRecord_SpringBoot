@@ -48,6 +48,7 @@ public enum CodeMsg {
     DEL_RECORD_FORBIDDEN(700003,"禁止删除他人记账记录"),
     DEL_RECORD_ERROR(700004,"删除记账记录失败"),
     RECORD_TYPE_CODE_ERROR(700005,"记账类型编码错误"),
+    RECORD_ACCOUNT_SIZE_TOO_MUCH(700006,"记账账户请勿过多"),
     ;
 
     private final int retCode;

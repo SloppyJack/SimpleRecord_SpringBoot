@@ -39,6 +39,11 @@ public class RecordBookDO extends BaseDO implements Serializable {
     private String remark;
 
     /**
+     * 是否为用户默认
+     */
+    private Integer isUserDefault;
+
+    /**
      * 排序
      */
     private Integer orderNo;
