@@ -15,6 +15,6 @@ public interface RecordAccountService extends IService<RecordAccountDO> {
 
     List<RecordAccountDO> getListByUserId(Integer userId);
 
-    void add(Integer userId, Integer type, String name, Integer isNetAssets);
+    void add(Integer userId, Integer type, String name, Integer inNetAssets);
 
 }

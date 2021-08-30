@@ -1,5 +1,7 @@
 package cn.jackbin.SimpleRecord.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 
@@ -21,6 +23,7 @@ public class RecordAccountDO extends BaseDO implements Serializable {
 
     private static final long serialVersionUID = -7198600840110284750L;
 
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     private Integer userId;
@@ -38,7 +41,7 @@ public class RecordAccountDO extends BaseDO implements Serializable {
     /**
      * 是否属于净资产（1：属于，2：不属于）
      */
-    private Integer isNetAssets;
+    private Integer inNetAssets;
 
     private Integer status;
 }

@@ -11,6 +11,7 @@ import cn.jackbin.SimpleRecord.vo.AddRecordAccountVO;
 import cn.jackbin.SimpleRecord.vo.Result;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public class RecordAccountController {
 
     @LoginRequired
     @PostMapping
-    public Result<?> addRecordAccount(@RequestBody AddRecordAccountVO vo) {
+    public Result<?> addRecordAccount(@Validated @RequestBody AddRecordAccountVO vo) {
         UserDO userDO = LocalUser.get();
         // check
         if (recordAccountService.getListByUserId(userDO.getId().intValue()).size() > 10) {

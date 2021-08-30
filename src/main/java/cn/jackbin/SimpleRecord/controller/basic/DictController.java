@@ -88,7 +88,7 @@ public class DictController {
         return Result.success();
     }
 
-    @PostMapping("/dictItems/{dictCode}}")
+    @GetMapping("/dictItems/{dictCode}")
     public Result<?> getDictData(@PathVariable @Validated @NotNull(message = "字典编码不能为空") String dictCode) {
         DictDO dictDO = dictService.getByCode(dictCode);
         if (dictDO == null)

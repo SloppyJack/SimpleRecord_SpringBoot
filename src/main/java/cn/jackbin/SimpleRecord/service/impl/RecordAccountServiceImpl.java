@@ -29,12 +29,12 @@ public class RecordAccountServiceImpl extends ServiceImpl<RecordAccountMapper, R
     }
 
     @Override
-    public void add(Integer userId, Integer type, String name, Integer isNetAssets) {
+    public void add(Integer userId, Integer type, String name, Integer inNetAssets) {
         RecordAccountDO recordAccountDO = new RecordAccountDO();
         recordAccountDO.setUserId(userId);
         recordAccountDO.setType(type);
         recordAccountDO.setName(name);
-        recordAccountDO.setIsNetAssets(isNetAssets);
+        recordAccountDO.setInNetAssets(inNetAssets);
         recordAccountDO.setStatus(CommonConstants.STATUS_NORMAL);
         recordAccountMapper.insert(recordAccountDO);
     }
