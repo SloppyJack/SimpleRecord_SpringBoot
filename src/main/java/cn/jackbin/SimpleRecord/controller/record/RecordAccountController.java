@@ -1,6 +1,7 @@
 package cn.jackbin.SimpleRecord.controller.record;
 
 import cn.jackbin.SimpleRecord.common.LocalUser;
+import cn.jackbin.SimpleRecord.common.anotations.HandleDict;
 import cn.jackbin.SimpleRecord.common.anotations.LoginRequired;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.entity.RecordAccountDO;
@@ -29,6 +30,7 @@ public class RecordAccountController {
     @Autowired
     private RecordAccountService recordAccountService;
 
+    @HandleDict
     @LoginRequired
     @GetMapping("/list")
     public Result<?> getList() {
