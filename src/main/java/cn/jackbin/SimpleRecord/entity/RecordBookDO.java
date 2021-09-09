@@ -1,5 +1,7 @@
 package cn.jackbin.SimpleRecord.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 
@@ -21,6 +23,7 @@ public class RecordBookDO extends BaseDO implements Serializable {
 
     private static final long serialVersionUID = -8088393864369379823L;
 
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**

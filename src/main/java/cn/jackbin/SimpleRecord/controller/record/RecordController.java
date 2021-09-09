@@ -56,7 +56,7 @@ public class RecordController {
     @LoginRequired
     @ApiOperation(value = "修改当前登录用户的记账记录")
     @PutMapping("/{id}")
-    public Result<?> updateRecord(@PathVariable("id") @Validated @Positive(message = "{id}") Long id, @RequestBody @Validated RecordVO vo) {
+    public Result<?> updateRecord(@PathVariable("id") @Validated @Positive(message = "id需为正数") Long id, @RequestBody @Validated RecordVO vo) {
         RecordDetailDO recordDO = recordDetailService.getById(id);
         // 校验
         checkRecord(recordDO);

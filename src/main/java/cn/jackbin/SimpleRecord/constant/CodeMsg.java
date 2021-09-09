@@ -49,6 +49,8 @@ public enum CodeMsg {
     DEL_RECORD_ERROR(700004,"删除记账记录失败"),
     RECORD_TYPE_CODE_ERROR(700005,"记账类型编码错误"),
     RECORD_ACCOUNT_SIZE_TOO_MUCH(700006,"记账账户请勿过多"),
+    DEL_RECORD_BOOK_ERROR(700007,"删除账单失败"),
+    ONE_DEFAULT_RECORD_BOOK(700008,"默认账单有且仅有一个"),
     ;
 
     private final int retCode;
