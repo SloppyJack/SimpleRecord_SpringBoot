@@ -1,12 +1,14 @@
 package cn.jackbin.SimpleRecord.service.impl;
 
+import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.constant.CommonConstants;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
 import cn.jackbin.SimpleRecord.entity.RecordBookDO;
 import cn.jackbin.SimpleRecord.mapper.RecordBookMapper;
 import cn.jackbin.SimpleRecord.service.RecordBookService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.api.R;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,17 @@ public class RecordBookServiceImpl extends ServiceImpl<RecordBookMapper, RecordB
     private RecordBookMapper recordBookMapper;
 
     @Override
+    public void getByPage(Integer userId, PageBO<RecordBookDO> pageBO) {
+        IPage<RecordBookDO> page = new Page<>(pageBO.beginPosition(), pageBO.getPageSize());
+        QueryWrapper<RecordBookDO> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", userId);
+        queryWrapper.orderByAsc("order_no");
+        recordBookMapper.selectPage(page, queryWrapper);
+        pageBO.setTotal((int) page.getTotal());
+        pageBO.setList(page.getRecords());
+    }
+
+    @Override
     public void add(Integer userId, String name, String remark, Integer orderNo) {
         RecordBookDO recordBookDO = new RecordBookDO();
         recordBookDO.setUserId(userId);
@@ -30,6 +43,8 @@ public class RecordBookServiceImpl extends ServiceImpl<RecordBookMapper, RecordB
         recordBookDO.setRemark(remark);
         recordBookDO.setOrderNo(orderNo);
         recordBookDO.setStatus(CommonConstants.STATUS_NORMAL);
+        // 新增的账本为非用户默认
+        recordBookDO.setIsUserDefault(RecordConstant.NOT_USER_DEFAULT);
         recordBookMapper.insert(recordBookDO);
     }
 

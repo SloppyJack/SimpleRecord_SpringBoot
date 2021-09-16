@@ -1,5 +1,6 @@
 package cn.jackbin.SimpleRecord.service;
 
+import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.entity.RecordBookDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -10,6 +11,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @date: 2020/11/23 21:35
  **/
 public interface RecordBookService extends IService<RecordBookDO> {
+
+    void getByPage(Integer userId, PageBO<RecordBookDO> pageBO);
 
     void add(Integer userId, String name, String remark, Integer orderNo);
 

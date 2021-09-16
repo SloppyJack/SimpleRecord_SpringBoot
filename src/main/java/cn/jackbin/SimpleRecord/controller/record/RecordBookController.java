@@ -1,5 +1,6 @@
 package cn.jackbin.SimpleRecord.controller.record;
 
+import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.common.LocalUser;
 import cn.jackbin.SimpleRecord.common.anotations.LoginRequired;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
@@ -10,6 +11,7 @@ import cn.jackbin.SimpleRecord.exception.BusinessException;
 import cn.jackbin.SimpleRecord.service.RecordBookService;
 import cn.jackbin.SimpleRecord.vo.AddRecordBookVO;
 import cn.jackbin.SimpleRecord.vo.EditRecordBookVO;
+import cn.jackbin.SimpleRecord.vo.PageVO;
 import cn.jackbin.SimpleRecord.vo.Result;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,15 @@ import javax.validation.constraints.Positive;
 public class RecordBookController {
     @Autowired
     private RecordBookService recordBookService;
+
+    @LoginRequired
+    @PostMapping("/page")
+    public Result<?> getPage(@RequestBody @Validated PageVO vo) {
+        UserDO userDO = LocalUser.get();
+        PageBO<RecordBookDO> pageBO = new PageBO<>(vo.getPageNo(), vo.getPageSize());
+        recordBookService.getByPage(userDO.getId().intValue(), pageBO);
+        return Result.success(pageBO);
+    }
 
     @LoginRequired
     @PostMapping
