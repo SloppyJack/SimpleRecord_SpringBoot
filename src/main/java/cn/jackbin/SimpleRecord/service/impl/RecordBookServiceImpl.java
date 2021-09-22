@@ -12,6 +12,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author: create by bin
@@ -66,6 +67,18 @@ public class RecordBookServiceImpl extends ServiceImpl<RecordBookMapper, RecordB
     @Override
     public void edit(Long id, Integer userId, String name, String remark, Integer orderNo, Integer isUserDefault) {
         RecordBookDO recordBookDO = RecordBookDO.builder().id(id).userId(userId).
+                name(name).remark(remark).orderNo(orderNo).isUserDefault(isUserDefault).build();
+        recordBookMapper.updateById(recordBookDO);
+    }
+
+    @Transactional
+    @Override
+    public void updateDefault(Long defaultId, Long sourceId, Integer userId, String name, String remark, Integer orderNo, Integer isUserDefault) {
+        // 取消原有默认账单
+        RecordBookDO defaultBookDO = RecordBookDO.builder().id(defaultId).isUserDefault(RecordConstant.NOT_USER_DEFAULT).build();
+        recordBookMapper.updateById(defaultBookDO);
+        // 更新目标账单
+        RecordBookDO recordBookDO = RecordBookDO.builder().id(sourceId).userId(userId).
                 name(name).remark(remark).orderNo(orderNo).isUserDefault(isUserDefault).build();
         recordBookMapper.updateById(recordBookDO);
     }

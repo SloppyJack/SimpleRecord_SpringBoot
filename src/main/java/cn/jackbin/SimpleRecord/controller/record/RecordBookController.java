@@ -68,12 +68,18 @@ public class RecordBookController {
                                     @RequestBody @Validated EditRecordBookVO vo) {
         UserDO userDO = LocalUser.get();
         RecordBookDO defaultBook = recordBookService.getDefaultBook(userDO.getId().intValue());
-        // 只允许有一个默认账户
-        if (defaultBook.getId().equals(id) || vo.getIsUserDefault()) {
+        // 只允许有一个默认账单
+        if (defaultBook.getId().equals(id) && !vo.getIsUserDefault()) {
             throw new BusinessException(CodeMsg.ONE_DEFAULT_RECORD_BOOK);
         }
-        recordBookService.edit(id, userDO.getId().intValue(), vo.getName(), vo.getRemark(), vo.getOrderNo(),
-                vo.getIsUserDefault() ? RecordConstant.USER_DEFAULT : RecordConstant.NOT_USER_DEFAULT);
+        // 新的默认账单
+        if (!defaultBook.getId().equals(id) && vo.getIsUserDefault()) {
+            recordBookService.updateDefault(defaultBook.getId(), id, userDO.getId().intValue(), vo.getName(), vo.getRemark(), vo.getOrderNo(),
+                    vo.getIsUserDefault() ? RecordConstant.USER_DEFAULT : RecordConstant.NOT_USER_DEFAULT);
+        } else {
+            recordBookService.edit(id, userDO.getId().intValue(), vo.getName(), vo.getRemark(), vo.getOrderNo(),
+                    vo.getIsUserDefault() ? RecordConstant.USER_DEFAULT : RecordConstant.NOT_USER_DEFAULT);
+        }
         return Result.success();
     }
 }

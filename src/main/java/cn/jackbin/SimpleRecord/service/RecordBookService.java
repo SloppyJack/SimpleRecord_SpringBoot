@@ -24,4 +24,9 @@ public interface RecordBookService extends IService<RecordBookDO> {
     RecordBookDO getDefaultBook(Integer userId);
 
     void edit(Long id, Integer userId, String name, String remark, Integer orderNo, Integer isUserDefault);
+
+    /**
+     * 更新为默认账单
+     */
+    void updateDefault(Long defaultId, Long sourceId, Integer userId, String name, String remark, Integer orderNo, Integer isUserDefault);
 }
