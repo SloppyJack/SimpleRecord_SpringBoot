@@ -132,7 +132,8 @@ public class DictTranslateAspect implements Ordered {
      * @param obj
      */
     private Object translateSingle(Object obj, Map<String, List<DictItemDO>> dictValues, Map<String, String> fieldsName) {
-        final String suffix = "Text";
+        final String textSuffix = "Text";
+        final String valueSuffix = "Value";
         if (obj instanceof Iterable) {
             log.error("can't translate the obj with type of Iterable");
             throw new BusinessException(CodeMsg.SERVER_EXCEPTION);
@@ -153,8 +154,10 @@ public class DictTranslateAspect implements Ordered {
                     log.warn("can't find the id [{}] in dictItem list", fieldVal);
                     continue;
                 }
-                propertyMap.put(fieldName + suffix, String.class); // put property
-                valMap.put(fieldName + suffix, dictItemVal.getText());
+                propertyMap.put(fieldName + textSuffix, String.class); // put property
+                valMap.put(fieldName + textSuffix, dictItemVal.getText());
+                propertyMap.put(fieldName + valueSuffix, String.class); // put property
+                valMap.put(fieldName + valueSuffix, dictItemVal.getValue());
             } catch (NoSuchFieldException e) {
                 log.warn("field [{}] not in class [{}]", fieldName, obj.getClass());
             }
