@@ -57,31 +57,20 @@ public class RecordController {
     @ApiOperation(value = "修改当前登录用户的记账记录")
     @PutMapping("/{id}")
     public Result<?> updateRecord(@PathVariable("id") @Validated @Positive(message = "id需为正数") Long id, @RequestBody @Validated RecordVO vo) {
-        RecordDetailDO recordDO = recordDetailService.getById(id);
         // 校验
-        checkRecord(recordDO);
-        RecordDTO dto = new RecordDTO();
-        BeanUtils.copyProperties(vo, dto);
-        boolean uFlag = recordDetailService.updateRecord(recordDO, dto);
-        if (uFlag) {
-            return Result.success();
-        } else {
-            return Result.error(CodeMsg.UPDATE_RECORD_ERROR);
-        }
+        checkRecord(id);
+        // todo fixme
+//        boolean uFlag = recordDetailService.updateRecord();
+        return Result.success();
     }
 
     @LoginRequired
     @ApiOperation(value = "删除当前登录用户的记账记录")
     @DeleteMapping("/{id}")
     public Result<?> deleteBook(@PathVariable("id") @Positive(message = "{id}") Long id) {
-        RecordDetailDO recordDO = recordDetailService.getById(id);
-        checkRecord(recordDO);
-        boolean delFlag = recordDetailService.deleteById(recordDO.getId());
-        if (delFlag) {
-            return Result.success();
-        } else {
-            return Result.error(CodeMsg.DEL_RECORD_ERROR);
-        }
+        checkRecord(id);
+        boolean delFlag = recordDetailService.deleteById(id);
+        return Result.success();
     }
 
 
@@ -97,14 +86,15 @@ public class RecordController {
         return Result.success(list);
     }
 
-    private void checkRecord(RecordDetailDO recordDetailDO) {
+    private void checkRecord(Long id) {
+        RecordDetailDO recordDetailDO = recordDetailService.getById(id);
         if (recordDetailDO == null) {
             throw new BusinessException(CodeMsg.NOT_FIND_DATA);
         }
         // 校验是否为当前登录人的记账记录
         UserDO userDO = LocalUser.get();
         if (!recordDetailDO.getUserId().equals(userDO.getId().intValue())) {
-            throw new BusinessException(CodeMsg.DEL_RECORD_FORBIDDEN);
+            throw new BusinessException(CodeMsg.OPERATE_RECORD_FORBIDDEN);
         }
     }
 }

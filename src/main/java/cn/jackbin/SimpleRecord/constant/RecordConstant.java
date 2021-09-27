@@ -20,4 +20,16 @@ public class RecordConstant {
      * 非用户默认
      */
     public static final int NOT_USER_DEFAULT = 2;
+
+    /**
+     * 属于净资产
+     */
+    public static final int IN_NET_ASSETS = 1;
+
+    /**
+     * 不属于净资产
+     */
+    public static final int NOT_IN_NET_ASSETS = 2;
+
+
 }

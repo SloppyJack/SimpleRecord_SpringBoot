@@ -42,11 +42,6 @@ public interface RecordDetailService extends IService<RecordDetailDO> {
     RecordDetailDO getById(Long id);
 
     /**
-     * 更新
-     */
-    boolean updateRecord(RecordDetailDO recordDetailDO, RecordDTO dto);
-
-    /**
      * 通过Id删除某条记账记录
      */
     boolean deleteById(Long id);

@@ -45,12 +45,13 @@ public enum CodeMsg {
     // 记账相关 格式700 xxx
     INSERT_RECORD_ERROR(700001,"新增记账记录失败"),
     UPDATE_RECORD_ERROR(700002,"更新记账记录失败"),
-    DEL_RECORD_FORBIDDEN(700003,"禁止删除他人记账记录"),
+    OPERATE_RECORD_FORBIDDEN(700003,"禁止操作他人记账记录"),
     DEL_RECORD_ERROR(700004,"删除记账记录失败"),
     RECORD_TYPE_CODE_ERROR(700005,"记账类型编码错误"),
     RECORD_ACCOUNT_SIZE_TOO_MUCH(700006,"记账账户请勿过多"),
     DEL_RECORD_BOOK_ERROR(700007,"删除账单失败"),
     ONE_DEFAULT_RECORD_BOOK(700008,"默认账单有且仅有一个"),
+    OPERATE_RECORD_ACCOUNT_FORBIDDEN(700009,"禁止操作他人记账账户"),
     ;
 
     private final int retCode;

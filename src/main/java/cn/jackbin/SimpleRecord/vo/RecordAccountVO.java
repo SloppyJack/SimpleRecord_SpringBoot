@@ -12,13 +12,13 @@ import javax.validation.constraints.Positive;
  * @date: 2021/8/25 21:02
  **/
 @Data
-public class AddRecordAccountVO {
+public class RecordAccountVO {
     @Positive(message = "记账账户类型需为正数")
     private Integer type;
 
     @NotNull(message = "名称不能为空")
     private String name;
 
-    @Positive(message = "是否属于尽资产需为正数")
-    private Integer inNetAssets;
+    @NotNull(message = "是否属于尽资产必填")
+    private Boolean inNetAssets;
 }

@@ -17,4 +17,5 @@ public interface RecordAccountService extends IService<RecordAccountDO> {
 
     void add(Integer userId, Integer type, String name, Integer inNetAssets);
 
+    void removeById(Long id);
 }

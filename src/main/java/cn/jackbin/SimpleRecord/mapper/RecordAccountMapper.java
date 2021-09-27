@@ -1,5 +1,6 @@
 package cn.jackbin.SimpleRecord.mapper;
 
+import cn.jackbin.SimpleRecord.common.config.datasource.MyBaseMapper;
 import cn.jackbin.SimpleRecord.entity.RecordAccountDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
@@ -11,5 +12,5 @@ import org.springframework.stereotype.Repository;
  * @date: 2021/7/13 21:54
  **/
 @Repository
-public interface RecordAccountMapper extends BaseMapper<RecordAccountDO> {
+public interface RecordAccountMapper extends MyBaseMapper<RecordAccountDO> {
 }

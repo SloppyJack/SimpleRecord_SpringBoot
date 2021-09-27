@@ -20,7 +20,7 @@ public interface MyBaseMapper<T> extends BaseMapper<T> {
 
     int logicDelByIdFillStatus(Serializable id);
 
-    int delByIdFillStatus(T t);
+    int delByIdFillStatus(Serializable id);
 
     /**
      * 根据 entity 条件，分页查询记录（无逻辑删除条件限制）

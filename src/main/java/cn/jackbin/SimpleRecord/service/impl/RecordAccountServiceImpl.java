@@ -21,6 +21,7 @@ import java.util.List;
 public class RecordAccountServiceImpl extends ServiceImpl<RecordAccountMapper, RecordAccountDO> implements RecordAccountService {
     @Autowired
     private RecordAccountMapper recordAccountMapper;
+
     @Override
     public List<RecordAccountDO> getListByUserId(Integer userId) {
         QueryWrapper<RecordAccountDO> queryWrapper = new QueryWrapper<>();
@@ -37,5 +38,10 @@ public class RecordAccountServiceImpl extends ServiceImpl<RecordAccountMapper, R
         recordAccountDO.setInNetAssets(inNetAssets);
         recordAccountDO.setStatus(CommonConstants.STATUS_NORMAL);
         recordAccountMapper.insert(recordAccountDO);
+    }
+
+    @Override
+    public void removeById(Long id) {
+        recordAccountMapper.delByIdFillStatus(id);
     }
 }

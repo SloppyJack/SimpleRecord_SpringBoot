@@ -68,17 +68,6 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
     }
 
     @Override
-    public boolean updateRecord(RecordDetailDO recordDetailDO, RecordDTO dto) {
-        if (dto.getSpendCategoryId() != null) {
-            dto.setSpendCategoryId(dto.getSpendCategoryId());
-        }
-        recordDetailDO.setOccurTime(dto.getOccurTime());
-        recordDetailDO.setAmount(dto.getAmount());
-        recordDetailDO.setRemark(dto.getRemark());
-        return recordDetailMapper.updateById(recordDetailDO) > 0;
-    }
-
-    @Override
     public boolean deleteById(Long id) {
         return recordDetailMapper.deleteById(id) > 0;
     }
