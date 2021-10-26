@@ -41,7 +41,7 @@ public class RecordDetailDO extends BaseDO implements Serializable {
     /**
      * 账本Id
      */
-    private Integer recordBookId;
+        private Integer recordBookId;
 
     /**
      * 记账类型
@@ -61,6 +61,8 @@ public class RecordDetailDO extends BaseDO implements Serializable {
 
     @JsonFormat(pattern ="yyyy-MM-dd",timezone ="GMT+8")
     private Date occurTime;
+
+    private String tag;
 
     /**
      * 备注

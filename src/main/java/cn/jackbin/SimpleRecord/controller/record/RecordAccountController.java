@@ -1,6 +1,7 @@
 package cn.jackbin.SimpleRecord.controller.record;
 
 import cn.jackbin.SimpleRecord.common.LocalUser;
+import cn.jackbin.SimpleRecord.common.LocalUserId;
 import cn.jackbin.SimpleRecord.common.anotations.HandleDict;
 import cn.jackbin.SimpleRecord.common.anotations.LoginRequired;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
@@ -33,10 +34,9 @@ public class RecordAccountController {
     private RecordAccountService recordAccountService;
 
     @HandleDict
-    @LoginRequired
-    @GetMapping("/list")
+    @GetMapping
     public Result<?> getList() {
-        List<RecordAccountDO> list = recordAccountService.list();
+        List<RecordAccountDO> list = recordAccountService.getListByUserId(LocalUserId.get().intValue());
         return Result.success(list);
     }
 

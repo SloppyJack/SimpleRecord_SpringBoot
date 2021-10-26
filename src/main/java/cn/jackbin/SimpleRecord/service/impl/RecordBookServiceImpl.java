@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @author: create by bin
  * @version: v1.0
@@ -81,5 +83,12 @@ public class RecordBookServiceImpl extends ServiceImpl<RecordBookMapper, RecordB
         RecordBookDO recordBookDO = RecordBookDO.builder().id(sourceId).userId(userId).
                 name(name).remark(remark).orderNo(orderNo).isUserDefault(isUserDefault).build();
         recordBookMapper.updateById(recordBookDO);
+    }
+
+    @Override
+    public List<RecordBookDO> getList(Integer userId) {
+        QueryWrapper<RecordBookDO> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", userId);
+        return recordBookMapper.selectList(queryWrapper);
     }
 }

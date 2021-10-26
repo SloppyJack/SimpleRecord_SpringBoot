@@ -17,17 +17,27 @@ import java.util.Date;
  **/
 @Data
 @NoArgsConstructor
-public class RecordVO {
-    @Positive(message = "花费类别为整数")
-    private Integer spendCategoryId;
+public class RecordDetailVO {
+
+    @Positive(message = "来源账户须为整数")
+    private Integer sourceAccountId;
+
+    @Positive(message = "目标账户须为整数")
+    private Integer targetAccountId;
+
+    @Positive(message = "账单Id为整数")
+    private Integer recordBookId;
+
+    @NotNull(message = "记账类型不能为空")
+    private String recordTypeCode;
+
+    @Positive(message = "记账类别为整数")
+    private Integer recordCategoryId;
 
     @NotNull(message = "金额不能为空")
     private Double amount;
 
-    @DateTimeFormat(pattern="yyyy-MM-dd")
-    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
-    private Date occurTime;
+    private String tag;
 
-    // 备注
     private String remark;
 }

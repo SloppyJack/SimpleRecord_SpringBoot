@@ -1,11 +1,12 @@
 package cn.jackbin.SimpleRecord.controller.record;
 
 import cn.jackbin.SimpleRecord.bo.PageBO;
+import cn.jackbin.SimpleRecord.common.LocalUserId;
 import cn.jackbin.SimpleRecord.common.anotations.LoginRequired;
-import cn.jackbin.SimpleRecord.dto.RecordDTO;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.exception.BusinessException;
-import cn.jackbin.SimpleRecord.vo.RecordVO;
+import cn.jackbin.SimpleRecord.service.RecordDetailContext;
+import cn.jackbin.SimpleRecord.vo.RecordDetailVO;
 import cn.jackbin.SimpleRecord.vo.Result;
 import cn.jackbin.SimpleRecord.common.LocalUser;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
@@ -26,15 +27,19 @@ import javax.validation.constraints.Positive;
 /**
  * @author: create by bin
  * @version: v1.0
- * @description: 记账记录相关接口
+ * @description: 账单详情相关接口
  * @date: 2020/6/7 20:24
  **/
-@Api(value = "RecordController", tags = { "记账访问接口" })
+@Api(value = "RecordController", tags = { "账单详情访问接口" })
 @RestController
-@RequestMapping("/record")
-public class RecordController {
+@RequestMapping("/recordDetail")
+public class RecordDetailController {
+
     @Autowired
     private RecordDetailService recordDetailService;
+
+    @Autowired
+    private RecordDetailContext recordDetailContext;
 
     /**
      * 记账
@@ -42,21 +47,17 @@ public class RecordController {
     @LoginRequired
     @ApiOperation(value = "新增记账记录")
     @PostMapping
-    public Result<?> createRecord(@RequestBody @Validated RecordVO vo) {
-        RecordDTO dto = new RecordDTO();
-        BeanUtils.copyProperties(vo, dto);
-        UserDO userDO = LocalUser.get();
-        if (recordDetailService.createRecord(dto, userDO.getId())) {
-            return Result.success();
-        } else {
-            return Result.error(CodeMsg.INSERT_RECORD_ERROR);
-        }
+    public Result<?> addRecord(@RequestBody @Validated RecordDetailVO vo) {
+        Long userId = LocalUserId.get();
+        recordDetailContext.addRecord(userId.intValue(), vo.getSourceAccountId(), vo.getRecordBookId(), vo.getTargetAccountId(),
+                vo.getRecordTypeCode(), vo.getRecordCategoryId(), vo.getAmount(), vo.getTag(), vo.getRemark());
+        return Result.success();
     }
 
     @LoginRequired
     @ApiOperation(value = "修改当前登录用户的记账记录")
     @PutMapping("/{id}")
-    public Result<?> updateRecord(@PathVariable("id") @Validated @Positive(message = "id需为正数") Long id, @RequestBody @Validated RecordVO vo) {
+    public Result<?> updateRecord(@PathVariable("id") @Validated @Positive(message = "id需为正数") Long id, @RequestBody @Validated RecordDetailVO vo) {
         // 校验
         checkRecord(id);
         // todo fixme

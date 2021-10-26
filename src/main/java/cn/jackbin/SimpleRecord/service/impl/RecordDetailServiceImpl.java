@@ -3,7 +3,6 @@ package cn.jackbin.SimpleRecord.service.impl;
 import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
 import cn.jackbin.SimpleRecord.dto.SpendCategoryTotalDTO;
-import cn.jackbin.SimpleRecord.dto.RecordDTO;
 import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
 import cn.jackbin.SimpleRecord.mapper.RecordDetailMapper;
 import cn.jackbin.SimpleRecord.service.RecordDetailService;
@@ -36,14 +35,16 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
     private RecordDetailMapper recordDetailMapper;
 
     @Override
-    public boolean createRecord(RecordDTO recordDTO, Long userId) {
-        RecordDetailDO recordDO = new RecordDetailDO();
-        recordDO.setUserId(userId.intValue());
-        recordDO.setSpendCategoryId(recordDTO.getSpendCategoryId());
-        recordDO.setAmount(recordDTO.getAmount());
-        recordDO.setOccurTime(recordDTO.getOccurTime());
-        recordDO.setRemark(recordDTO.getRemark());
-        return recordDetailMapper.insert(recordDO) > 0;
+    public void add(Integer userId, Integer recordAccountId, Integer recordBookId, Integer recordType, Integer spendCategoryId, Double amount, String tag, String remark) {
+        RecordDetailDO recordDetailDO = new RecordDetailDO();
+        recordDetailDO.setUserId(userId);
+        recordDetailDO.setRecordAccountId(recordAccountId);
+        recordDetailDO.setRecordType(recordType);
+        recordDetailDO.setSpendCategoryId(spendCategoryId);
+        recordDetailDO.setAmount(amount);
+        recordDetailDO.setTag(tag);
+        recordDetailDO.setRemark(remark);
+        recordDetailMapper.insert(recordDetailDO);
     }
 
     @Override

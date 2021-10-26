@@ -1,5 +1,6 @@
 package cn.jackbin.SimpleRecord.entity;
 
+import cn.jackbin.SimpleRecord.common.anotations.DictValue;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 
@@ -31,6 +32,7 @@ public class RecordUserCategoryDO extends BaseDO implements Serializable {
     /**
      * 记账类型
      */
+    @DictValue(code = "recordType")
     private Integer type;
 
     /**
@@ -39,9 +41,9 @@ public class RecordUserCategoryDO extends BaseDO implements Serializable {
     private String name;
 
     /**
-     * 类别Key
+     * 类别编码
      */
-    private String key;
+    private String code;
 
     /**
      * 排序

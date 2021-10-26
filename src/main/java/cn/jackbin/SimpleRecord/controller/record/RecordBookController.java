@@ -2,6 +2,7 @@ package cn.jackbin.SimpleRecord.controller.record;
 
 import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.common.LocalUser;
+import cn.jackbin.SimpleRecord.common.LocalUserId;
 import cn.jackbin.SimpleRecord.common.anotations.LoginRequired;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
@@ -19,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 /**
  * @author: create by bin
@@ -33,53 +35,57 @@ public class RecordBookController {
     @Autowired
     private RecordBookService recordBookService;
 
-    @LoginRequired
     @PostMapping("/page")
     public Result<?> getPage(@RequestBody @Validated PageVO vo) {
-        UserDO userDO = LocalUser.get();
+        Long userId = LocalUserId.get();
         PageBO<RecordBookDO> pageBO = new PageBO<>(vo.getPageNo(), vo.getPageSize());
-        recordBookService.getByPage(userDO.getId().intValue(), pageBO);
+        recordBookService.getByPage(userId.intValue(), pageBO);
         return Result.success(pageBO);
     }
 
-    @LoginRequired
     @PostMapping
     public Result<?> addRecordBook(@RequestBody @Validated AddRecordBookVO vo) {
-        UserDO userDO = LocalUser.get();
-        recordBookService.add(userDO.getId().intValue(), vo.getName(), vo.getRemark(), vo.getOrderNo());
+        Long userId = LocalUserId.get();
+        recordBookService.add(userId.intValue(), vo.getName(), vo.getRemark(), vo.getOrderNo());
         return Result.success();
     }
 
-    @LoginRequired
+
     @DeleteMapping("/{id}")
     public Result<?> delRecordBook(@PathVariable @Validated @Positive(message = "Id需为正数") Integer id) {
-        UserDO userDO = LocalUser.get();
+        Long userId = LocalUserId.get();
         RecordBookDO recordBookDO = recordBookService.getById(id);
-        if (recordBookDO == null || recordBookDO.getUserId() != userDO.getId().intValue()) {
+        if (recordBookDO == null || recordBookDO.getUserId() != userId.intValue()) {
             throw new BusinessException(CodeMsg.DEL_RECORD_BOOK_ERROR);
         }
         recordBookService.removeById(id);
         return Result.success();
     }
 
-    @LoginRequired
     @PutMapping("/{id}")
     public Result<?> editRecordBook(@PathVariable("id") @Validated @Positive(message = "id需为正数") Long id,
                                     @RequestBody @Validated EditRecordBookVO vo) {
-        UserDO userDO = LocalUser.get();
-        RecordBookDO defaultBook = recordBookService.getDefaultBook(userDO.getId().intValue());
+        Long userId = LocalUserId.get();
+        RecordBookDO defaultBook = recordBookService.getDefaultBook(userId.intValue());
         // 只允许有一个默认账单
         if (defaultBook.getId().equals(id) && !vo.getIsUserDefault()) {
             throw new BusinessException(CodeMsg.ONE_DEFAULT_RECORD_BOOK);
         }
         // 新的默认账单
         if (!defaultBook.getId().equals(id) && vo.getIsUserDefault()) {
-            recordBookService.updateDefault(defaultBook.getId(), id, userDO.getId().intValue(), vo.getName(), vo.getRemark(), vo.getOrderNo(),
+            recordBookService.updateDefault(defaultBook.getId(), id, userId.intValue(), vo.getName(), vo.getRemark(), vo.getOrderNo(),
                     vo.getIsUserDefault() ? RecordConstant.USER_DEFAULT : RecordConstant.NOT_USER_DEFAULT);
         } else {
-            recordBookService.edit(id, userDO.getId().intValue(), vo.getName(), vo.getRemark(), vo.getOrderNo(),
+            recordBookService.edit(id, userId.intValue(), vo.getName(), vo.getRemark(), vo.getOrderNo(),
                     vo.getIsUserDefault() ? RecordConstant.USER_DEFAULT : RecordConstant.NOT_USER_DEFAULT);
         }
         return Result.success();
+    }
+
+    @GetMapping("/list")
+    public Result<?> getRecordBooks() {
+        Long userId = LocalUserId.get();
+        List<RecordBookDO> list = recordBookService.getList(userId.intValue());
+        return Result.success(list);
     }
 }

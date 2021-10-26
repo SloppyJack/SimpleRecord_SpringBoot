@@ -3,7 +3,6 @@ package cn.jackbin.SimpleRecord.service;
 import cn.jackbin.SimpleRecord.bo.MonthRecordBO;
 import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.dto.SpendCategoryTotalDTO;
-import cn.jackbin.SimpleRecord.dto.RecordDTO;
 import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
 import cn.jackbin.SimpleRecord.dto.RecordDetailDTO;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -21,10 +20,7 @@ import java.util.List;
  */
 public interface RecordDetailService extends IService<RecordDetailDO> {
 
-    /**
-     * 添加一条记账
-     */
-    boolean createRecord(RecordDTO recordDTO, Long userId);
+    void add(Integer userId, Integer recordAccountId, Integer recordBookId, Integer recordType, Integer spendCategoryId, Double amount, String tag, String remark);
 
     /**
      * 获取当前登录用户的记账记录

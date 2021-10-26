@@ -4,6 +4,8 @@ import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.entity.RecordBookDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * @author: create by bin
  * @version: v1.0
@@ -29,4 +31,9 @@ public interface RecordBookService extends IService<RecordBookDO> {
      * 更新为默认账单
      */
     void updateDefault(Long defaultId, Long sourceId, Integer userId, String name, String remark, Integer orderNo, Integer isUserDefault);
+
+    /**
+     * 获取用户的所有账本
+     */
+    List<RecordBookDO> getList(Integer userId);
 }
