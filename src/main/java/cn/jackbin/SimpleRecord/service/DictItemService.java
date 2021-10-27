@@ -22,4 +22,6 @@ public interface DictItemService extends IService<DictItemDO> {
     void edit(Integer id, String text, String value, Integer orderNo, String remark);
 
     void removeById(Long id);
+
+    DictItemDO getByValue(Integer dictId, String value);
 }

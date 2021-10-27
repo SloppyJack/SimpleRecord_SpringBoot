@@ -70,4 +70,12 @@ public class DictItemServiceImpl extends ServiceImpl<DictItemMapper, DictItemDO>
     public void removeById(Long id) {
         dictItemMapper.delById(id);
     }
+
+    @Override
+    public DictItemDO getByValue(Integer dictId, String value) {
+        QueryWrapper<DictItemDO> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("dict_id", dictId);
+        queryWrapper.eq("value", value);
+        return dictItemMapper.selectOne(queryWrapper);
+    }
 }

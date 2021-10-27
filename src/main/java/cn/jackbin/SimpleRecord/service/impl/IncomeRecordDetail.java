@@ -1,7 +1,9 @@
 package cn.jackbin.SimpleRecord.service.impl;
 
+import cn.jackbin.SimpleRecord.bo.RecordDetailBO;
 import cn.jackbin.SimpleRecord.service.RecordDetailFactory;
 import cn.jackbin.SimpleRecord.service.RecordDetailHandler;
+import cn.jackbin.SimpleRecord.vo.RecordDetailVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +27,7 @@ public class IncomeRecordDetail implements RecordDetailHandler {
     }
 
     @Override
-    public void handle(Integer userId, Integer sourceAccountId, Integer targetAccountId, Integer recordBookId, String recordTypeCode, Integer recordCategoryId, Double amount, String tag, String remark) {
+    public void handle(Integer userId, RecordDetailBO recordDetailBO) {
 
     }
 }

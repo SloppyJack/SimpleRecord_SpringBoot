@@ -51,8 +51,7 @@ public class RecordDetailDO extends BaseDO implements Serializable {
     /**
      * 分类Id
      */
-    private Integer spendCategoryId;
-
+    private Integer recordCategoryId;
 
     /**
      * 金额

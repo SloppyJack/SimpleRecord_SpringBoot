@@ -37,6 +37,11 @@ public class RecordDetailVO {
     @NotNull(message = "金额不能为空")
     private Double amount;
 
+    @NotNull(message = "日期不能为空")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    private Date occurTime;
+
     private String tag;
 
     private String remark;

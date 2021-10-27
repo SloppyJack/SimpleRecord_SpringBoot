@@ -49,8 +49,7 @@ public class RecordDetailController {
     @PostMapping
     public Result<?> addRecord(@RequestBody @Validated RecordDetailVO vo) {
         Long userId = LocalUserId.get();
-        recordDetailContext.addRecord(userId.intValue(), vo.getSourceAccountId(), vo.getRecordBookId(), vo.getTargetAccountId(),
-                vo.getRecordTypeCode(), vo.getRecordCategoryId(), vo.getAmount(), vo.getTag(), vo.getRemark());
+        recordDetailContext.addRecord(userId.intValue(), vo);
         return Result.success();
     }
 

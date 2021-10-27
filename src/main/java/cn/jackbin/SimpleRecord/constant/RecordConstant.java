@@ -11,6 +11,8 @@ public class RecordConstant {
 
     public static final String INCOME_RECORD_TYPE = "incomeType";
 
+    public static final String RECORD_TYPE = "recordType";
+
     /**
      * 用户默认
      */

@@ -1,7 +1,14 @@
 package cn.jackbin.SimpleRecord.service;
 
+import cn.jackbin.SimpleRecord.bo.RecordDetailBO;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
+import cn.jackbin.SimpleRecord.constant.CommonConstants;
+import cn.jackbin.SimpleRecord.constant.RecordConstant;
+import cn.jackbin.SimpleRecord.entity.DictDO;
+import cn.jackbin.SimpleRecord.entity.DictItemDO;
 import cn.jackbin.SimpleRecord.exception.BusinessException;
+import cn.jackbin.SimpleRecord.vo.RecordDetailVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,13 +24,26 @@ public class RecordDetailContext {
     @Autowired
     private RecordDetailFactory factory;
 
-    public void addRecord(Integer userId, Integer sourceAccountId, Integer targetAccountId, Integer recordBookId, String recordTypeCode,
-                          Integer recordCategoryId, Double amount, String tag, String remark) {
-        RecordDetailHandler handler = factory.getHandler(recordTypeCode);
+    @Autowired
+    private DictItemService dictItemService;
+
+    @Autowired
+    private DictService dictService;
+
+    public void addRecord(Integer userId, RecordDetailVO recordDetailVO) {
+        RecordDetailHandler handler = factory.getHandler(recordDetailVO.getRecordTypeCode());
         if (handler == null) {
             throw new BusinessException(CodeMsg.BUSINESS_ERROR);
         }
-        handler.handle(userId, sourceAccountId, targetAccountId, recordBookId, recordTypeCode, recordCategoryId, amount, tag, remark);
+        // 获取dictDO
+        DictDO dictDO = dictService.getByCode(RecordConstant.RECORD_TYPE);
+        // 从字典获取recordType
+        DictItemDO dictItemDO = dictItemService.getByValue(dictDO.getId().intValue(), recordDetailVO.getRecordTypeCode());
+        RecordDetailBO recordDetailBO = new RecordDetailBO();
+        BeanUtils.copyProperties(recordDetailVO, recordDetailBO);
+        // 设置recordTypeId
+        recordDetailBO.setRecordTypeId(dictItemDO.getId().intValue());
+        handler.handle(userId, recordDetailBO);
     }
 
     /**

@@ -1,6 +1,7 @@
 package cn.jackbin.SimpleRecord.service.impl;
 
 import cn.jackbin.SimpleRecord.bo.PageBO;
+import cn.jackbin.SimpleRecord.constant.CommonConstants;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
 import cn.jackbin.SimpleRecord.dto.SpendCategoryTotalDTO;
 import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
@@ -35,12 +36,15 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
     private RecordDetailMapper recordDetailMapper;
 
     @Override
-    public void add(Integer userId, Integer recordAccountId, Integer recordBookId, Integer recordType, Integer spendCategoryId, Double amount, String tag, String remark) {
+    public void add(Integer userId, Integer recordAccountId, Integer recordBookId, Integer recordTypeId, Integer recordCategoryId, Double amount,
+                    Date occurTime, String tag, String remark) {
         RecordDetailDO recordDetailDO = new RecordDetailDO();
         recordDetailDO.setUserId(userId);
         recordDetailDO.setRecordAccountId(recordAccountId);
-        recordDetailDO.setRecordType(recordType);
-        recordDetailDO.setSpendCategoryId(spendCategoryId);
+        recordDetailDO.setRecordBookId(recordBookId);
+        recordDetailDO.setRecordType(recordTypeId);
+        recordDetailDO.setRecordCategoryId(recordCategoryId);
+        recordDetailDO.setOccurTime(occurTime);
         recordDetailDO.setAmount(amount);
         recordDetailDO.setTag(tag);
         recordDetailDO.setRemark(remark);

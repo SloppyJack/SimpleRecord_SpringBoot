@@ -1,5 +1,8 @@
 package cn.jackbin.SimpleRecord.service;
 
+import cn.jackbin.SimpleRecord.bo.RecordDetailBO;
+import cn.jackbin.SimpleRecord.vo.RecordDetailVO;
+
 /**
  * @author: create by bin
  * @version: v1.0
@@ -15,16 +18,7 @@ public interface RecordDetailHandler {
 
     /**
      * 记一笔
-     * @param userId 用户Id
-     * @param sourceAccountId 原始账户
-     * @param targetAccountId 目标账户
-     * @param recordTypeCode 记账类型Code
-     * @param recordCategoryId 记账类别
-     * @param amount 金额
-     * @param tag 标签
-     * @param remark 备注
      */
-    void handle(Integer userId, Integer sourceAccountId, Integer targetAccountId, Integer recordBookId, String recordTypeCode,
-                Integer recordCategoryId, Double amount, String tag, String remark);
+    void handle(Integer userId, RecordDetailBO recordDetailBO);
 
 }
