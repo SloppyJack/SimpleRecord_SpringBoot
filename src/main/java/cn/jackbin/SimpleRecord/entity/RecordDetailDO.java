@@ -69,4 +69,9 @@ public class RecordDetailDO extends BaseDO implements Serializable {
     private String remark;
 
     private Integer status;
+
+    /**
+     * 是否报销
+     */
+    private Boolean isRecoverable;
 }

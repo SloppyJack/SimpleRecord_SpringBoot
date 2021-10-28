@@ -3,8 +3,6 @@ package cn.jackbin.SimpleRecord.bo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 import java.util.Date;
 
 /**
@@ -31,6 +29,8 @@ public class RecordDetailBO {
     private Double amount;
 
     private Date occurTime;
+
+    private Boolean isRecoverable;
 
     private String tag;
 

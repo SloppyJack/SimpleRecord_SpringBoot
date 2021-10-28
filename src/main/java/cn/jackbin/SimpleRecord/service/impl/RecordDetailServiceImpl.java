@@ -37,7 +37,7 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
 
     @Override
     public void add(Integer userId, Integer recordAccountId, Integer recordBookId, Integer recordTypeId, Integer recordCategoryId, Double amount,
-                    Date occurTime, String tag, String remark) {
+                    Date occurTime, String tag, String remark, Boolean isRecoverable) {
         RecordDetailDO recordDetailDO = new RecordDetailDO();
         recordDetailDO.setUserId(userId);
         recordDetailDO.setRecordAccountId(recordAccountId);
@@ -48,6 +48,7 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
         recordDetailDO.setAmount(amount);
         recordDetailDO.setTag(tag);
         recordDetailDO.setRemark(remark);
+        recordDetailDO.setIsRecoverable(isRecoverable);
         recordDetailMapper.insert(recordDetailDO);
     }
 

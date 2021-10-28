@@ -42,6 +42,9 @@ public class RecordDetailVO {
     @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date occurTime;
 
+    // 是否报销
+    private Boolean isRecoverable;
+
     private String tag;
 
     private String remark;
