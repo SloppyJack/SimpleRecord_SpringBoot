@@ -20,7 +20,7 @@ import java.util.List;
  */
 public interface RecordDetailService extends IService<RecordDetailDO> {
 
-    void add(Integer userId, Integer recordAccountId, Integer recordBookId, Integer recordTypeId, Integer recordCategoryId, Double amount,
+    void add(Integer userId, Integer recordAccountId, Integer recordBookId, Integer recordTypeId, String recordCategory, Double amount,
              Date occurTime, String tag, String remark, Boolean isRecoverable);
 
     /**

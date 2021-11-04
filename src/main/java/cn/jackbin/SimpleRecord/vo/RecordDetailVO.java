@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.util.Date;
@@ -31,8 +32,8 @@ public class RecordDetailVO {
     @NotNull(message = "记账类型不能为空")
     private String recordTypeCode;
 
-    @Positive(message = "记账类别为整数")
-    private Integer recordCategoryId;
+    @NotBlank(message = "记账类不能为空")
+    private String recordCategory;
 
     @NotNull(message = "金额不能为空")
     private Double amount;

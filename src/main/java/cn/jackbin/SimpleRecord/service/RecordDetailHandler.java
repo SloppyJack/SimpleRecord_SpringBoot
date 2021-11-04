@@ -21,4 +21,6 @@ public interface RecordDetailHandler {
      */
     void handle(Integer userId, RecordDetailBO recordDetailBO);
 
+    void check(Integer userId, RecordDetailBO recordDetailBO);
+
 }

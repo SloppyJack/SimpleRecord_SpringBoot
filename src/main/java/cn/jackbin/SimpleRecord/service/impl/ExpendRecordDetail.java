@@ -31,8 +31,12 @@ public class ExpendRecordDetail implements RecordDetailHandler {
 
     @Override
     public void handle(Integer userId, RecordDetailBO bo) {
-        // 报销需加入应收应付账户
-        recordDetailService.add(userId, bo.getTargetAccountId(), bo.getRecordBookId(), bo.getRecordTypeId(), bo.getRecordCategoryId(),
+        recordDetailService.add(userId, bo.getTargetAccountId(), bo.getRecordBookId(), bo.getRecordTypeId(), bo.getRecordCategory(),
                 bo.getAmount(), bo.getOccurTime(), bo.getTag(), bo.getRemark(), bo.getIsRecoverable());
+    }
+
+    @Override
+    public void check(Integer userId, RecordDetailBO recordDetailBO) {
+
     }
 }

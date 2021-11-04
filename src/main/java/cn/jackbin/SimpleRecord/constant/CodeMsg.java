@@ -52,6 +52,8 @@ public enum CodeMsg {
     DEL_RECORD_BOOK_ERROR(700007,"删除账单失败"),
     ONE_DEFAULT_RECORD_BOOK(700008,"默认账单有且仅有一个"),
     OPERATE_RECORD_ACCOUNT_FORBIDDEN(700009,"禁止操作他人记账账户"),
+    SOURCE_ACCOUNT_NOT_NULL(700010,"源账户不能为空"),
+    SOURCE_CANT_EQUAL_TARGET_ACCOUNT(700011,"转出与转入账户不能相同"),
     ;
 
     private final int retCode;

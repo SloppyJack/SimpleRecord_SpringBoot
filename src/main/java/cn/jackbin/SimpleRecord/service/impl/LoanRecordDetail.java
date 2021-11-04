@@ -28,4 +28,9 @@ public class LoanRecordDetail implements RecordDetailHandler {
     public void handle(Integer userId, RecordDetailBO recordDetailBO) {
 
     }
+
+    @Override
+    public void check(Integer userId, RecordDetailBO recordDetailBO) {
+
+    }
 }

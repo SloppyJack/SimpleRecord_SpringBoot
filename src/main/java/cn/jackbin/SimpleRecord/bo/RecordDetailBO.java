@@ -24,7 +24,7 @@ public class RecordDetailBO {
 
     private Integer recordTypeId;
 
-    private Integer recordCategoryId;
+    private String recordCategory;
 
     private Double amount;
 

@@ -43,6 +43,7 @@ public class RecordDetailContext {
         BeanUtils.copyProperties(recordDetailVO, recordDetailBO);
         // 设置recordTypeId
         recordDetailBO.setRecordTypeId(dictItemDO.getId().intValue());
+        handler.check(userId, recordDetailBO);
         handler.handle(userId, recordDetailBO);
     }
 
@@ -50,6 +51,6 @@ public class RecordDetailContext {
      * 校验记账的数据是否合规
      */
     private void check(Integer userId, Integer sourceAccountId, Integer targetAccountId, Integer recordCategoryId) {
-
+        // TODO 校验是否为自己的账户（每一个类别都需要）
     }
 }
