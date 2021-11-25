@@ -45,8 +45,8 @@ public class TransferRecordDetail implements RecordDetailHandler {
         recordDetailService.add(userId, bo.getSourceAccountId(), bo.getRecordBookId(), bo.getRecordTypeId(), "内部转账",
                 -bo.getAmount(), bo.getOccurTime(), null, buildSourceRemark(targetAccount.getName(), bo.getAmount()) , null);
         // 目标账户增加金额
-        recordDetailService.add(userId, bo.getSourceAccountId(), bo.getRecordBookId(), bo.getRecordTypeId(), "内部转账",
-                -bo.getAmount(), bo.getOccurTime(), null, bo.getRemark() != null ? bo.getRemark() : buildSourceRemark(sourceAccount.getName(), bo.getAmount()),null);
+        recordDetailService.add(userId, bo.getTargetAccountId(), bo.getRecordBookId(), bo.getRecordTypeId(), "内部转账",
+                bo.getAmount(), bo.getOccurTime(), null, bo.getRemark() != null ? bo.getRemark() : buildTargetRemark(sourceAccount.getName(), bo.getAmount()),null);
     }
 
     @Override

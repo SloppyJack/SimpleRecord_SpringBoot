@@ -8,6 +8,7 @@ import cn.jackbin.SimpleRecord.exception.BusinessException;
 import cn.jackbin.SimpleRecord.service.*;
 import cn.jackbin.SimpleRecord.vo.RecordDetailVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
@@ -17,6 +18,7 @@ import javax.annotation.PostConstruct;
  * @description: 借贷记账策略
  * @date: 2021/10/8 21:00
  **/
+@Component
 public class LoanRecordDetail implements RecordDetailHandler {
 
     @Autowired
@@ -41,11 +43,11 @@ public class LoanRecordDetail implements RecordDetailHandler {
         RecordAccountDO sourceAccount = recordAccountService.getById(bo.getSourceAccountId());
         RecordAccountDO targetAccount = recordAccountService.getById(bo.getTargetAccountId());
         // 源账户减去金额
-        recordDetailService.add(userId, bo.getSourceAccountId(), bo.getRecordBookId(), bo.getRecordTypeId(), "内部转账",
+        recordDetailService.add(userId, bo.getSourceAccountId(), bo.getRecordBookId(), bo.getRecordTypeId(), "借贷",
                 -bo.getAmount(), bo.getOccurTime(), null, buildSourceRemark(targetAccount.getName(), bo.getAmount()) , null);
         // 目标账户增加金额
-        recordDetailService.add(userId, bo.getSourceAccountId(), bo.getRecordBookId(), bo.getRecordTypeId(), "内部转账",
-                -bo.getAmount(), bo.getOccurTime(), null, buildSourceRemark(sourceAccount.getName(), bo.getAmount()) , null);
+        recordDetailService.add(userId, bo.getTargetAccountId(), bo.getRecordBookId(), bo.getRecordTypeId(), "借贷",
+                bo.getAmount(), bo.getOccurTime(), null, buildTargetRemark(sourceAccount.getName(), bo.getAmount()) , null);
     }
 
     @Override
@@ -65,10 +67,10 @@ public class LoanRecordDetail implements RecordDetailHandler {
     }
 
     private String buildSourceRemark(String accountName, Double amount) {
-        return "借贷：向收款账户" + "【" + accountName + "】借入" + String.format("%.2f", amount) + "元";
+        return "借贷：向收款账户" + "【" + accountName + "】借出" + String.format("%.2f", amount) + "元";
     }
 
     private String buildTargetRemark(String accountName, Double amount) {
-        return "内部转账：由借贷账户" + "【" + accountName + "】借入" + String.format("%.2f", amount) + "元";
+        return "借贷：由借贷账户" + "【" + accountName + "】借入" + String.format("%.2f", amount) + "元";
     }
 }
