@@ -1,7 +1,6 @@
 package cn.jackbin.SimpleRecord.service;
 
 import cn.jackbin.SimpleRecord.bo.RecordDetailBO;
-import cn.jackbin.SimpleRecord.vo.RecordDetailVO;
 
 /**
  * @author: create by bin

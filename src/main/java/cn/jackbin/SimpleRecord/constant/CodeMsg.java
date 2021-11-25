@@ -54,6 +54,10 @@ public enum CodeMsg {
     OPERATE_RECORD_ACCOUNT_FORBIDDEN(700009,"禁止操作他人记账账户"),
     SOURCE_ACCOUNT_NOT_NULL(700010,"源账户不能为空"),
     SOURCE_CANT_EQUAL_TARGET_ACCOUNT(700011,"转出与转入账户不能相同"),
+    OPERATE_RECORD_BOOK_FORBIDDEN(7000012,"禁止操作他人记账账单"),
+    TARGET_RECORD_ACCOUNT_NOT_PAYMENT(700013, "目标账户不能为应收应付类型"),
+    SOURCE_RECORD_ACCOUNT_PAYMENT_ONLY(700014, "源账户只能为应收应付类型"),
+    SOURCE_RECORD_ACCOUNT_NOT_PAYMENT(700014, "源账户不能为应收应付类型"),
     ;
 
     private final int retCode;

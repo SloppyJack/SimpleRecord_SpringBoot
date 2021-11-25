@@ -2,12 +2,10 @@ package cn.jackbin.SimpleRecord.service.impl;
 
 import cn.jackbin.SimpleRecord.bo.RecordDetailBO;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
+import cn.jackbin.SimpleRecord.constant.RecordConstant;
 import cn.jackbin.SimpleRecord.entity.RecordAccountDO;
 import cn.jackbin.SimpleRecord.exception.BusinessException;
-import cn.jackbin.SimpleRecord.service.RecordAccountService;
-import cn.jackbin.SimpleRecord.service.RecordDetailFactory;
-import cn.jackbin.SimpleRecord.service.RecordDetailHandler;
-import cn.jackbin.SimpleRecord.service.RecordDetailService;
+import cn.jackbin.SimpleRecord.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +29,9 @@ public class TransferRecordDetail implements RecordDetailHandler {
     @Autowired
     private RecordAccountService recordAccountService;
 
+    @Autowired
+    private DictItemService dictItemService;
+
     @PostConstruct
     public void init(){
         factory.addHandler(TRANSFER_TYPE, this);
@@ -45,7 +46,7 @@ public class TransferRecordDetail implements RecordDetailHandler {
                 -bo.getAmount(), bo.getOccurTime(), null, buildSourceRemark(targetAccount.getName(), bo.getAmount()) , null);
         // 目标账户增加金额
         recordDetailService.add(userId, bo.getSourceAccountId(), bo.getRecordBookId(), bo.getRecordTypeId(), "内部转账",
-                -bo.getAmount(), bo.getOccurTime(), null, buildSourceRemark(sourceAccount.getName(), bo.getAmount()) , null);
+                -bo.getAmount(), bo.getOccurTime(), null, bo.getRemark() != null ? bo.getRemark() : buildSourceRemark(sourceAccount.getName(), bo.getAmount()),null);
     }
 
     @Override
@@ -53,8 +54,21 @@ public class TransferRecordDetail implements RecordDetailHandler {
         if (recordDetailBO.getSourceAccountId() == null) {
             throw new BusinessException(CodeMsg.SOURCE_ACCOUNT_NOT_NULL);
         }
+        // 源账户和目标账户不能同
         if (recordDetailBO.getSourceAccountId().equals(recordDetailBO.getTargetAccountId())) {
             throw new BusinessException(CodeMsg.SOURCE_CANT_EQUAL_TARGET_ACCOUNT);
+        }
+        // 源账户类型不能为应收应付
+        RecordAccountDO sourceAccount = recordAccountService.getById(recordDetailBO.getSourceAccountId());
+        String sourceAccountType = dictItemService.getById(sourceAccount.getType()).getValue();
+        if (RecordConstant.PAYMENT_ACCOUNT.equals(sourceAccountType)){
+            throw new BusinessException(CodeMsg.SOURCE_RECORD_ACCOUNT_NOT_PAYMENT);
+        }
+        // 目标账户不能为应收/应付账户
+        RecordAccountDO targetAccount = recordAccountService.getById(recordDetailBO.getTargetAccountId());
+        String targetAccountType = dictItemService.getById(targetAccount.getType()).getValue();
+        if (RecordConstant.PAYMENT_ACCOUNT.equals(targetAccountType)){
+            throw new BusinessException(CodeMsg.TARGET_RECORD_ACCOUNT_NOT_PAYMENT);
         }
     }
 

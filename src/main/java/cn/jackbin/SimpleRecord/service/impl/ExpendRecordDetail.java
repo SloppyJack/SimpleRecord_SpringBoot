@@ -1,10 +1,11 @@
 package cn.jackbin.SimpleRecord.service.impl;
 
 import cn.jackbin.SimpleRecord.bo.RecordDetailBO;
-import cn.jackbin.SimpleRecord.service.RecordDetailFactory;
-import cn.jackbin.SimpleRecord.service.RecordDetailHandler;
-import cn.jackbin.SimpleRecord.service.RecordDetailService;
-import cn.jackbin.SimpleRecord.vo.RecordDetailVO;
+import cn.jackbin.SimpleRecord.constant.CodeMsg;
+import cn.jackbin.SimpleRecord.constant.RecordConstant;
+import cn.jackbin.SimpleRecord.entity.RecordAccountDO;
+import cn.jackbin.SimpleRecord.exception.BusinessException;
+import cn.jackbin.SimpleRecord.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,12 @@ public class ExpendRecordDetail implements RecordDetailHandler {
     @Autowired
     private RecordDetailService recordDetailService;
 
+    @Autowired
+    private RecordAccountService recordAccountService;
+
+    @Autowired
+    private DictItemService dictItemService;
+
     @PostConstruct
     public void init(){
         factory.addHandler(EXPEND_TYPE, this);
@@ -37,6 +44,11 @@ public class ExpendRecordDetail implements RecordDetailHandler {
 
     @Override
     public void check(Integer userId, RecordDetailBO recordDetailBO) {
-
+        // 目标账户不能为应收/应付账户
+        RecordAccountDO targetAccount = recordAccountService.getById(recordDetailBO.getTargetAccountId());
+        String accountType = dictItemService.getById(targetAccount.getType()).getValue();
+        if (RecordConstant.PAYMENT_ACCOUNT.equals(accountType)){
+            throw new BusinessException(CodeMsg.TARGET_RECORD_ACCOUNT_NOT_PAYMENT);
+        }
     }
 }

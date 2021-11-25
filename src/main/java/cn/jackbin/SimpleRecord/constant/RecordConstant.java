@@ -13,6 +13,8 @@ public class RecordConstant {
 
     public static final String RECORD_TYPE = "recordType";
 
+    public static final String PAYMENT_ACCOUNT = "payment"; // 应收应付账户类型
+
     /**
      * 用户默认
      */
