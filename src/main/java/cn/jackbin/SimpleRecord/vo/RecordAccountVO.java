@@ -21,4 +21,6 @@ public class RecordAccountVO {
 
     @NotNull(message = "是否属于尽资产必填")
     private Boolean inNetAssets;
+
+    private Integer orderNo;
 }

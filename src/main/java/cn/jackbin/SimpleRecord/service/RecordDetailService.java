@@ -23,6 +23,9 @@ public interface RecordDetailService extends IService<RecordDetailDO> {
     void add(Integer userId, Integer recordAccountId, Integer recordBookId, Integer recordTypeId, String recordCategory, Double amount,
              Date occurTime, String tag, String remark, Boolean isRecoverable);
 
+    void add(Integer userId, Integer recordAccountId, Integer sourceAccountId, Integer targetAccountId, Integer recordBookId, Integer recordTypeId,
+             String recordCategory, Double amount, Date occurTime, String tag, String remark, String description, Boolean isRecoverable);
+
     /**
      * 获取当前登录用户的记账记录
      */

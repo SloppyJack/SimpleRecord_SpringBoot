@@ -26,18 +26,31 @@ public class RecordAccountServiceImpl extends ServiceImpl<RecordAccountMapper, R
     public List<RecordAccountDO> getListByUserId(Integer userId) {
         QueryWrapper<RecordAccountDO> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);
+        queryWrapper.orderByAsc("order_no");
         return recordAccountMapper.selectList(queryWrapper);
     }
 
     @Override
-    public void add(Integer userId, Integer type, String name, Integer inNetAssets) {
+    public void add(Integer userId, Integer type, String name, Integer inNetAssets, Integer orderNo) {
         RecordAccountDO recordAccountDO = new RecordAccountDO();
         recordAccountDO.setUserId(userId);
         recordAccountDO.setType(type);
         recordAccountDO.setName(name);
         recordAccountDO.setInNetAssets(inNetAssets);
         recordAccountDO.setStatus(CommonConstants.STATUS_NORMAL);
+        recordAccountDO.setOrderNo(orderNo);
         recordAccountMapper.insert(recordAccountDO);
+    }
+
+    @Override
+    public void update(Long id, Integer type, String name, Integer inNetAssets, Integer orderNo) {
+        RecordAccountDO recordAccountDO = new RecordAccountDO();
+        recordAccountDO.setId(id);
+        recordAccountDO.setType(type);
+        recordAccountDO.setName(name);
+        recordAccountDO.setInNetAssets(inNetAssets);
+        recordAccountDO.setOrderNo(orderNo);
+        recordAccountMapper.updateById(recordAccountDO);
     }
 
     @Override

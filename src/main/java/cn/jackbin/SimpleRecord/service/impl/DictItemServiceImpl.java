@@ -29,6 +29,7 @@ public class DictItemServiceImpl extends ServiceImpl<DictItemMapper, DictItemDO>
     public List<DictItemDO> getDictItemsByDictId(Integer dictId) {
         QueryWrapper<DictItemDO> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("dict_id", dictId);
+        queryWrapper.orderByAsc("order_no");
         return dictItemMapper.selectList(queryWrapper);
     }
 

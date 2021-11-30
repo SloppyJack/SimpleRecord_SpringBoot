@@ -49,20 +49,21 @@ public class RecordAccountController {
             throw new BusinessException(CodeMsg.RECORD_ACCOUNT_SIZE_TOO_MUCH);
         }
         recordAccountService.add(userDO.getId().intValue(), vo.getType(), vo.getName(),
-                vo.getInNetAssets() ? RecordConstant.IN_NET_ASSETS : RecordConstant.NOT_IN_NET_ASSETS);
+                vo.getInNetAssets() ? RecordConstant.IN_NET_ASSETS : RecordConstant.NOT_IN_NET_ASSETS, vo.getOrderNo());
         return Result.success();
     }
 
     @LoginRequired
     @PutMapping("/{id}")
     public Result<?> editRecordAccount(@PathVariable("id") @Validated @Positive(message = "id需为正数") Long id,  @Validated @RequestBody RecordAccountVO vo) {
-        checkOperateRecordAccount(id);
-        RecordAccountDO recordAccountDO = new RecordAccountDO();
-        recordAccountDO.setId(id);
-        recordAccountDO.setType(vo.getType());
-        recordAccountDO.setName(vo.getName());
-        recordAccountDO.setInNetAssets(vo.getInNetAssets() ? RecordConstant.IN_NET_ASSETS : RecordConstant.NOT_IN_NET_ASSETS);
-        recordAccountService.updateById(recordAccountDO);
+        Long userId = LocalUserId.get();
+        // check
+        RecordAccountDO accountDO = recordAccountService.getById(id);
+        if (accountDO == null || userId.intValue() != accountDO.getUserId()){
+            throw new BusinessException(CodeMsg.OPERATE_RECORD_FORBIDDEN);
+        }
+        recordAccountService.update(id, vo.getType(), vo.getName(), vo.getInNetAssets() ? RecordConstant.IN_NET_ASSETS : RecordConstant.NOT_IN_NET_ASSETS,
+                vo.getOrderNo());
         return Result.success();
     }
 

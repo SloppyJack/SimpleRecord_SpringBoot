@@ -41,7 +41,7 @@ public class RecordDetailDO extends BaseDO implements Serializable {
     /**
      * 账本Id
      */
-        private Integer recordBookId;
+    private Integer recordBookId;
 
     /**
      * 记账类型
@@ -52,6 +52,16 @@ public class RecordDetailDO extends BaseDO implements Serializable {
      * 记账类别
      */
     private String recordCategory;
+
+    /**
+     * 流入账户
+     */
+    private Integer sourceAccount;
+
+    /**
+     * 流出账户
+     */
+    private Integer targetAccount;
 
     /**
      * 金额
@@ -67,6 +77,11 @@ public class RecordDetailDO extends BaseDO implements Serializable {
      * 备注
      */
     private String remark;
+
+    /**
+     * 描述
+     */
+    private String description;
 
     private Integer status;
 

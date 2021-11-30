@@ -6,7 +6,6 @@ import cn.jackbin.SimpleRecord.constant.RecordConstant;
 import cn.jackbin.SimpleRecord.entity.RecordAccountDO;
 import cn.jackbin.SimpleRecord.exception.BusinessException;
 import cn.jackbin.SimpleRecord.service.*;
-import cn.jackbin.SimpleRecord.vo.RecordDetailVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -43,11 +42,12 @@ public class LoanRecordDetail implements RecordDetailHandler {
         RecordAccountDO sourceAccount = recordAccountService.getById(bo.getSourceAccountId());
         RecordAccountDO targetAccount = recordAccountService.getById(bo.getTargetAccountId());
         // 源账户减去金额
-        recordDetailService.add(userId, bo.getSourceAccountId(), bo.getRecordBookId(), bo.getRecordTypeId(), "借贷",
-                -bo.getAmount(), bo.getOccurTime(), null, buildSourceRemark(targetAccount.getName(), bo.getAmount()) , null);
+        recordDetailService.add(userId, bo.getSourceAccountId(), null, bo.getTargetAccountId(), bo.getRecordBookId(),
+                bo.getRecordTypeId(), "借贷", -bo.getAmount(), bo.getOccurTime(), null, bo.getRemark(),
+                buildSourceDesc(targetAccount.getName(), bo.getAmount()) , null);
         // 目标账户增加金额
-        recordDetailService.add(userId, bo.getTargetAccountId(), bo.getRecordBookId(), bo.getRecordTypeId(), "借贷",
-                bo.getAmount(), bo.getOccurTime(), null, buildTargetRemark(sourceAccount.getName(), bo.getAmount()) , null);
+        recordDetailService.add(userId, bo.getTargetAccountId(), bo.getSourceAccountId(), null, bo.getRecordBookId(), bo.getRecordTypeId(),
+                "借贷", bo.getAmount(), bo.getOccurTime(), null, bo.getRemark(), buildTargetDesc(sourceAccount.getName(), bo.getAmount()) , null);
     }
 
     @Override
@@ -66,11 +66,11 @@ public class LoanRecordDetail implements RecordDetailHandler {
         }
     }
 
-    private String buildSourceRemark(String accountName, Double amount) {
+    private String buildSourceDesc(String accountName, Double amount) {
         return "借贷：向收款账户" + "【" + accountName + "】借出" + String.format("%.2f", amount) + "元";
     }
 
-    private String buildTargetRemark(String accountName, Double amount) {
+    private String buildTargetDesc(String accountName, Double amount) {
         return "借贷：由借贷账户" + "【" + accountName + "】借入" + String.format("%.2f", amount) + "元";
     }
 }

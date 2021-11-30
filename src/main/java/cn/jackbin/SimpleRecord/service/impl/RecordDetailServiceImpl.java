@@ -1,7 +1,6 @@
 package cn.jackbin.SimpleRecord.service.impl;
 
 import cn.jackbin.SimpleRecord.bo.PageBO;
-import cn.jackbin.SimpleRecord.constant.CommonConstants;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
 import cn.jackbin.SimpleRecord.dto.SpendCategoryTotalDTO;
 import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
@@ -38,9 +37,19 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
     @Override
     public void add(Integer userId, Integer recordAccountId, Integer recordBookId, Integer recordTypeId, String recordCategory, Double amount,
                     Date occurTime, String tag, String remark, Boolean isRecoverable) {
+        add(userId, recordAccountId, null, null, recordBookId, recordTypeId, recordCategory,
+                amount, occurTime, tag, remark, null, isRecoverable);
+    }
+
+    @Override
+    public void add(Integer userId, Integer recordAccountId, Integer sourceAccountId, Integer targetAccountId,
+                    Integer recordBookId, Integer recordTypeId, String recordCategory, Double amount, Date occurTime,
+                    String tag, String remark, String description, Boolean isRecoverable) {
         RecordDetailDO recordDetailDO = new RecordDetailDO();
         recordDetailDO.setUserId(userId);
         recordDetailDO.setRecordAccountId(recordAccountId);
+        recordDetailDO.setSourceAccount(sourceAccountId);
+        recordDetailDO.setTargetAccount(targetAccountId);
         recordDetailDO.setRecordBookId(recordBookId);
         recordDetailDO.setRecordType(recordTypeId);
         recordDetailDO.setRecordCategory(recordCategory);
@@ -48,6 +57,7 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
         recordDetailDO.setAmount(amount);
         recordDetailDO.setTag(tag);
         recordDetailDO.setRemark(remark);
+        recordDetailDO.setDescription(description);
         recordDetailDO.setIsRecoverable(isRecoverable);
         recordDetailMapper.insert(recordDetailDO);
     }

@@ -42,11 +42,11 @@ public class TransferRecordDetail implements RecordDetailHandler {
         RecordAccountDO sourceAccount = recordAccountService.getById(bo.getSourceAccountId());
         RecordAccountDO targetAccount = recordAccountService.getById(bo.getTargetAccountId());
         // 源账户减去金额
-        recordDetailService.add(userId, bo.getSourceAccountId(), bo.getRecordBookId(), bo.getRecordTypeId(), "内部转账",
-                -bo.getAmount(), bo.getOccurTime(), null, buildSourceRemark(targetAccount.getName(), bo.getAmount()) , null);
+        recordDetailService.add(userId, bo.getSourceAccountId(), null, bo.getTargetAccountId(), bo.getRecordBookId(), bo.getRecordTypeId(),
+                "内部转账", -bo.getAmount(), bo.getOccurTime(), null, bo.getRemark(), buildSourceDesc(targetAccount.getName(), bo.getAmount()) , null);
         // 目标账户增加金额
-        recordDetailService.add(userId, bo.getTargetAccountId(), bo.getRecordBookId(), bo.getRecordTypeId(), "内部转账",
-                bo.getAmount(), bo.getOccurTime(), null, bo.getRemark() != null ? bo.getRemark() : buildTargetRemark(sourceAccount.getName(), bo.getAmount()),null);
+        recordDetailService.add(userId, bo.getTargetAccountId(), bo.getSourceAccountId(), null, bo.getRecordBookId(), bo.getRecordTypeId(),
+                "内部转账", bo.getAmount(), bo.getOccurTime(), null, bo.getRemark(), buildTargetDesc(sourceAccount.getName(), bo.getAmount()),null);
     }
 
     @Override
@@ -72,11 +72,11 @@ public class TransferRecordDetail implements RecordDetailHandler {
         }
     }
 
-    private String buildSourceRemark(String accountName, Double amount) {
+    private String buildSourceDesc(String accountName, Double amount) {
         return "内部转账：转出至账户" + "【" + accountName + "】" + String.format("%.2f", amount) + "元";
     }
 
-    private String buildTargetRemark(String accountName, Double amount) {
+    private String buildTargetDesc(String accountName, Double amount) {
         return "内部转账：由账户" + "【" + accountName + "】转入" + String.format("%.2f", amount) + "元";
     }
 }

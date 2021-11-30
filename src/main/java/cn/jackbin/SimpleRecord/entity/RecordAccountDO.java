@@ -45,5 +45,7 @@ public class RecordAccountDO extends BaseDO implements Serializable {
      */
     private Integer inNetAssets;
 
+    private Integer orderNo;
+
     private Integer status;
 }
