@@ -1,5 +1,6 @@
 package cn.jackbin.SimpleRecord.common.aspect;
 
+import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.common.anotations.DictValue;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.entity.DictDO;
@@ -9,7 +10,6 @@ import cn.jackbin.SimpleRecord.service.DictItemService;
 import cn.jackbin.SimpleRecord.service.DictService;
 import cn.jackbin.SimpleRecord.utils.ClassUtil;
 import cn.jackbin.SimpleRecord.vo.Result;
-import com.baomidou.mybatisplus.core.toolkit.BeanUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -53,10 +53,19 @@ public class DictTranslateAspect implements Ordered {
     public Object around(ProceedingJoinPoint joinPoint)throws Throwable {
         // 切面往下执行
         ret = joinPoint.proceed();
+        if (ret == null)
+            return null;
         // 处理返回结果
         if (ret instanceof Result) {
             Result<?> result = (Result<?>) ret;
-            handleObj(result.getData());
+            // 处理分页结果
+            Object data = result.getData();
+            if (data instanceof PageBO){
+                PageBO<?> pageBO = (PageBO<?>) data;
+                handleObj(pageBO.getList());
+            }else {
+                handleObj(data);
+            }
         } else {
             handleObj(ret);
         }
@@ -71,23 +80,28 @@ public class DictTranslateAspect implements Ordered {
     private void handleObj(Object obj) {
         if (obj instanceof List) {
             List list = (List) obj;
+            if (list.size() < 1)
+                return;
             Object singleDO = list.get(0);
-            Map<String, List<DictItemDO>> dictValues = getDictItems(singleDO);
-            Map<String, String> handleFieldsName = getFields(singleDO);
-            if (dictValues.size() < 1 && handleFieldsName.size() < 1) {
+            List<Field> handleFields = getFields(singleDO);
+            Map<String, List<DictItemDO>> dictValues = getDictItems(handleFields);
+            if (dictValues.size() < 1 && handleFields.size() < 1) {
                 return;
             }
             for (int i=0; i<list.size(); i++) {
                 Object o = list.get(i);
-                Object n = translateSingle(o, dictValues, handleFieldsName);
+                Object n = translateSingle(o, dictValues, handleFields);
                 list.set(i, n);
             }
         } else if (obj instanceof Map){
             log.warn("can't translate dict in type Map");
         } else {
-            Map<String, List<DictItemDO>> dictValues = getDictItems(obj);
-            Map<String, String> handleFieldsName = getFields(obj);
-            ret = translateSingle(obj, dictValues, handleFieldsName);
+            List<Field> handleFields = getFields(obj);
+            Map<String, List<DictItemDO>> dictValues = getDictItems(handleFields);
+            if (dictValues.size() < 1 && handleFields.size() < 1) {
+                return;
+            }
+            ret = translateSingle(obj, dictValues, handleFields);
         }
     }
 
@@ -96,23 +110,21 @@ public class DictTranslateAspect implements Ordered {
      * @param obj
      * @return fieldName -> dictCode
      */
-    private Map<String, String> getFields(Object obj) {
-        Field[] fields = obj.getClass().getDeclaredFields();
-        return Arrays.stream(fields).filter(n -> n.isAnnotationPresent(DictValue.class)).collect(
-                Collectors.toMap(
-                        Field::getName,
-                        val -> val.getAnnotation(DictValue.class).code(),
-                        (o, n) -> o
-                )
-        );
+    private List<Field> getFields(Object obj) {
+        List<Field> fieldList = new ArrayList<>() ;
+        Class<?> clazz = obj.getClass();
+        while (clazz != null) { // get this fields and parent fields
+            fieldList.addAll(Arrays.asList(clazz .getDeclaredFields()));
+            clazz = clazz.getSuperclass(); // get parent fields
+        }
+        return fieldList.stream().filter(n -> n.isAnnotationPresent(DictValue.class)).collect(Collectors.toList());
     }
 
     /**
      * find all dictValues
      */
-    private Map<String, List<DictItemDO>> getDictItems(Object obj) {
-        Field[] fields = obj.getClass().getDeclaredFields();
-        Map<String, List<DictItemDO>> dictValues = Arrays.stream(fields).filter(n -> n.isAnnotationPresent(DictValue.class)).collect(HashMap::new, (x, y) -> {
+    private Map<String, List<DictItemDO>> getDictItems(List<Field> fieldList) {
+        Map<String, List<DictItemDO>> dictValues = fieldList.stream().filter(n -> n.isAnnotationPresent(DictValue.class)).collect(HashMap::new, (x, y) -> {
             x.put(y.getAnnotation(DictValue.class).code(), null); // key is code
         }, HashMap::putAll);
         for (String dictCode : dictValues.keySet()) {
@@ -131,7 +143,7 @@ public class DictTranslateAspect implements Ordered {
      * 处理单个实体类
      * @param obj
      */
-    private Object translateSingle(Object obj, Map<String, List<DictItemDO>> dictValues, Map<String, String> fieldsName) {
+    private Object translateSingle(Object obj, Map<String, List<DictItemDO>> dictValues, List<Field> handleFields) {
         final String textSuffix = "Text";
         final String valueSuffix = "Value";
         if (obj instanceof Iterable) {
@@ -141,26 +153,23 @@ public class DictTranslateAspect implements Ordered {
         Class<?> clazz = obj.getClass();
         Map<String, Class<?>> propertyMap = new HashMap<>();
         Map<String, String> valMap = new HashMap<>();
-        for (String fieldName : fieldsName.keySet()) {
-            try {
-                Object fieldVal = ClassUtil.getProperty(clazz.getDeclaredField(fieldName), obj);
-                if (fieldVal == null) {
-                    log.warn("the field [{}] value is null, please check", fieldName);
-                    continue;
-                }
-                String dictCode = fieldsName.get(fieldName);
-                DictItemDO dictItemVal = dictValues.get(dictCode).stream().filter(n -> n.getId().toString().equals(fieldVal.toString())).findFirst().orElse(null);
-                if (dictItemVal == null) {
-                    log.warn("can't find the id [{}] in dictItem list", fieldVal);
-                    continue;
-                }
-                propertyMap.put(fieldName + textSuffix, String.class); // put property
-                valMap.put(fieldName + textSuffix, dictItemVal.getText());
-                propertyMap.put(fieldName + valueSuffix, String.class); // put property
-                valMap.put(fieldName + valueSuffix, dictItemVal.getValue());
-            } catch (NoSuchFieldException e) {
-                log.warn("field [{}] not in class [{}]", fieldName, obj.getClass());
+        for (Field field : handleFields) {
+            String fieldName = field.getName();
+            Object fieldVal = ClassUtil.getProperty(field, obj);
+            if (fieldVal == null) {
+                log.warn("the field [{}] value is null, please check", fieldName);
+                continue;
             }
+            String dictCode = field.getAnnotation(DictValue.class).code();
+            DictItemDO dictItemVal = dictValues.get(dictCode).stream().filter(n -> n.getId().toString().equals(fieldVal.toString())).findFirst().orElse(null);
+            if (dictItemVal == null) {
+                log.warn("can't find the id [{}] in dictItem list", fieldVal);
+                continue;
+            }
+            propertyMap.put(fieldName + textSuffix, String.class); // put property
+            valMap.put(fieldName + textSuffix, dictItemVal.getText());
+            propertyMap.put(fieldName + valueSuffix, String.class); // put property
+            valMap.put(fieldName + valueSuffix, dictItemVal.getValue());
         }
         // dynamic add field
         Object target = generateBean(obj.getClass(), propertyMap);
