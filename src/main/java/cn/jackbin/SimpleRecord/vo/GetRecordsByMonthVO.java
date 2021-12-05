@@ -23,21 +23,17 @@ import java.util.Date;
 @ApiModel(value="GetRecordsByMonthVO对象", description="获取记账记录对象")
 @Data
 @NoArgsConstructor
-public class GetRecordsByMonthVO {
+public class GetRecordsByMonthVO extends PageVO{
 
     @ApiModelProperty(required = true, value = "年月（yyyy-MM）")
     @JsonFormat(pattern="yyyy-MM",timezone = "GMT+8")
-    private Date date;
+    private Date month;
 
-    @ApiModelProperty(required = true, value = "记录类型编码（支出:expendType;收入:incomeType）")
-    @NotNull(message = "记录类型编码不能为空")
-    private String recordTypeCode;
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    private Date occurTime;
 
-    @ApiModelProperty(required = true, value = "分页索引(从0开始)")
-    @PositiveOrZero(message = "分页索引需为整数")
-    private int pageIndex;
-
-    @ApiModelProperty(required = true, value = "分页大小")
-    @Positive(message = "分页大小需为正数")
-    private int pageSize;
+    /**
+     * 关键词
+     */
+    private String keyWord;
 }

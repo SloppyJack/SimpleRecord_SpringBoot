@@ -1,6 +1,7 @@
 package cn.jackbin.SimpleRecord.service.impl;
 
 import cn.jackbin.SimpleRecord.bo.PageBO;
+import cn.jackbin.SimpleRecord.common.anotations.HandleDict;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
 import cn.jackbin.SimpleRecord.dto.SpendCategoryTotalDTO;
 import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
@@ -48,8 +49,8 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
         RecordDetailDO recordDetailDO = new RecordDetailDO();
         recordDetailDO.setUserId(userId);
         recordDetailDO.setRecordAccountId(recordAccountId);
-        recordDetailDO.setSourceAccount(sourceAccountId);
-        recordDetailDO.setTargetAccount(targetAccountId);
+        recordDetailDO.setSourceAccountId(sourceAccountId);
+        recordDetailDO.setTargetAccountId(targetAccountId);
         recordDetailDO.setRecordBookId(recordBookId);
         recordDetailDO.setRecordType(recordTypeId);
         recordDetailDO.setRecordCategory(recordCategory);
@@ -109,9 +110,11 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
     }
 
     @Override
-    public PageBO<RecordDetailDTO> getListByMonth(Long userId, String recordTypeCode, Date date, int pageIndex, int pageSize) {
-        IPage<RecordDetailDTO> dto = recordDetailMapper.queryByMonth(new Page<>(pageIndex * pageSize, pageSize), userId, recordTypeCode, date);
-        return new PageBO<>(dto.getRecords(), pageIndex, pageSize, (int) dto.getTotal());
+    public void getListByMonth(Long userId, Date date, Date occurTime, String keyWord, PageBO<RecordDetailDTO> pageBO) {
+        Page<RecordDetailDTO> page = new Page<>(pageBO.beginPosition(), pageBO.getPageSize());
+        recordDetailMapper.queryByMonth(page, userId, date, occurTime, keyWord);
+        pageBO.setTotal((int) page.getTotal());
+        pageBO.setList(page.getRecords());
     }
 
     @Override

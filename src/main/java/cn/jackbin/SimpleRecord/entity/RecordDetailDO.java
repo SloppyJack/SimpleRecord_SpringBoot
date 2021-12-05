@@ -1,5 +1,6 @@
 package cn.jackbin.SimpleRecord.entity;
 
+import cn.jackbin.SimpleRecord.common.anotations.DictValue;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -46,6 +47,7 @@ public class RecordDetailDO extends BaseDO implements Serializable {
     /**
      * 记账类型
      */
+    @DictValue(code = "recordType")
     private Integer recordType;
 
     /**
@@ -56,12 +58,12 @@ public class RecordDetailDO extends BaseDO implements Serializable {
     /**
      * 流入账户
      */
-    private Integer sourceAccount;
+    private Integer sourceAccountId;
 
     /**
      * 流出账户
      */
-    private Integer targetAccount;
+    private Integer targetAccountId;
 
     /**
      * 金额

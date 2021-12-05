@@ -2,9 +2,9 @@ package cn.jackbin.SimpleRecord.service;
 
 import cn.jackbin.SimpleRecord.bo.MonthRecordBO;
 import cn.jackbin.SimpleRecord.bo.PageBO;
+import cn.jackbin.SimpleRecord.dto.RecordDetailDTO;
 import cn.jackbin.SimpleRecord.dto.SpendCategoryTotalDTO;
 import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
-import cn.jackbin.SimpleRecord.dto.RecordDetailDTO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.Date;
@@ -61,7 +61,7 @@ public interface RecordDetailService extends IService<RecordDetailDO> {
     /**
      * 查询用户某个月内的记账记录
      */
-    PageBO<RecordDetailDTO> getListByMonth(Long userId, String recordTypeCode, Date date, int pageIndex, int pageSize);
+    void getListByMonth(Long userId, Date date, Date occurTime, String keyWord, PageBO<RecordDetailDTO> pageBO);
 
     /**
      * 查询用户六个月内的记账记录

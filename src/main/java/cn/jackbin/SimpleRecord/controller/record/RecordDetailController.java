@@ -2,22 +2,21 @@ package cn.jackbin.SimpleRecord.controller.record;
 
 import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.common.LocalUserId;
+import cn.jackbin.SimpleRecord.common.anotations.HandleDict;
 import cn.jackbin.SimpleRecord.common.anotations.LoginRequired;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
+import cn.jackbin.SimpleRecord.dto.RecordDetailDTO;
 import cn.jackbin.SimpleRecord.exception.BusinessException;
 import cn.jackbin.SimpleRecord.service.RecordDetailContext;
 import cn.jackbin.SimpleRecord.vo.RecordDetailVO;
 import cn.jackbin.SimpleRecord.vo.Result;
 import cn.jackbin.SimpleRecord.common.LocalUser;
-import cn.jackbin.SimpleRecord.constant.RecordConstant;
 import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.service.RecordDetailService;
-import cn.jackbin.SimpleRecord.dto.RecordDetailDTO;
 import cn.jackbin.SimpleRecord.vo.GetRecordsByMonthVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -73,17 +72,14 @@ public class RecordDetailController {
         return Result.success();
     }
 
-
-    @LoginRequired
+    @HandleDict
     @ApiOperation(value = "分页获取某个月份记账记录")
-    @PostMapping("/listByMonth")
+    @PostMapping("/monthList")
     public Result<?> getListByMonth(@RequestBody  @Validated GetRecordsByMonthVO vo) {
-        if (!vo.getRecordTypeCode().equals(RecordConstant.EXPEND_RECORD_TYPE) && !vo.getRecordTypeCode().equals(RecordConstant.INCOME_RECORD_TYPE)) {
-            return Result.error(CodeMsg.RECORD_TYPE_CODE_ERROR);
-        }
-        UserDO userDO = LocalUser.get();
-        PageBO<RecordDetailDTO> list = recordDetailService.getListByMonth(userDO.getId(), vo.getRecordTypeCode(), vo.getDate(), vo.getPageIndex(), vo.getPageSize());
-        return Result.success(list);
+        PageBO<RecordDetailDTO> pageBO = new PageBO<>(vo.getPageNo(), vo.getPageSize());
+        Long userId = LocalUserId.get();
+        recordDetailService.getListByMonth(userId, vo.getMonth(), vo.getOccurTime(), vo.getKeyWord(), pageBO);
+        return Result.success(pageBO);
     }
 
     private void checkRecord(Long id) {

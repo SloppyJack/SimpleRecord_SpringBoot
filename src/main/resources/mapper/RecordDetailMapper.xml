@@ -40,16 +40,27 @@
     </select>
 
     <select id="queryByMonth" resultType="cn.jackbin.SimpleRecord.dto.RecordDetailDTO">
-        select t1.*, t2.name spendCategoryName, t2.code spendCagegoryCode
+        select t1.*, t2.name recordAccountName, t3.name sourceAccountName, t4.name targetAccountName
         from
             tb_record_detail t1
-            LEFT JOIN tb_spend_category t2 on t2.id = t1.spend_category_id
+            left join tb_record_account t2 on t1.record_account_id = t2.id
+            left join tb_record_account t3 on t1.source_account_id = t3.id
+            left join tb_record_account t4 on t1.target_account_id = t4.id
         where
             t1.user_id = #{userId}
-            and t2.record_type_id = (select id from tb_record_type where code = #{recordTypeCode})
-            and date_format(t1.occur_time, '%Y-%m') = date_format(#{date}, '%Y-%m')
+            <choose>
+                <when test="occurTime == null">
+                    and date_format(t1.occur_time, '%Y-%m') = date_format(#{date}, '%Y-%m')
+                </when>
+                <otherwise>
+                    and date_format(t1.occur_time, '%Y-%m-%d') = date_format(#{occurTime}, '%Y-%m-%d')
+                </otherwise>
+            </choose>
+            <if test="keyWord != null and keyWord != ''">
+                and (t1.record_category = #{keyWord} or t1.remark = #{keyWord})
+            </if>
             and t1.delete_time is null
-        ORDER BY t1.occur_time asc
+        ORDER BY t1.occur_time desc
     </select>
 
     <select id="queryByInterval" resultType="cn.jackbin.SimpleRecord.dto.RecordDetailDTO">

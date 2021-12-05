@@ -14,14 +14,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RecordDetailDTO extends RecordDetailDO {
 
-    /**
-     * 花费类别名
-     */
-    private String spendCategoryName;
+    private static final long serialVersionUID = -1400861529425999732L;
 
-    /**
-     * 花费类别Code
-     */
-    private String spendCategoryCode;
+    private String recordAccountName;
+
+    private String sourceAccountName;
+
+    private String targetAccountName;
 
 }
