@@ -2,9 +2,12 @@ package cn.jackbin.SimpleRecord.service.impl;
 
 import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.common.anotations.HandleDict;
+import cn.jackbin.SimpleRecord.constant.CodeMsg;
+import cn.jackbin.SimpleRecord.constant.CommonConstants;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
 import cn.jackbin.SimpleRecord.dto.SpendCategoryTotalDTO;
 import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
+import cn.jackbin.SimpleRecord.exception.BusinessException;
 import cn.jackbin.SimpleRecord.mapper.RecordDetailMapper;
 import cn.jackbin.SimpleRecord.service.RecordDetailService;
 import cn.jackbin.SimpleRecord.dto.RecordDetailDTO;
@@ -14,6 +17,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,31 +40,35 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
     private RecordDetailMapper recordDetailMapper;
 
     @Override
-    public void add(Integer userId, Integer recordAccountId, Integer recordBookId, Integer recordTypeId, String recordCategory, Double amount,
+    public int add(Integer userId, Integer recordAccountId, Integer recordBookId, Integer recordTypeId, String recordCategory, Double amount,
                     Date occurTime, String tag, String remark, Boolean isRecoverable) {
-        add(userId, recordAccountId, null, null, recordBookId, recordTypeId, recordCategory,
-                amount, occurTime, tag, remark, null, isRecoverable);
+        return add(userId, recordAccountId, null, null, recordBookId, null, recordTypeId, recordCategory,
+                amount, occurTime, tag, remark, isRecoverable);
     }
 
     @Override
-    public void add(Integer userId, Integer recordAccountId, Integer sourceAccountId, Integer targetAccountId,
-                    Integer recordBookId, Integer recordTypeId, String recordCategory, Double amount, Date occurTime,
-                    String tag, String remark, String description, Boolean isRecoverable) {
+    public int add(Integer userId, Integer recordAccountId, Integer sourceAccountId, Integer targetAccountId, Integer recordBookId,
+                   Integer relationRecordId, Integer recordTypeId, String recordCategory, Double amount, Date occurTime,
+                   String tag, String remark, Boolean isRecoverable) {
         RecordDetailDO recordDetailDO = new RecordDetailDO();
         recordDetailDO.setUserId(userId);
         recordDetailDO.setRecordAccountId(recordAccountId);
         recordDetailDO.setSourceAccountId(sourceAccountId);
         recordDetailDO.setTargetAccountId(targetAccountId);
         recordDetailDO.setRecordBookId(recordBookId);
+        recordDetailDO.setRelationRecordId(relationRecordId);
         recordDetailDO.setRecordType(recordTypeId);
         recordDetailDO.setRecordCategory(recordCategory);
         recordDetailDO.setOccurTime(occurTime);
         recordDetailDO.setAmount(amount);
         recordDetailDO.setTag(tag);
         recordDetailDO.setRemark(remark);
-        recordDetailDO.setDescription(description);
         recordDetailDO.setIsRecoverable(isRecoverable);
-        recordDetailMapper.insert(recordDetailDO);
+        recordDetailDO.setStatus(CommonConstants.STATUS_NORMAL);
+        if (recordDetailMapper.insert(recordDetailDO) < 1){
+            throw new BusinessException(CodeMsg.ADD_DATA_ERROR);
+        }
+        return recordDetailDO.getId().intValue();
     }
 
     @Override

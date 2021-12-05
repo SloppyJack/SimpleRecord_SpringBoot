@@ -57,9 +57,10 @@
                 </otherwise>
             </choose>
             <if test="keyWord != null and keyWord != ''">
-                and (t1.record_category = #{keyWord} or t1.remark = #{keyWord})
+                and (t1.record_category like CONCAT(CONCAT('%', #{keyWord}), '%') or t1.remark like CONCAT(CONCAT('%', #{keyWord}), '%'))
             </if>
             and t1.delete_time is null
+            and t1.target_account_id is null   -- 流出账户为空
         ORDER BY t1.occur_time desc
     </select>
 

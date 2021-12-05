@@ -66,6 +66,11 @@ public class RecordDetailDO extends BaseDO implements Serializable {
     private Integer targetAccountId;
 
     /**
+     * 关联记录Id
+     */
+    private Integer relationRecordId;
+
+    /**
      * 金额
      */
     private Double amount;
@@ -79,11 +84,6 @@ public class RecordDetailDO extends BaseDO implements Serializable {
      * 备注
      */
     private String remark;
-
-    /**
-     * 描述
-     */
-    private String description;
 
     private Integer status;
 

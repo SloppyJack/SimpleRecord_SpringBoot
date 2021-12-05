@@ -42,11 +42,11 @@ public class TransferRecordDetail implements RecordDetailHandler {
         RecordAccountDO sourceAccount = recordAccountService.getById(bo.getSourceAccountId());
         RecordAccountDO targetAccount = recordAccountService.getById(bo.getTargetAccountId());
         // 源账户减去金额
-        recordDetailService.add(userId, bo.getSourceAccountId(), null, bo.getTargetAccountId(), bo.getRecordBookId(), bo.getRecordTypeId(),
-                "内部转账", -bo.getAmount(), bo.getOccurTime(), null, bo.getRemark(), buildSourceDesc(targetAccount.getName(), bo.getAmount()) , null);
+        int rid = recordDetailService.add(userId, bo.getSourceAccountId(), null, bo.getTargetAccountId(), bo.getRecordBookId(), null, bo.getRecordTypeId(),
+                "内部转账", -bo.getAmount(), bo.getOccurTime(), null, bo.getRemark(), null);
         // 目标账户增加金额
-        recordDetailService.add(userId, bo.getTargetAccountId(), bo.getSourceAccountId(), null, bo.getRecordBookId(), bo.getRecordTypeId(),
-                "内部转账", bo.getAmount(), bo.getOccurTime(), null, bo.getRemark(), buildTargetDesc(sourceAccount.getName(), bo.getAmount()),null);
+        recordDetailService.add(userId, bo.getTargetAccountId(), bo.getSourceAccountId(), null, bo.getRecordBookId(), rid, bo.getRecordTypeId(),
+                "内部转账", bo.getAmount(), bo.getOccurTime(), null, bo.getRemark(),null);
     }
 
     @Override
