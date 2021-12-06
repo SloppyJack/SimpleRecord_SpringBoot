@@ -27,6 +27,15 @@ public interface RecordDetailService extends IService<RecordDetailDO> {
              String recordCategory, Double amount, Date occurTime, String tag, String remark, Boolean isRecoverable);
 
     /**
+     * 更新关联id
+     * @param id
+     * @param rid
+     */
+    void updateRId(Long id, Integer rid);
+
+    void removeByRId(Long rid);
+
+    /**
      * 获取当前登录用户的记账记录
      */
     List<RecordDetailDO> getRecordsByUserId(Long userId);
@@ -35,16 +44,6 @@ public interface RecordDetailService extends IService<RecordDetailDO> {
      * 分页获取当前登录用户的记账记录
      */
     List<RecordDetailDO> getRecordsByByPage(Long userId, int pageIndex, int pageSize);
-
-    /**
-     * 通过Id获取记账记录
-     */
-    RecordDetailDO getById(Long id);
-
-    /**
-     * 通过Id删除某条记账记录
-     */
-    boolean deleteById(Long id);
 
     /**
      * 获取支出

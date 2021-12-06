@@ -4,10 +4,12 @@ import cn.jackbin.SimpleRecord.bo.RecordDetailBO;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
 import cn.jackbin.SimpleRecord.entity.RecordAccountDO;
+import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
 import cn.jackbin.SimpleRecord.exception.BusinessException;
 import cn.jackbin.SimpleRecord.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 
@@ -38,15 +40,21 @@ public class TransferRecordDetail implements RecordDetailHandler {
     }
 
     @Override
-    public void handle(Integer userId, RecordDetailBO bo) {
-        RecordAccountDO sourceAccount = recordAccountService.getById(bo.getSourceAccountId());
-        RecordAccountDO targetAccount = recordAccountService.getById(bo.getTargetAccountId());
+    public void handleAdd(Integer userId, RecordDetailBO bo) {
         // 源账户减去金额
-        int rid = recordDetailService.add(userId, bo.getSourceAccountId(), null, bo.getTargetAccountId(), bo.getRecordBookId(), null, bo.getRecordTypeId(),
+        int sid = recordDetailService.add(userId, bo.getSourceAccountId(), null, bo.getTargetAccountId(), bo.getRecordBookId(), null, bo.getRecordTypeId(),
                 "内部转账", -bo.getAmount(), bo.getOccurTime(), null, bo.getRemark(), null);
         // 目标账户增加金额
-        recordDetailService.add(userId, bo.getTargetAccountId(), bo.getSourceAccountId(), null, bo.getRecordBookId(), rid, bo.getRecordTypeId(),
+        int tid = recordDetailService.add(userId, bo.getTargetAccountId(), bo.getSourceAccountId(), null, bo.getRecordBookId(), sid, bo.getRecordTypeId(),
                 "内部转账", bo.getAmount(), bo.getOccurTime(), null, bo.getRemark(),null);
+        recordDetailService.updateRId((long) sid, tid);
+    }
+
+    @Override
+    public void handleDel(RecordDetailDO recordDetailDO) {
+        // 先删除关联记录
+        recordDetailService.removeByRId(recordDetailDO.getId());
+        recordDetailService.removeById(recordDetailDO.getId());
     }
 
     @Override
@@ -70,13 +78,5 @@ public class TransferRecordDetail implements RecordDetailHandler {
         if (RecordConstant.PAYMENT_ACCOUNT.equals(targetAccountType)){
             throw new BusinessException(CodeMsg.TARGET_RECORD_ACCOUNT_NOT_PAYMENT);
         }
-    }
-
-    private String buildSourceDesc(String accountName, Double amount) {
-        return "内部转账：转出至账户" + "【" + accountName + "】" + String.format("%.2f", amount) + "元";
-    }
-
-    private String buildTargetDesc(String accountName, Double amount) {
-        return "内部转账：由账户" + "【" + accountName + "】转入" + String.format("%.2f", amount) + "元";
     }
 }

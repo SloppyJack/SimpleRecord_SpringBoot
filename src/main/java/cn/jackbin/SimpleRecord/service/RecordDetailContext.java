@@ -2,17 +2,14 @@ package cn.jackbin.SimpleRecord.service;
 
 import cn.jackbin.SimpleRecord.bo.RecordDetailBO;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
-import cn.jackbin.SimpleRecord.constant.CommonConstants;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
-import cn.jackbin.SimpleRecord.entity.DictDO;
-import cn.jackbin.SimpleRecord.entity.DictItemDO;
-import cn.jackbin.SimpleRecord.entity.RecordAccountDO;
-import cn.jackbin.SimpleRecord.entity.RecordBookDO;
+import cn.jackbin.SimpleRecord.entity.*;
 import cn.jackbin.SimpleRecord.exception.BusinessException;
 import cn.jackbin.SimpleRecord.vo.RecordDetailVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author: create by bin
@@ -35,8 +32,14 @@ public class RecordDetailContext {
     private RecordAccountService recordAccountService;
     @Autowired
     private RecordBookService recordBookService;
+    @Autowired
+    private RecordDetailService recordDetailService;
 
-    public void addRecord(Integer userId, RecordDetailVO recordDetailVO) {
+    /**
+     * 新增记账记录
+     */
+    @Transactional
+    public void add(Integer userId, RecordDetailVO recordDetailVO) {
         RecordDetailHandler handler = factory.getHandler(recordDetailVO.getRecordTypeCode());
         if (handler == null) {
             throw new BusinessException(CodeMsg.BUSINESS_ERROR);
@@ -51,7 +54,22 @@ public class RecordDetailContext {
         recordDetailBO.setRecordTypeId(dictItemDO.getId().intValue());
         beforeHandle(userId, recordDetailBO.getTargetAccountId(), recordDetailBO.getRecordBookId());
         handler.check(userId, recordDetailBO);
-        handler.handle(userId, recordDetailBO);
+        handler.handleAdd(userId, recordDetailBO);
+    }
+
+    @Transactional
+    public void del(Integer userId, Integer id) {
+        RecordDetailDO detail = recordDetailService.getById(id);
+        // 从字典获取recordType
+        DictItemDO dictItemDO = dictItemService.getById(detail.getRecordType());
+        RecordDetailHandler handler = factory.getHandler(dictItemDO.getValue());
+        if (handler == null) {
+            throw new BusinessException(CodeMsg.BUSINESS_ERROR);
+        }
+        if (!userId.equals(detail.getUserId())){
+            throw new BusinessException(CodeMsg.OPERATE_RECORD_ACCOUNT_FORBIDDEN);
+        }
+        handler.handleDel(detail);
     }
 
     /**

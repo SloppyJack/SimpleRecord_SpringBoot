@@ -4,10 +4,12 @@ import cn.jackbin.SimpleRecord.bo.RecordDetailBO;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
 import cn.jackbin.SimpleRecord.entity.RecordAccountDO;
+import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
 import cn.jackbin.SimpleRecord.exception.BusinessException;
 import cn.jackbin.SimpleRecord.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 
@@ -37,9 +39,14 @@ public class IncomeRecordDetail implements RecordDetailHandler {
     }
 
     @Override
-    public void handle(Integer userId, RecordDetailBO bo) {
+    public void handleAdd(Integer userId, RecordDetailBO bo) {
         recordDetailService.add(userId, bo.getTargetAccountId(), bo.getRecordBookId(), bo.getRecordTypeId(), bo.getRecordCategory(),
                 bo.getAmount(), bo.getOccurTime(), bo.getTag(), bo.getRemark(), null);
+    }
+
+    @Override
+    public void handleDel(RecordDetailDO recordDetailDO) {
+        recordDetailService.removeById(recordDetailDO.getId());
     }
 
     @Override

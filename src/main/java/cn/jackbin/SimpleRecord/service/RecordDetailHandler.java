@@ -1,6 +1,8 @@
 package cn.jackbin.SimpleRecord.service;
 
 import cn.jackbin.SimpleRecord.bo.RecordDetailBO;
+import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author: create by bin
@@ -18,7 +20,12 @@ public interface RecordDetailHandler {
     /**
      * 记一笔
      */
-    void handle(Integer userId, RecordDetailBO recordDetailBO);
+    void handleAdd(Integer userId, RecordDetailBO recordDetailBO);
+
+    /**
+     * 删除一条记录
+     */
+    void handleDel(RecordDetailDO recordDetailDO);
 
     void check(Integer userId, RecordDetailBO recordDetailBO);
 

@@ -20,6 +20,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -72,6 +73,21 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
     }
 
     @Override
+    public void updateRId(Long id, Integer rid) {
+        RecordDetailDO recordDetailDO = new RecordDetailDO();
+        recordDetailDO.setId(id);
+        recordDetailDO.setRelationRecordId(rid);
+        recordDetailMapper.updateById(recordDetailDO);
+    }
+
+    @Override
+    public void removeByRId(Long rid) {
+        QueryWrapper<RecordDetailDO> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("relation_record_id", rid);
+        recordDetailMapper.delete(queryWrapper);
+    }
+
+    @Override
     public List<RecordDetailDO> getRecordsByUserId(Long userId) {
         QueryWrapper<RecordDetailDO> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id",userId);
@@ -85,16 +101,6 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
         queryWrapper.eq("user_id", userId);
         page = recordDetailMapper.selectPage(page, queryWrapper);
         return page.getRecords();
-    }
-
-    @Override
-    public RecordDetailDO getById(Long id) {
-        return recordDetailMapper.selectById(id);
-    }
-
-    @Override
-    public boolean deleteById(Long id) {
-        return recordDetailMapper.deleteById(id) > 0;
     }
 
     @Override

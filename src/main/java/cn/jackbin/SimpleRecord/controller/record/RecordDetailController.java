@@ -4,15 +4,10 @@ import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.common.LocalUserId;
 import cn.jackbin.SimpleRecord.common.anotations.HandleDict;
 import cn.jackbin.SimpleRecord.common.anotations.LoginRequired;
-import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.dto.RecordDetailDTO;
-import cn.jackbin.SimpleRecord.exception.BusinessException;
 import cn.jackbin.SimpleRecord.service.RecordDetailContext;
 import cn.jackbin.SimpleRecord.vo.RecordDetailVO;
 import cn.jackbin.SimpleRecord.vo.Result;
-import cn.jackbin.SimpleRecord.common.LocalUser;
-import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
-import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.service.RecordDetailService;
 import cn.jackbin.SimpleRecord.vo.GetRecordsByMonthVO;
 import io.swagger.annotations.Api;
@@ -48,27 +43,21 @@ public class RecordDetailController {
     @PostMapping
     public Result<?> addRecord(@RequestBody @Validated RecordDetailVO vo) {
         Long userId = LocalUserId.get();
-        recordDetailContext.addRecord(userId.intValue(), vo);
+        recordDetailContext.add(userId.intValue(), vo);
         return Result.success();
     }
 
-    @LoginRequired
     @ApiOperation(value = "修改当前登录用户的记账记录")
     @PutMapping("/{id}")
     public Result<?> updateRecord(@PathVariable("id") @Validated @Positive(message = "id需为正数") Long id, @RequestBody @Validated RecordDetailVO vo) {
-        // 校验
-        checkRecord(id);
-        // todo fixme
-//        boolean uFlag = recordDetailService.updateRecord();
         return Result.success();
     }
 
-    @LoginRequired
     @ApiOperation(value = "删除当前登录用户的记账记录")
     @DeleteMapping("/{id}")
-    public Result<?> deleteBook(@PathVariable("id") @Positive(message = "{id}") Long id) {
-        checkRecord(id);
-        boolean delFlag = recordDetailService.deleteById(id);
+    public Result<?> deleteRecord(@PathVariable("id") @Positive(message = "{id}") Integer id) {
+        Long userId = LocalUserId.get();
+        recordDetailContext.del(userId.intValue(), id);
         return Result.success();
     }
 
@@ -80,17 +69,5 @@ public class RecordDetailController {
         Long userId = LocalUserId.get();
         recordDetailService.getListByMonth(userId, vo.getMonth(), vo.getOccurTime(), vo.getKeyWord(), pageBO);
         return Result.success(pageBO);
-    }
-
-    private void checkRecord(Long id) {
-        RecordDetailDO recordDetailDO = recordDetailService.getById(id);
-        if (recordDetailDO == null) {
-            throw new BusinessException(CodeMsg.NOT_FIND_DATA);
-        }
-        // 校验是否为当前登录人的记账记录
-        UserDO userDO = LocalUser.get();
-        if (!recordDetailDO.getUserId().equals(userDO.getId().intValue())) {
-            throw new BusinessException(CodeMsg.OPERATE_RECORD_FORBIDDEN);
-        }
     }
 }
