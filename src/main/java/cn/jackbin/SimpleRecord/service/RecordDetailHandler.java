@@ -23,6 +23,11 @@ public interface RecordDetailHandler {
     void handleAdd(Integer userId, RecordDetailBO recordDetailBO);
 
     /**
+     * 更新记账记录
+     */
+    void handleUpdate(RecordDetailBO recordDetailBO);
+
+    /**
      * 删除一条记录
      */
     void handleDel(RecordDetailDO recordDetailDO);

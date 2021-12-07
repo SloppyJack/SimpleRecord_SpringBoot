@@ -39,22 +39,27 @@ public class RecordDetailContext {
      * 新增记账记录
      */
     @Transactional
-    public void add(Integer userId, RecordDetailVO recordDetailVO) {
-        RecordDetailHandler handler = factory.getHandler(recordDetailVO.getRecordTypeCode());
+    public void addOrEdit(Integer userId, RecordDetailVO vo) {
+        RecordDetailHandler handler = factory.getHandler(vo.getRecordTypeCode());
         if (handler == null) {
             throw new BusinessException(CodeMsg.BUSINESS_ERROR);
         }
         // 获取dictDO
         DictDO dictDO = dictService.getByCode(RecordConstant.RECORD_TYPE);
         // 从字典获取recordType
-        DictItemDO dictItemDO = dictItemService.getByValue(dictDO.getId().intValue(), recordDetailVO.getRecordTypeCode());
-        RecordDetailBO recordDetailBO = new RecordDetailBO();
-        BeanUtils.copyProperties(recordDetailVO, recordDetailBO);
+        DictItemDO dictItemDO = dictItemService.getByValue(dictDO.getId().intValue(), vo.getRecordTypeCode());
+        RecordDetailBO bo = new RecordDetailBO();
+        BeanUtils.copyProperties(vo, bo);
         // 设置recordTypeId
-        recordDetailBO.setRecordTypeId(dictItemDO.getId().intValue());
-        beforeHandle(userId, recordDetailBO.getTargetAccountId(), recordDetailBO.getRecordBookId());
-        handler.check(userId, recordDetailBO);
-        handler.handleAdd(userId, recordDetailBO);
+        bo.setRecordTypeId(dictItemDO.getId().intValue());
+        beforeHandle(vo.getId(), userId, bo.getTargetAccountId(), bo.getRecordBookId());
+        handler.check(userId, bo);
+        // 如果有id就是编辑
+        if (vo.getId() != null){
+            handler.handleUpdate(bo);
+        }else {
+            handler.handleAdd(userId, bo);
+        }
     }
 
     @Transactional
@@ -75,7 +80,7 @@ public class RecordDetailContext {
     /**
      * 校验记账的数据是否合规
      */
-    private void beforeHandle(Integer userId, Integer targetAccountId, Integer recordBookId) {
+    private void beforeHandle(Long id, Integer userId, Integer targetAccountId, Integer recordBookId) {
         // 校验账户和账单是否属于该用户
         RecordAccountDO recordAccountDO = recordAccountService.getById(targetAccountId);
         if (recordAccountDO == null || !recordAccountDO.getUserId().equals(userId)) {
@@ -85,5 +90,10 @@ public class RecordDetailContext {
         if (recordBookDO == null || !recordBookDO.getUserId().equals(userId)) {
             throw new BusinessException(CodeMsg.OPERATE_RECORD_BOOK_FORBIDDEN);
         }
+        // 如果有id，校验记录是否存在
+        if (id != null && recordDetailService.getById(id) == null){
+            throw new BusinessException(CodeMsg.NOT_FIND_DATA);
+        }
+
     }
 }

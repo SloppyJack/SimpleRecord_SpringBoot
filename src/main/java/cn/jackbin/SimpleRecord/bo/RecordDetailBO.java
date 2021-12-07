@@ -14,6 +14,8 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 public class RecordDetailBO {
+    private Long id;
+
     private Integer sourceAccountId;
 
     private Integer targetAccountId;

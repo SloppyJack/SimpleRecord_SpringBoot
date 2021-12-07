@@ -43,13 +43,16 @@ public class RecordDetailController {
     @PostMapping
     public Result<?> addRecord(@RequestBody @Validated RecordDetailVO vo) {
         Long userId = LocalUserId.get();
-        recordDetailContext.add(userId.intValue(), vo);
+        recordDetailContext.addOrEdit(userId.intValue(), vo);
         return Result.success();
     }
 
     @ApiOperation(value = "修改当前登录用户的记账记录")
     @PutMapping("/{id}")
     public Result<?> updateRecord(@PathVariable("id") @Validated @Positive(message = "id需为正数") Long id, @RequestBody @Validated RecordDetailVO vo) {
+        Long userId = LocalUserId.get();
+        vo.setId(id);
+        recordDetailContext.addOrEdit(userId.intValue(), vo);
         return Result.success();
     }
 

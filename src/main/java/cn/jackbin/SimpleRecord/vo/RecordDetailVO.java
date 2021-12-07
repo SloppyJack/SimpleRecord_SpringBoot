@@ -19,6 +19,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 public class RecordDetailVO {
+    private Long id;
 
     @Positive(message = "来源账户须为整数")
     private Integer sourceAccountId;

@@ -73,6 +73,41 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
     }
 
     @Override
+    public void update(Long id, Integer recordAccountId, Integer recordBookId, Integer recordTypeId, String recordCategory, Double amount, Date occurTime, String tag, String remark, Boolean isRecoverable) {
+        RecordDetailDO recordDetailDO = new RecordDetailDO();
+        recordDetailDO.setId(id);
+        recordDetailDO.setRecordAccountId(recordAccountId);
+        recordDetailDO.setRecordBookId(recordBookId);
+        recordDetailDO.setRecordType(recordTypeId);
+        recordDetailDO.setRecordCategory(recordCategory);
+        recordDetailDO.setOccurTime(occurTime);
+        recordDetailDO.setAmount(amount);
+        recordDetailDO.setTag(tag);
+        recordDetailDO.setRemark(remark);
+        recordDetailDO.setIsRecoverable(isRecoverable);
+        recordDetailMapper.updateById(recordDetailDO);
+    }
+
+    @Override
+    public void update(Long id, Integer recordBookId, Double amount, Date occurTime, String tag, String remark) {
+        RecordDetailDO recordDetailDO = new RecordDetailDO();
+        recordDetailDO.setId(id);
+        recordDetailDO.setRecordBookId(recordBookId);
+        recordDetailDO.setOccurTime(occurTime);
+        recordDetailDO.setAmount(amount);
+        recordDetailDO.setTag(tag);
+        recordDetailDO.setRemark(remark);
+        recordDetailMapper.updateById(recordDetailDO);
+    }
+
+    @Override
+    public RecordDetailDO getByRId(Integer rid) {
+        QueryWrapper<RecordDetailDO> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("relation_record_id", rid);
+        return recordDetailMapper.selectOne(queryWrapper);
+    }
+
+    @Override
     public void updateRId(Long id, Integer rid) {
         RecordDetailDO recordDetailDO = new RecordDetailDO();
         recordDetailDO.setId(id);

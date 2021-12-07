@@ -9,7 +9,6 @@ import cn.jackbin.SimpleRecord.exception.BusinessException;
 import cn.jackbin.SimpleRecord.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 
@@ -41,6 +40,12 @@ public class IncomeRecordDetail implements RecordDetailHandler {
     @Override
     public void handleAdd(Integer userId, RecordDetailBO bo) {
         recordDetailService.add(userId, bo.getTargetAccountId(), bo.getRecordBookId(), bo.getRecordTypeId(), bo.getRecordCategory(),
+                bo.getAmount(), bo.getOccurTime(), bo.getTag(), bo.getRemark(), null);
+    }
+
+    @Override
+    public void handleUpdate(RecordDetailBO bo) {
+        recordDetailService.update(bo.getId(), bo.getTargetAccountId(), bo.getRecordBookId(), bo.getRecordTypeId(), bo.getRecordCategory(),
                 bo.getAmount(), bo.getOccurTime(), bo.getTag(), bo.getRemark(), null);
     }
 

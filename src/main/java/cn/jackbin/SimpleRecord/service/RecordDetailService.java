@@ -26,6 +26,17 @@ public interface RecordDetailService extends IService<RecordDetailDO> {
     int add(Integer userId, Integer recordAccountId, Integer sourceAccountId, Integer targetAccountId, Integer recordBookId, Integer relationRecordId, Integer recordTypeId,
              String recordCategory, Double amount, Date occurTime, String tag, String remark, Boolean isRecoverable);
 
+    void update(Long id, Integer recordAccountId, Integer recordBookId, Integer recordTypeId, String recordCategory, Double amount,
+            Date occurTime, String tag, String remark, Boolean isRecoverable);
+
+    void update(Long id, Integer recordBookId, Double amount, Date occurTime, String tag, String remark);
+
+    /**
+     * 找到关联记录
+     * @param rid 关联id
+     * @return
+     */
+    RecordDetailDO getByRId(Integer rid);
     /**
      * 更新关联id
      * @param id

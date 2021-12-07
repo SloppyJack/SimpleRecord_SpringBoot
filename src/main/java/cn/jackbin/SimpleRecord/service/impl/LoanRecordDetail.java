@@ -9,7 +9,6 @@ import cn.jackbin.SimpleRecord.exception.BusinessException;
 import cn.jackbin.SimpleRecord.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 
@@ -48,6 +47,18 @@ public class LoanRecordDetail implements RecordDetailHandler {
         int tid = recordDetailService.add(userId, bo.getTargetAccountId(), bo.getSourceAccountId(), null, bo.getRecordBookId(), sid, bo.getRecordTypeId(),
                 "借贷", bo.getAmount(), bo.getOccurTime(), null, bo.getRemark(), null);
         recordDetailService.updateRId((long) sid, tid);
+    }
+
+    @SuppressWarnings("DuplicatedCode")
+    @Override
+    public void handleUpdate(RecordDetailBO bo) {
+        // 通过rid找到源id
+        RecordDetailDO targetRecordDO = recordDetailService.getById(bo.getId());
+        RecordDetailDO sourceDetailDO = recordDetailService.getByRId(targetRecordDO.getRelationRecordId());
+        // 更新关联记录
+        recordDetailService.update(sourceDetailDO.getId(), bo.getRecordBookId(), bo.getAmount(), bo.getOccurTime(), bo.getTag(), bo.getRemark());
+        // 更新目标记录
+        recordDetailService.update(targetRecordDO.getId(), bo.getRecordBookId(), bo.getAmount(), bo.getOccurTime(), bo.getTag(), bo.getRemark());
     }
 
     @Override
