@@ -1,6 +1,7 @@
 package cn.jackbin.SimpleRecord.controller.record;
 
 import cn.jackbin.SimpleRecord.common.LocalUserId;
+import cn.jackbin.SimpleRecord.common.anotations.HandleDict;
 import cn.jackbin.SimpleRecord.entity.RecordUserCategoryDO;
 import cn.jackbin.SimpleRecord.service.RecordUserCategoryService;
 import cn.jackbin.SimpleRecord.vo.Result;

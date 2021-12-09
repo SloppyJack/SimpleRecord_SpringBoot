@@ -2,13 +2,18 @@ package cn.jackbin.SimpleRecord.vo;
 
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 
+import java.io.Serializable;
+
 /**
  * @author: create by bin
  * @version: v1.0
  * @description: com.ssm.dto
  * @date:2019/8/5
  **/
-public class Result<T> {
+public class Result<T> implements Serializable {
+
+    private static final long serialVersionUID = -4274097396250944384L;
+
     private String message;
     private int retCode;
     private T data;

@@ -50,7 +50,7 @@ public class DictTranslateAspect implements Ordered {
 
     // 开始环绕
     @Around("doHandler()")
-    public Object around(ProceedingJoinPoint joinPoint)throws Throwable {
+    public synchronized Object around(ProceedingJoinPoint joinPoint)throws Throwable {
         // 切面往下执行
         ret = joinPoint.proceed();
         if (ret == null)

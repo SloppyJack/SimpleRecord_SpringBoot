@@ -33,7 +33,7 @@ public class RecordDetailVO {
     @NotNull(message = "记账类型不能为空")
     private String recordTypeCode;
 
-    @NotBlank(message = "记账类不能为空")
+    @NotBlank(message = "记账类别不能为空")
     private String recordCategory;
 
     @NotNull(message = "金额不能为空")
