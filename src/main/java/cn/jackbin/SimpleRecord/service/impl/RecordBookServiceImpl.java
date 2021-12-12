@@ -89,6 +89,7 @@ public class RecordBookServiceImpl extends ServiceImpl<RecordBookMapper, RecordB
     public List<RecordBookDO> getList(Integer userId) {
         QueryWrapper<RecordBookDO> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);
+        queryWrapper.orderByAsc("order_no");
         return recordBookMapper.selectList(queryWrapper);
     }
 }

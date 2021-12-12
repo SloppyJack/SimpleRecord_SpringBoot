@@ -53,12 +53,11 @@ public class TransferRecordDetail implements RecordDetailHandler {
     @Override
     public void handleUpdate(RecordDetailBO bo) {
         // 通过rid找到源id
-        RecordDetailDO targetRecordDO = recordDetailService.getById(bo.getId());
-        RecordDetailDO sourceDetailDO = recordDetailService.getByRId(targetRecordDO.getRelationRecordId());
+        RecordDetailDO sourceDetailDO = recordDetailService.getByRId(bo.getId().intValue());
         // 更新关联记录
-        recordDetailService.update(sourceDetailDO.getId(), bo.getRecordBookId(), bo.getAmount(), bo.getOccurTime(), bo.getTag(), bo.getRemark());
+        recordDetailService.update(sourceDetailDO.getId(), bo.getRecordBookId(), -bo.getAmount(), bo.getOccurTime(), bo.getTag(), bo.getRemark());
         // 更新目标记录
-        recordDetailService.update(targetRecordDO.getId(), bo.getRecordBookId(), bo.getAmount(), bo.getOccurTime(), bo.getTag(), bo.getRemark());
+        recordDetailService.update(bo.getId(), bo.getRecordBookId(), bo.getAmount(), bo.getOccurTime(), bo.getTag(), bo.getRemark());
     }
 
     @Override

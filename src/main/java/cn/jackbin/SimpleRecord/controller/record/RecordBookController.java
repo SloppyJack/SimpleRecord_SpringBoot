@@ -82,7 +82,7 @@ public class RecordBookController {
         return Result.success();
     }
 
-    @GetMapping("/list")
+    @GetMapping
     public Result<?> getRecordBooks() {
         Long userId = LocalUserId.get();
         List<RecordBookDO> list = recordBookService.getList(userId.intValue());
