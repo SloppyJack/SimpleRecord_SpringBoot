@@ -1,7 +1,6 @@
 package cn.jackbin.SimpleRecord.service.impl;
 
 import cn.jackbin.SimpleRecord.bo.PageBO;
-import cn.jackbin.SimpleRecord.common.anotations.HandleDict;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.constant.CommonConstants;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
@@ -17,10 +16,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,15 +39,15 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
 
     @Override
     public int add(Integer userId, Integer recordAccountId, Integer recordBookId, Integer recordTypeId, String recordCategory, Double amount,
-                    Date occurTime, String tag, String remark, Boolean isRecoverable) {
+                    Date occurTime, String tag, String remark, Integer recoverableStatus) {
         return add(userId, recordAccountId, null, null, recordBookId, null, recordTypeId, recordCategory,
-                amount, occurTime, tag, remark, isRecoverable);
+                amount, occurTime, tag, remark, recoverableStatus);
     }
 
     @Override
     public int add(Integer userId, Integer recordAccountId, Integer sourceAccountId, Integer targetAccountId, Integer recordBookId,
                    Integer relationRecordId, Integer recordTypeId, String recordCategory, Double amount, Date occurTime,
-                   String tag, String remark, Boolean isRecoverable) {
+                   String tag, String remark, Integer recoverableStatus) {
         RecordDetailDO recordDetailDO = new RecordDetailDO();
         recordDetailDO.setUserId(userId);
         recordDetailDO.setRecordAccountId(recordAccountId);
@@ -64,7 +61,7 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
         recordDetailDO.setAmount(amount);
         recordDetailDO.setTag(tag);
         recordDetailDO.setRemark(remark);
-        recordDetailDO.setIsRecoverable(isRecoverable);
+        recordDetailDO.setRecoverableStatus(recoverableStatus);
         recordDetailDO.setStatus(CommonConstants.STATUS_NORMAL);
         if (recordDetailMapper.insert(recordDetailDO) < 1){
             throw new BusinessException(CodeMsg.ADD_DATA_ERROR);
@@ -73,7 +70,7 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
     }
 
     @Override
-    public void update(Long id, Integer recordAccountId, Integer recordBookId, Integer recordTypeId, String recordCategory, Double amount, Date occurTime, String tag, String remark, Boolean isRecoverable) {
+    public void update(Long id, Integer recordAccountId, Integer recordBookId, Integer recordTypeId, String recordCategory, Double amount, Date occurTime, String tag, String remark, Integer recoverableStatus) {
         RecordDetailDO recordDetailDO = new RecordDetailDO();
         recordDetailDO.setId(id);
         recordDetailDO.setRecordAccountId(recordAccountId);
@@ -84,7 +81,7 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
         recordDetailDO.setAmount(amount);
         recordDetailDO.setTag(tag);
         recordDetailDO.setRemark(remark);
-        recordDetailDO.setIsRecoverable(isRecoverable);
+        recordDetailDO.setRecoverableStatus(recoverableStatus);
         recordDetailMapper.updateById(recordDetailDO);
     }
 
@@ -162,6 +159,14 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
     public void getListByMonth(Long userId, Date date, Date occurTime, String keyWord, PageBO<RecordDetailDTO> pageBO) {
         Page<RecordDetailDTO> page = new Page<>(pageBO.beginPosition(), pageBO.getPageSize());
         recordDetailMapper.queryByMonth(page, userId, date, occurTime, keyWord);
+        pageBO.setTotal((int) page.getTotal());
+        pageBO.setList(page.getRecords());
+    }
+
+    @Override
+    public void getRecoverableList(Long userId, Integer recoverableStatus, PageBO<RecordDetailDTO> pageBO) {
+        Page<RecordDetailDTO> page = new Page<>(pageBO.beginPosition(), pageBO.getPageSize());
+        recordDetailMapper.queryRecoverableList(page, userId, recoverableStatus);
         pageBO.setTotal((int) page.getTotal());
         pageBO.setList(page.getRecords());
     }

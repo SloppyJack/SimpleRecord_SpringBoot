@@ -45,7 +45,8 @@ public class RecordDetailVO {
     private Date occurTime;
 
     // 是否报销
-    private Boolean isRecoverable;
+    @NotNull(message = "是否报销不能为空")
+    private Integer recoverableStatus;
 
     private String tag;
 

@@ -26,14 +26,28 @@ public class RecordConstant {
     public static final int NOT_USER_DEFAULT = 2;
 
     /**
-     * 属于净资产
+     * 属于
      */
-    public static final int IN_NET_ASSETS = 1;
+    public static final int BUSINESS_YES = 1;
 
     /**
-     * 不属于净资产
+     * 不属于
      */
-    public static final int NOT_IN_NET_ASSETS = 2;
+    public static final int BUSINESS_NOT = 2;
 
+    /**
+     * 非报销
+     */
+    public static final int NOT_RECOVERABLE = 1;
+
+    /**
+     * 待报销
+     */
+    public static final int TO_RECOVERABLE = 2;
+
+    /**
+     * 已报销
+     */
+    public static final int IS_RECOVERABLE = 3;
 
 }

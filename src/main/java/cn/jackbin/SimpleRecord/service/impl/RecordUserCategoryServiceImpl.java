@@ -28,6 +28,7 @@ public class RecordUserCategoryServiceImpl extends ServiceImpl<RecordUserCategor
     public List<RecordUserCategoryDO> getList(Integer userId) {
         QueryWrapper<RecordUserCategoryDO> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);
+        queryWrapper.orderByAsc("type", "order_no");
         return userCategoryMapper.selectList(queryWrapper);
     }
 }

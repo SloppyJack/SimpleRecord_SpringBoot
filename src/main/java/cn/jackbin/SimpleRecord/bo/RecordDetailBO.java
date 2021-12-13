@@ -32,7 +32,7 @@ public class RecordDetailBO {
 
     private Date occurTime;
 
-    private Boolean isRecoverable;
+    private Integer recoverableStatus;
 
     private String tag;
 

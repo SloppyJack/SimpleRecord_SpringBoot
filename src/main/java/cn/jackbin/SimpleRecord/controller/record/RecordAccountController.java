@@ -49,7 +49,7 @@ public class RecordAccountController {
             throw new BusinessException(CodeMsg.RECORD_ACCOUNT_SIZE_TOO_MUCH);
         }
         recordAccountService.add(userDO.getId().intValue(), vo.getType(), vo.getName(),
-                vo.getInNetAssets() ? RecordConstant.IN_NET_ASSETS : RecordConstant.NOT_IN_NET_ASSETS, vo.getOrderNo());
+                vo.getInNetAssets() ? RecordConstant.BUSINESS_YES : RecordConstant.BUSINESS_NOT, vo.getOrderNo());
         return Result.success();
     }
 
@@ -62,7 +62,7 @@ public class RecordAccountController {
         if (accountDO == null || userId.intValue() != accountDO.getUserId()){
             throw new BusinessException(CodeMsg.OPERATE_RECORD_FORBIDDEN);
         }
-        recordAccountService.update(id, vo.getType(), vo.getName(), vo.getInNetAssets() ? RecordConstant.IN_NET_ASSETS : RecordConstant.NOT_IN_NET_ASSETS,
+        recordAccountService.update(id, vo.getType(), vo.getName(), vo.getInNetAssets() ? RecordConstant.BUSINESS_YES : RecordConstant.BUSINESS_NOT,
                 vo.getOrderNo());
         return Result.success();
     }

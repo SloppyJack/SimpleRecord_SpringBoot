@@ -21,13 +21,14 @@ import java.util.List;
 public interface RecordDetailService extends IService<RecordDetailDO> {
 
     int add(Integer userId, Integer recordAccountId, Integer recordBookId, Integer recordTypeId, String recordCategory, Double amount,
-             Date occurTime, String tag, String remark, Boolean isRecoverable);
+             Date occurTime, String tag, String remark, Integer recoverableStatus);
 
     int add(Integer userId, Integer recordAccountId, Integer sourceAccountId, Integer targetAccountId, Integer recordBookId, Integer relationRecordId, Integer recordTypeId,
-             String recordCategory, Double amount, Date occurTime, String tag, String remark, Boolean isRecoverable);
+             String recordCategory, Double amount, Date occurTime, String tag, String remark, Integer recoverableStatus);
 
     void update(Long id, Integer recordAccountId, Integer recordBookId, Integer recordTypeId, String recordCategory, Double amount,
-            Date occurTime, String tag, String remark, Boolean isRecoverable);
+            Date occurTime, String tag, String remark, Integer recoverableStatus
+    );
 
     void update(Long id, Integer recordBookId, Double amount, Date occurTime, String tag, String remark);
 
@@ -72,6 +73,8 @@ public interface RecordDetailService extends IService<RecordDetailDO> {
      * 查询用户某个月内的记账记录
      */
     void getListByMonth(Long userId, Date date, Date occurTime, String keyWord, PageBO<RecordDetailDTO> pageBO);
+
+    void getRecoverableList(Long userId, Integer recoverableStatus, PageBO<RecordDetailDTO> pageBO);
 
     /**
      * 查询用户六个月内的记账记录

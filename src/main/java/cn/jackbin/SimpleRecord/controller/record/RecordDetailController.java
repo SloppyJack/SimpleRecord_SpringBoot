@@ -4,8 +4,10 @@ import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.common.LocalUserId;
 import cn.jackbin.SimpleRecord.common.anotations.HandleDict;
 import cn.jackbin.SimpleRecord.common.anotations.LoginRequired;
+import cn.jackbin.SimpleRecord.constant.RecordConstant;
 import cn.jackbin.SimpleRecord.dto.RecordDetailDTO;
 import cn.jackbin.SimpleRecord.service.RecordDetailContext;
+import cn.jackbin.SimpleRecord.vo.PageVO;
 import cn.jackbin.SimpleRecord.vo.RecordDetailVO;
 import cn.jackbin.SimpleRecord.vo.Result;
 import cn.jackbin.SimpleRecord.service.RecordDetailService;
@@ -71,6 +73,16 @@ public class RecordDetailController {
         PageBO<RecordDetailDTO> pageBO = new PageBO<>(vo.getPageNo(), vo.getPageSize());
         Long userId = LocalUserId.get();
         recordDetailService.getListByMonth(userId, vo.getMonth(), vo.getOccurTime(), vo.getKeyWord(), pageBO);
+        return Result.success(pageBO);
+    }
+
+    @HandleDict
+    @ApiOperation(value = "分页获取某个月份报销记录")
+    @PostMapping("/recoverable")
+    public Result<?> getReimbursementList(@RequestBody  @Validated PageVO vo) {
+        PageBO<RecordDetailDTO> pageBO = new PageBO<>(vo.getPageNo(), vo.getPageSize());
+        Long userId = LocalUserId.get();
+        recordDetailService.getRecoverableList(userId, RecordConstant.TO_RECOVERABLE, pageBO);
         return Result.success(pageBO);
     }
 }

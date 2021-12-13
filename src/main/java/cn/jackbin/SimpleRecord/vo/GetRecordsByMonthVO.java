@@ -27,6 +27,7 @@ public class GetRecordsByMonthVO extends PageVO{
 
     @ApiModelProperty(required = true, value = "年月（yyyy-MM）")
     @JsonFormat(pattern="yyyy-MM",timezone = "GMT+8")
+    @NotNull
     private Date month;
 
     @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
