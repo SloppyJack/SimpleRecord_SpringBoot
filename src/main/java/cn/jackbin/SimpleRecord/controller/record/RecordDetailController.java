@@ -4,9 +4,13 @@ import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.common.LocalUserId;
 import cn.jackbin.SimpleRecord.common.anotations.HandleDict;
 import cn.jackbin.SimpleRecord.common.anotations.LoginRequired;
+import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
 import cn.jackbin.SimpleRecord.dto.RecordDetailDTO;
+import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
+import cn.jackbin.SimpleRecord.exception.BusinessException;
 import cn.jackbin.SimpleRecord.service.RecordDetailContext;
+import cn.jackbin.SimpleRecord.service.impl.ExpendRecordDetail;
 import cn.jackbin.SimpleRecord.vo.PageVO;
 import cn.jackbin.SimpleRecord.vo.RecordDetailVO;
 import cn.jackbin.SimpleRecord.vo.Result;
@@ -19,6 +23,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 /**
  * @author: create by bin
@@ -36,6 +41,9 @@ public class RecordDetailController {
 
     @Autowired
     private RecordDetailContext recordDetailContext;
+
+    @Autowired
+    private ExpendRecordDetail expendRecordDetail;
 
     /**
      * 记账
@@ -79,10 +87,18 @@ public class RecordDetailController {
     @HandleDict
     @ApiOperation(value = "分页获取某个月份报销记录")
     @PostMapping("/recoverable")
-    public Result<?> getReimbursementList(@RequestBody  @Validated PageVO vo) {
+    public Result<?> getRecoverableList(@RequestBody  @Validated PageVO vo) {
         PageBO<RecordDetailDTO> pageBO = new PageBO<>(vo.getPageNo(), vo.getPageSize());
         Long userId = LocalUserId.get();
         recordDetailService.getRecoverableList(userId, RecordConstant.TO_RECOVERABLE, pageBO);
         return Result.success(pageBO);
+    }
+
+    @ApiOperation(value = "批量报销")
+    @PutMapping("/recover")
+    public Result<?> recoverRecords(@RequestBody List<Long> ids){
+        Long userId = LocalUserId.get();
+        expendRecordDetail.recoverRecords(userId.intValue(), ids);
+        return Result.success();
     }
 }

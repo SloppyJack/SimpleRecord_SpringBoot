@@ -15,6 +15,8 @@ public class RecordConstant {
 
     public static final String PAYMENT_ACCOUNT = "payment"; // 应收应付账户类型
 
+    public static final String BXK = "报销款";
+
     /**
      * 用户默认
      */
