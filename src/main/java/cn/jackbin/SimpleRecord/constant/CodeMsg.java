@@ -57,7 +57,9 @@ public enum CodeMsg {
     OPERATE_RECORD_BOOK_FORBIDDEN(7000012,"禁止操作他人记账账单"),
     TARGET_RECORD_ACCOUNT_NOT_PAYMENT(700013, "目标账户不能为应收应付类型"),
     SOURCE_RECORD_ACCOUNT_PAYMENT_ONLY(700014, "源账户只能为应收应付类型"),
-    SOURCE_RECORD_ACCOUNT_NOT_PAYMENT(700014, "源账户不能为应收应付类型"),
+    SOURCE_RECORD_ACCOUNT_NOT_PAYMENT(700015, "源账户不能为应收应付类型"),
+    TARGET_RECORD_ACCOUNT_PAYMENT_ONLY(700016, "目标账户只能为应收应付类型"),
+    RECORD_CATEGORY_ERROR(700017, "记账类别错误")
     ;
 
     private final int retCode;

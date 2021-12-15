@@ -67,6 +67,7 @@ public class TransferRecordDetail implements RecordDetailHandler {
         recordDetailService.removeById(recordDetailDO.getId());
     }
 
+    @SuppressWarnings("DuplicatedCode")
     @Override
     public void check(Integer userId, RecordDetailBO recordDetailBO) {
         if (recordDetailBO.getSourceAccountId() == null) {

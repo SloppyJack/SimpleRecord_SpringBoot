@@ -67,19 +67,34 @@ public class LoanRecordDetail implements RecordDetailHandler {
         recordDetailService.removeById(recordDetailDO.getId());
     }
 
+    @SuppressWarnings("DuplicatedCode")
     @Override
-    public void check(Integer userId, RecordDetailBO recordDetailBO) {
-        // 源账户类型只能为应收应付
-        RecordAccountDO sourceAccount = recordAccountService.getById(recordDetailBO.getSourceAccountId());
+    public void check(Integer userId, RecordDetailBO bo) {
+        RecordAccountDO sourceAccount = recordAccountService.getById(bo.getSourceAccountId());
         String sourceAccountType = dictItemService.getById(sourceAccount.getType()).getValue();
-        if (!RecordConstant.PAYMENT_ACCOUNT.equals(sourceAccountType)){
-            throw new BusinessException(CodeMsg.SOURCE_RECORD_ACCOUNT_PAYMENT_ONLY);
-        }
-        // 目标账户不能为应收/应付账户
-        RecordAccountDO targetAccount = recordAccountService.getById(recordDetailBO.getTargetAccountId());
+        RecordAccountDO targetAccount = recordAccountService.getById(bo.getTargetAccountId());
         String targetAccountType = dictItemService.getById(targetAccount.getType()).getValue();
-        if (RecordConstant.PAYMENT_ACCOUNT.equals(targetAccountType)){
-            throw new BusinessException(CodeMsg.TARGET_RECORD_ACCOUNT_NOT_PAYMENT);
+        // 分两种情况判断
+        if ("借入".equals(bo.getRecordCategory()) || "收款".equals(bo.getRecordCategory())){
+            // 源账户类型只能为应收应付
+            if (!RecordConstant.PAYMENT_ACCOUNT.equals(sourceAccountType)){
+                throw new BusinessException(CodeMsg.SOURCE_RECORD_ACCOUNT_PAYMENT_ONLY);
+            }
+            // 目标账户不能为应收/应付账户
+            if (RecordConstant.PAYMENT_ACCOUNT.equals(targetAccountType)){
+                throw new BusinessException(CodeMsg.TARGET_RECORD_ACCOUNT_NOT_PAYMENT);
+            }
+        }else if ("借出".equals(bo.getRecordCategory()) || "还款".equals(bo.getRecordCategory())){
+            // 源账户类型不能为应收应付
+            if (RecordConstant.PAYMENT_ACCOUNT.equals(sourceAccountType)){
+                throw new BusinessException(CodeMsg.SOURCE_RECORD_ACCOUNT_NOT_PAYMENT);
+            }
+            // 目标账户只能为应收/应付账户
+            if (!RecordConstant.PAYMENT_ACCOUNT.equals(targetAccountType)){
+                throw new BusinessException(CodeMsg.TARGET_RECORD_ACCOUNT_PAYMENT_ONLY);
+            }
+        } else {
+            throw new BusinessException(CodeMsg.RECORD_CATEGORY_ERROR);
         }
     }
 }
