@@ -6,6 +6,7 @@ import cn.jackbin.SimpleRecord.common.anotations.HandleDict;
 import cn.jackbin.SimpleRecord.common.anotations.LoginRequired;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
+import cn.jackbin.SimpleRecord.dto.RecordAccountAnalysisDTO;
 import cn.jackbin.SimpleRecord.entity.RecordAccountDO;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.exception.BusinessException;
@@ -73,6 +74,14 @@ public class RecordAccountController {
         checkOperateRecordAccount(id);
         recordAccountService.removeById(id);
         return Result.success();
+    }
+
+    @HandleDict
+    @GetMapping("/statistics")
+    public Result<?> accountStatistics() {
+        Long userId = LocalUserId.get();
+        List<RecordAccountAnalysisDTO> list = recordAccountService.analysisAccounts(userId.intValue());
+        return Result.success(list);
     }
 
     /**

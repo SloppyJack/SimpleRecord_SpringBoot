@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.jackbin.SimpleRecord.mapper.RecordAccountMapper">
+    <select id="queryInAndOutTotal" resultType="cn.jackbin.SimpleRecord.dto.RecordAccountAnalysisDTO">
+        SELECT
+        t1.*,
+        CASE
 
+        WHEN t2.inflow IS NULL THEN
+        0.0 ELSE t2.inflow
+        END inflow,
+        CASE
+
+        WHEN t3.outflow IS NULL THEN
+        0.0 ELSE t3.outflow
+        END outflow
+        FROM
+        tb_record_account t1
+        LEFT JOIN ( SELECT record_account_id, sum( amount ) inflow FROM tb_record_detail
+            WHERE user_id = #{userId} AND delete_time is null AND amount >= 0 GROUP BY record_account_id ) t2 ON t2.record_account_id = t1.id
+        LEFT JOIN ( SELECT record_account_id, sum( amount ) outflow FROM tb_record_detail t1
+            WHERE t1.user_id = #{userId} AND delete_time is null AND 0 > amount GROUP BY record_account_id ) t3 ON t3.record_account_id = t1.id
+        WHERE
+            t1.delete_time is null
+            and user_id = #{userId}
+    </select>
 </mapper>

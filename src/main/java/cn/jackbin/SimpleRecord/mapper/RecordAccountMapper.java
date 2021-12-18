@@ -1,9 +1,11 @@
 package cn.jackbin.SimpleRecord.mapper;
 
 import cn.jackbin.SimpleRecord.common.config.datasource.MyBaseMapper;
+import cn.jackbin.SimpleRecord.dto.RecordAccountAnalysisDTO;
 import cn.jackbin.SimpleRecord.entity.RecordAccountDO;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author: create by bin
@@ -13,4 +15,5 @@ import org.springframework.stereotype.Repository;
  **/
 @Repository
 public interface RecordAccountMapper extends MyBaseMapper<RecordAccountDO> {
+    List<RecordAccountAnalysisDTO> queryInAndOutTotal(Integer userId);
 }

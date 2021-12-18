@@ -1,5 +1,6 @@
 package cn.jackbin.SimpleRecord.service;
 
+import cn.jackbin.SimpleRecord.dto.RecordAccountAnalysisDTO;
 import cn.jackbin.SimpleRecord.entity.RecordAccountDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -19,5 +20,8 @@ public interface RecordAccountService extends IService<RecordAccountDO> {
 
     void update(Long id, Integer type, String name, Integer inNetAssets, Integer orderNo);
 
-    void removeById(Long id);
+    /**
+     * 获取各账户的流入流出金额
+     */
+    List<RecordAccountAnalysisDTO> analysisAccounts(Integer userId);
 }

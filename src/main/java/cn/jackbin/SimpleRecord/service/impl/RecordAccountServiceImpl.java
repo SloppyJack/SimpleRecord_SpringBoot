@@ -1,6 +1,7 @@
 package cn.jackbin.SimpleRecord.service.impl;
 
 import cn.jackbin.SimpleRecord.constant.CommonConstants;
+import cn.jackbin.SimpleRecord.dto.RecordAccountAnalysisDTO;
 import cn.jackbin.SimpleRecord.entity.RecordAccountDO;
 import cn.jackbin.SimpleRecord.mapper.RecordAccountMapper;
 import cn.jackbin.SimpleRecord.service.RecordAccountService;
@@ -54,7 +55,7 @@ public class RecordAccountServiceImpl extends ServiceImpl<RecordAccountMapper, R
     }
 
     @Override
-    public void removeById(Long id) {
-        recordAccountMapper.delByIdFillStatus(id);
+    public List<RecordAccountAnalysisDTO> analysisAccounts(Integer userId) {
+        return recordAccountMapper.queryInAndOutTotal(userId);
     }
 }
