@@ -4,10 +4,13 @@ import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.constant.CommonConstants;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
+import cn.jackbin.SimpleRecord.dto.RecordDetailBookSumDTO;
 import cn.jackbin.SimpleRecord.dto.SpendCategoryTotalDTO;
 import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
 import cn.jackbin.SimpleRecord.exception.BusinessException;
 import cn.jackbin.SimpleRecord.mapper.RecordDetailMapper;
+import cn.jackbin.SimpleRecord.service.DictItemService;
+import cn.jackbin.SimpleRecord.service.DictService;
 import cn.jackbin.SimpleRecord.service.RecordDetailService;
 import cn.jackbin.SimpleRecord.dto.RecordDetailDTO;
 import cn.jackbin.SimpleRecord.utils.DateUtil;
@@ -36,6 +39,10 @@ import java.util.Objects;
 public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, RecordDetailDO> implements RecordDetailService {
     @Autowired
     private RecordDetailMapper recordDetailMapper;
+    @Autowired
+    private DictService dictService;
+    @Autowired
+    private DictItemService dictItemService;
 
     @Override
     public int add(Integer userId, Integer recordAccountId, Integer recordBookId, Integer recordTypeId, String recordCategory, Double amount,
@@ -157,7 +164,7 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
 
     @Override
     public void getListByMonth(Long userId, Date date, Date occurTime, String keyWord, PageBO<RecordDetailDTO> pageBO) {
-        Page<RecordDetailDTO> page = new Page<>(pageBO.beginPosition(), pageBO.getPageSize());
+        Page<RecordDetailDTO> page = new Page<>(pageBO.currentPage(), pageBO.getPageSize());
         recordDetailMapper.queryByMonth(page, userId, date, occurTime, keyWord);
         pageBO.setTotal((int) page.getTotal());
         pageBO.setList(page.getRecords());
@@ -165,7 +172,7 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
 
     @Override
     public void getRecoverableList(Long userId, Integer recoverableStatus, PageBO<RecordDetailDTO> pageBO) {
-        Page<RecordDetailDTO> page = new Page<>(pageBO.beginPosition(), pageBO.getPageSize());
+        Page<RecordDetailDTO> page = new Page<>(pageBO.currentPage(), pageBO.getPageSize());
         recordDetailMapper.queryRecoverableList(page, userId, recoverableStatus);
         pageBO.setTotal((int) page.getTotal());
         pageBO.setList(page.getRecords());
@@ -199,5 +206,10 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
             monthRecords.add(monthRecord);
         }
         return monthRecords;
+    }
+
+    @Override
+    public List<RecordDetailBookSumDTO> getSumByRecordBookIds(Integer recordTypeId, List<Integer> recordBookIds) {
+        return recordDetailMapper.querySumByRecordBookIds(recordTypeId, recordBookIds);
     }
 }

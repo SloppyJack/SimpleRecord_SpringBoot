@@ -3,6 +3,7 @@ package cn.jackbin.SimpleRecord.service;
 import cn.jackbin.SimpleRecord.bo.MonthRecordBO;
 import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.dto.RecordDetailDTO;
+import cn.jackbin.SimpleRecord.dto.RecordDetailBookSumDTO;
 import cn.jackbin.SimpleRecord.dto.SpendCategoryTotalDTO;
 import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -80,4 +81,6 @@ public interface RecordDetailService extends IService<RecordDetailDO> {
      * 查询用户六个月内的记账记录
      */
     List<MonthRecordBO> getLatestSixMonthList(Long userId, String recordTypeCode, Date beginDate, Date endDate);
+
+    List<RecordDetailBookSumDTO> getSumByRecordBookIds(Integer recordTypeId, List<Integer> recordBookIds);
 }

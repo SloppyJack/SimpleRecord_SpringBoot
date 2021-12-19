@@ -6,6 +6,7 @@ import cn.jackbin.SimpleRecord.common.LocalUserId;
 import cn.jackbin.SimpleRecord.common.anotations.LoginRequired;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
+import cn.jackbin.SimpleRecord.dto.RecordBookAnalysisDTO;
 import cn.jackbin.SimpleRecord.entity.RecordBookDO;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.exception.BusinessException;
@@ -38,7 +39,7 @@ public class RecordBookController {
     @PostMapping("/page")
     public Result<?> getPage(@RequestBody @Validated PageVO vo) {
         Long userId = LocalUserId.get();
-        PageBO<RecordBookDO> pageBO = new PageBO<>(vo.getPageNo(), vo.getPageSize());
+        PageBO<RecordBookAnalysisDTO> pageBO = new PageBO<>(vo.getPageNo(), vo.getPageSize());
         recordBookService.getByPage(userId.intValue(), pageBO);
         return Result.success(pageBO);
     }

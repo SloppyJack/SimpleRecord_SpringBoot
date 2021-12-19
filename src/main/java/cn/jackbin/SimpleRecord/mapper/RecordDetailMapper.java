@@ -1,14 +1,12 @@
 package cn.jackbin.SimpleRecord.mapper;
 
+import cn.jackbin.SimpleRecord.dto.RecordDetailBookSumDTO;
 import cn.jackbin.SimpleRecord.dto.SpendCategoryTotalDTO;
 import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
 import cn.jackbin.SimpleRecord.dto.RecordDetailDTO;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -56,4 +54,9 @@ public interface RecordDetailMapper extends BaseMapper<RecordDetailDO> {
     IPage<RecordDetailDTO> queryRecoverableList(Page<?> page, Long userId, Integer recoverableStatus);
 
     List<RecordDetailDTO> queryByInterval(Long userId, String recordTypeCode, Date beginDate, Date endDate);
+
+    /**
+     * 获取账本的总计
+     */
+    List<RecordDetailBookSumDTO> querySumByRecordBookIds(Integer recordTypeId, List<Integer> recordBookIds);
 }

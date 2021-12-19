@@ -92,4 +92,19 @@
         ORDER BY t1.occur_time asc
 
     </select>
+
+    <select id="querySumByRecordBookIds" resultType="cn.jackbin.SimpleRecord.dto.RecordDetailBookSumDTO">
+        SELECT
+            record_book_id,
+            SUM( amount ) AS amount_total
+        FROM
+            tb_record_detail
+        WHERE
+            delete_time IS NULL -- 排除账户间流转的类型
+            AND record_type = #{recordTypeId}
+            AND record_book_id IN
+            <foreach item="item" collection="recordBookIds" separator="," open="(" close=")" index="">#{item, jdbcType=INTEGER}</foreach>
+        GROUP BY
+            record_book_id
+    </select>
 </mapper>

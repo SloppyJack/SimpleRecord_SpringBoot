@@ -3,18 +3,29 @@ package cn.jackbin.SimpleRecord.service.impl;
 import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.constant.CommonConstants;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
+import cn.jackbin.SimpleRecord.dto.RecordBookAnalysisDTO;
+import cn.jackbin.SimpleRecord.dto.RecordDetailBookSumDTO;
+import cn.jackbin.SimpleRecord.entity.DictDO;
+import cn.jackbin.SimpleRecord.entity.DictItemDO;
 import cn.jackbin.SimpleRecord.entity.RecordBookDO;
 import cn.jackbin.SimpleRecord.mapper.RecordBookMapper;
+import cn.jackbin.SimpleRecord.service.DictItemService;
+import cn.jackbin.SimpleRecord.service.DictService;
 import cn.jackbin.SimpleRecord.service.RecordBookService;
+import cn.jackbin.SimpleRecord.service.RecordDetailService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author: create by bin
@@ -26,16 +37,63 @@ import java.util.List;
 public class RecordBookServiceImpl extends ServiceImpl<RecordBookMapper, RecordBookDO> implements RecordBookService {
     @Autowired
     private RecordBookMapper recordBookMapper;
+    @Autowired
+    private DictItemService dictItemService;
+    @Autowired
+    private DictService dictService;
+    @Autowired
+    private RecordDetailService recordDetailService;
 
     @Override
-    public void getByPage(Integer userId, PageBO<RecordBookDO> pageBO) {
-        IPage<RecordBookDO> page = new Page<>(pageBO.beginPosition(), pageBO.getPageSize());
+    public void getByPage(Integer userId, PageBO<RecordBookAnalysisDTO> pageBO) {
+        IPage<RecordBookDO> page = new Page<>(pageBO.currentPage(), pageBO.getPageSize());
         QueryWrapper<RecordBookDO> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);
         queryWrapper.orderByAsc("order_no");
         recordBookMapper.selectPage(page, queryWrapper);
+        // bean转换
+        List<RecordBookAnalysisDTO> retList = new ArrayList<>();
+        page.getRecords().forEach(n -> {
+            RecordBookAnalysisDTO dto = new RecordBookAnalysisDTO();
+            BeanUtils.copyProperties(n, dto);
+            retList.add(dto);
+        });
+        // 如果又记录，才尝试获取账本的支出和收入
+        if (retList.size() > 0){
+            // 获取dictDO
+            DictDO dictDO = dictService.getByCode(RecordConstant.RECORD_TYPE);
+            DictItemDO expendDictItem = dictItemService.getByValue(dictDO.getId().intValue(), RecordConstant.EXPEND_RECORD_TYPE);
+            DictItemDO incomeDictItem = dictItemService.getByValue(dictDO.getId().intValue(), RecordConstant.INCOME_RECORD_TYPE);
+            // 拼接账本总计
+            List<Integer> recordBookIds = page.getRecords().stream().map(n -> n.getId().intValue()).collect(Collectors.toList());
+            List<RecordDetailBookSumDTO> expendSumList = recordDetailService.getSumByRecordBookIds(expendDictItem.getId().intValue(), recordBookIds);
+            List<RecordDetailBookSumDTO> incomeSumList = recordDetailService.getSumByRecordBookIds(incomeDictItem.getId().intValue(), recordBookIds);
+            // 遍历retList并赋值
+            retList.forEach(n -> {
+                Iterator<RecordDetailBookSumDTO> eIterator = expendSumList.iterator();
+                while (eIterator.hasNext()){
+                    RecordDetailBookSumDTO temp = eIterator.next();
+                    if (n.getId().intValue() == temp.getRecordBookId()){
+                        n.setExpendTotal(temp.getAmountTotal());
+                        // 赋值后移除该元素
+                        eIterator.remove();
+                        break;
+                    }
+                }
+                Iterator<RecordDetailBookSumDTO> iIterator = incomeSumList.iterator();
+                while (iIterator.hasNext()){
+                    RecordDetailBookSumDTO temp = iIterator.next();
+                    if (n.getId().intValue() == temp.getRecordBookId()){
+                        n.setIncomeTotal(temp.getAmountTotal());
+                        // 赋值后移除该元素
+                        iIterator.remove();
+                        break;
+                    }
+                }
+            });
+        }
         pageBO.setTotal((int) page.getTotal());
-        pageBO.setList(page.getRecords());
+        pageBO.setList(retList);
     }
 
     @Override

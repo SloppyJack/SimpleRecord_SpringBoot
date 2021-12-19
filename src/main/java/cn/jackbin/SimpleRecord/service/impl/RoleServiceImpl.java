@@ -3,16 +3,11 @@ package cn.jackbin.SimpleRecord.service.impl;
 import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.entity.RoleDO;
-import cn.jackbin.SimpleRecord.entity.RoleMenuDO;
 import cn.jackbin.SimpleRecord.exception.BusinessException;
 import cn.jackbin.SimpleRecord.mapper.RoleMapper;
-import cn.jackbin.SimpleRecord.mapper.RoleMenuMapper;
-import cn.jackbin.SimpleRecord.service.MenuService;
 import cn.jackbin.SimpleRecord.service.RoleMenuService;
 import cn.jackbin.SimpleRecord.service.RoleService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,7 +43,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements 
     @Override
     public void getByPage(String name, Boolean deleted, Date date, PageBO<RoleDO> pageBO) {
         int total = roleMapper.queryTotal(name, deleted, date);
-        List<RoleDO> list = roleMapper.queryByPage(name, deleted, date, pageBO.beginPosition(), pageBO.getPageSize());
+        List<RoleDO> list = roleMapper.queryByPage(name, deleted, date, pageBO.currentPage(), pageBO.getPageSize());
         pageBO.setTotal(total);
         pageBO.setList(list);
     }
