@@ -46,7 +46,7 @@ public class RecordBookServiceImpl extends ServiceImpl<RecordBookMapper, RecordB
 
     @Override
     public void getByPage(Integer userId, PageBO<RecordBookAnalysisDTO> pageBO) {
-        IPage<RecordBookDO> page = new Page<>(pageBO.currentPage(), pageBO.getPageSize());
+        IPage<RecordBookDO> page = new Page<>(pageBO.getPageNo(), pageBO.getPageSize());
         QueryWrapper<RecordBookDO> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);
         queryWrapper.orderByAsc("order_no");

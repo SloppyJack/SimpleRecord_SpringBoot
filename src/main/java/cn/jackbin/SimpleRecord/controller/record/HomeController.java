@@ -1,6 +1,7 @@
 package cn.jackbin.SimpleRecord.controller.record;
 
 import cn.jackbin.SimpleRecord.common.LocalUser;
+import cn.jackbin.SimpleRecord.common.LocalUserId;
 import cn.jackbin.SimpleRecord.common.anotations.LoginRequired;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
 import cn.jackbin.SimpleRecord.dto.SpendCategoryTotalDTO;
@@ -31,23 +32,21 @@ public class HomeController {
     @Autowired
     private RecordDetailService recordDetailService;
 
-    @LoginRequired
     @ApiOperation(value = "获取某个月份的支出和收入")
     @GetMapping("/spendTotalInMonth/{date}")
     public Result<?> getSpendTotalInMonth(@ApiParam(required = true, value = "年月（yyyy-MM）") @Validated
                                           @DateTimeFormat(pattern="yyyy-MM") @PathVariable(value = "date") Date date) {
-        UserDO userDO = LocalUser.get();
-        List<Double> list = recordDetailService.getSpendTotalByMonth(userDO.getId(), date);
+        Long userId = LocalUserId.get();
+        List<Double> list = recordDetailService.getSpendTotalByMonth(userId.intValue(), date);
         return Result.success(list);
     }
 
-    @LoginRequired
     @ApiOperation(value = "获取某个月份前三消费类别")
     @GetMapping("/topThreeSpendCategoryTotal/{date}")
     public Result<?> getTopThreeSpendTotal(@ApiParam(required = true, value = "年月（yyyy-MM）") @Validated
                                            @DateTimeFormat(pattern="yyyy-MM") @PathVariable(value = "date")Date date) {
-        UserDO userDO = LocalUser.get();
-        List<SpendCategoryTotalDTO> list = recordDetailService.getSpendTotalBySpendCategory(userDO.getId(), RecordConstant.EXPEND_RECORD_TYPE,
+        Long userId = LocalUserId.get();
+        List<SpendCategoryTotalDTO> list = recordDetailService.getSpendTotalBySpendCategory(userId.intValue(), RecordConstant.EXPEND_RECORD_TYPE,
                 date, 0, 3);
         return Result.success(list);
     }

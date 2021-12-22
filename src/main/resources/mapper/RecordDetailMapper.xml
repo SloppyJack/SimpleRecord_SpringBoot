@@ -39,7 +39,7 @@
             group by t1.spend_category_id ORDER BY total desc
     </select>
 
-    <select id="queryByMonth" resultType="cn.jackbin.SimpleRecord.dto.RecordDetailDTO">
+    <select id="queryByMonthAndBook" resultType="cn.jackbin.SimpleRecord.dto.RecordDetailDTO">
         select t1.*, t2.name recordAccountName, t3.name sourceAccountName, t4.name targetAccountName
         from
             tb_record_detail t1
@@ -48,6 +48,9 @@
             left join tb_record_account t4 on t1.target_account_id = t4.id
         where
             t1.user_id = #{userId}
+            <if test="recordBookId != null">
+                and record_book_id = #{recordBookId}
+            </if>
             <choose>
                 <when test="occurTime == null">
                     and date_format(t1.occur_time, '%Y-%m') = date_format(#{date}, '%Y-%m')
@@ -61,6 +64,33 @@
             </if>
             and t1.delete_time is null
             and t1.target_account_id is null   -- 流出账户为空
+        ORDER BY t1.occur_time desc
+    </select>
+
+    <select id="queryByMonthAndAccount" resultType="cn.jackbin.SimpleRecord.dto.RecordDetailDTO">
+        select t1.*, t2.name recordAccountName, t3.name sourceAccountName, t4.name targetAccountName
+        from
+        tb_record_detail t1
+        left join tb_record_account t2 on t1.record_account_id = t2.id
+        left join tb_record_account t3 on t1.source_account_id = t3.id
+        left join tb_record_account t4 on t1.target_account_id = t4.id
+        where
+        t1.user_id = #{userId}
+        <if test="recordAccountId != null">
+            and record_account_id = #{recordAccountId}
+        </if>
+        <choose>
+            <when test="occurTime == null">
+                and date_format(t1.occur_time, '%Y-%m') = date_format(#{date}, '%Y-%m')
+            </when>
+            <otherwise>
+                and date_format(t1.occur_time, '%Y-%m-%d') = date_format(#{occurTime}, '%Y-%m-%d')
+            </otherwise>
+        </choose>
+        <if test="keyWord != null and keyWord != ''">
+            and (t1.record_category like CONCAT(CONCAT('%', #{keyWord}), '%') or t1.remark like CONCAT(CONCAT('%', #{keyWord}), '%'))
+        </if>
+        and t1.delete_time is null
         ORDER BY t1.occur_time desc
     </select>
 

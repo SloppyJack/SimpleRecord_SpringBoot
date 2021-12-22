@@ -51,7 +51,7 @@ public interface RecordDetailService extends IService<RecordDetailDO> {
     /**
      * 获取当前登录用户的记账记录
      */
-    List<RecordDetailDO> getRecordsByUserId(Long userId);
+    List<RecordDetailDO> getRecordsByUserId(Integer userId);
 
     /**
      * 分页获取当前登录用户的记账记录
@@ -61,26 +61,31 @@ public interface RecordDetailService extends IService<RecordDetailDO> {
     /**
      * 获取支出
      */
-    List<Double> getSpendTotalByMonth(Long userId, Date date);
+    List<Double> getSpendTotalByMonth(Integer userId, Date date);
 
     /**
      * 获取某个月前三消费额
      */
-    List<SpendCategoryTotalDTO> getSpendTotalBySpendCategory(Long userId, String recordTypeCode, Date date, int begin, int end);
+    List<SpendCategoryTotalDTO> getSpendTotalBySpendCategory(Integer userId, String recordTypeCode, Date date, int begin, int end);
 
-    List<SpendCategoryTotalDTO> getSpendSpendCategoryTotalByYear(Long userId, String recordTypeCode, Date date);
+    List<SpendCategoryTotalDTO> getSpendSpendCategoryTotalByYear(Integer userId, String recordTypeCode, Date date);
 
     /**
      * 查询用户某个月内的记账记录
      */
-    void getListByMonth(Long userId, Date date, Date occurTime, String keyWord, PageBO<RecordDetailDTO> pageBO);
+    void getMonthBookRecords(Integer recordBookId, Integer userId, Date date, Date occurTime, String keyWord, PageBO<RecordDetailDTO> pageBO);
 
-    void getRecoverableList(Long userId, Integer recoverableStatus, PageBO<RecordDetailDTO> pageBO);
+    /**
+     * 查询某个月内的账户流水
+     */
+    void getMonthAccountRecords(Integer recordAccountId, Integer userId, Date date, Date occurTime, String keyWord, PageBO<RecordDetailDTO> pageBO);
+
+    void getRecoverableList(Integer userId, Integer recoverableStatus, PageBO<RecordDetailDTO> pageBO);
 
     /**
      * 查询用户六个月内的记账记录
      */
-    List<MonthRecordBO> getLatestSixMonthList(Long userId, String recordTypeCode, Date beginDate, Date endDate);
+    List<MonthRecordBO> getLatestSixMonthList(Integer userId, String recordTypeCode, Date beginDate, Date endDate);
 
     List<RecordDetailBookSumDTO> getSumByRecordBookIds(Integer recordTypeId, List<Integer> recordBookIds);
 }

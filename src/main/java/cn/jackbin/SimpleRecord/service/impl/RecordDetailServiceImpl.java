@@ -39,10 +39,6 @@ import java.util.Objects;
 public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, RecordDetailDO> implements RecordDetailService {
     @Autowired
     private RecordDetailMapper recordDetailMapper;
-    @Autowired
-    private DictService dictService;
-    @Autowired
-    private DictItemService dictItemService;
 
     @Override
     public int add(Integer userId, Integer recordAccountId, Integer recordBookId, Integer recordTypeId, String recordCategory, Double amount,
@@ -127,7 +123,7 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
     }
 
     @Override
-    public List<RecordDetailDO> getRecordsByUserId(Long userId) {
+    public List<RecordDetailDO> getRecordsByUserId(Integer userId) {
         QueryWrapper<RecordDetailDO> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id",userId);
         return recordDetailMapper.selectList(queryWrapper);
@@ -143,7 +139,7 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
     }
 
     @Override
-    public List<Double> getSpendTotalByMonth(Long userId, Date date) {
+    public List<Double> getSpendTotalByMonth(Integer userId, Date date) {
         List<Double> list = new ArrayList<>();
         Double expendTotal = recordDetailMapper.querySpendTotalByMonth(userId, RecordConstant.EXPEND_RECORD_TYPE, date);
         Double incomeTotal = recordDetailMapper.querySpendTotalByMonth(userId, RecordConstant.INCOME_RECORD_TYPE, date);
@@ -153,33 +149,41 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
     }
 
     @Override
-    public List<SpendCategoryTotalDTO> getSpendTotalBySpendCategory(Long userId, String recordTypeCode, Date date, int begin, int end) {
+    public List<SpendCategoryTotalDTO> getSpendTotalBySpendCategory(Integer userId, String recordTypeCode, Date date, int begin, int end) {
         return recordDetailMapper.querySpendSpendCategoryTotalByMonth(userId, recordTypeCode, date, begin, end);
     }
 
     @Override
-    public List<SpendCategoryTotalDTO> getSpendSpendCategoryTotalByYear(Long userId, String recordTypeCode, Date date) {
+    public List<SpendCategoryTotalDTO> getSpendSpendCategoryTotalByYear(Integer userId, String recordTypeCode, Date date) {
         return recordDetailMapper.querySpendSpendCategoryTotalByYear(userId, recordTypeCode, date);
     }
 
     @Override
-    public void getListByMonth(Long userId, Date date, Date occurTime, String keyWord, PageBO<RecordDetailDTO> pageBO) {
-        Page<RecordDetailDTO> page = new Page<>(pageBO.currentPage(), pageBO.getPageSize());
-        recordDetailMapper.queryByMonth(page, userId, date, occurTime, keyWord);
+    public void getMonthBookRecords(Integer recordBookId, Integer userId, Date date, Date occurTime, String keyWord, PageBO<RecordDetailDTO> pageBO) {
+        Page<RecordDetailDTO> page = new Page<>(pageBO.getPageNo(), pageBO.getPageSize());
+        recordDetailMapper.queryByMonthAndBook(page, recordBookId, userId, date, occurTime, keyWord);
         pageBO.setTotal((int) page.getTotal());
         pageBO.setList(page.getRecords());
     }
 
     @Override
-    public void getRecoverableList(Long userId, Integer recoverableStatus, PageBO<RecordDetailDTO> pageBO) {
-        Page<RecordDetailDTO> page = new Page<>(pageBO.currentPage(), pageBO.getPageSize());
+    public void getMonthAccountRecords(Integer recordAccountId, Integer userId, Date date, Date occurTime, String keyWord, PageBO<RecordDetailDTO> pageBO) {
+        Page<RecordDetailDTO> page = new Page<>(pageBO.getPageNo(), pageBO.getPageSize());
+        recordDetailMapper.queryByMonthAndAccount(page, recordAccountId, userId, date, occurTime, keyWord);
+        pageBO.setTotal((int) page.getTotal());
+        pageBO.setList(page.getRecords());
+    }
+
+    @Override
+    public void getRecoverableList(Integer userId, Integer recoverableStatus, PageBO<RecordDetailDTO> pageBO) {
+        Page<RecordDetailDTO> page = new Page<>(pageBO.getPageNo(), pageBO.getPageSize());
         recordDetailMapper.queryRecoverableList(page, userId, recoverableStatus);
         pageBO.setTotal((int) page.getTotal());
         pageBO.setList(page.getRecords());
     }
 
     @Override
-    public List<MonthRecordBO> getLatestSixMonthList(Long userId, String recordTypeCode, Date beginDate, Date endDate) {
+    public List<MonthRecordBO> getLatestSixMonthList(Integer userId, String recordTypeCode, Date beginDate, Date endDate) {
         List<MonthRecordBO> monthRecords = new ArrayList<>();
         List<RecordDetailDTO> recordDetailDTOList = recordDetailMapper.queryByInterval(userId, recordTypeCode, beginDate, endDate);
         // 将时间分段

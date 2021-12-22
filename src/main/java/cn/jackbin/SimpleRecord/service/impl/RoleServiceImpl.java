@@ -43,7 +43,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements 
     @Override
     public void getByPage(String name, Boolean deleted, Date date, PageBO<RoleDO> pageBO) {
         int total = roleMapper.queryTotal(name, deleted, date);
-        List<RoleDO> list = roleMapper.queryByPage(name, deleted, date, pageBO.currentPage(), pageBO.getPageSize());
+        List<RoleDO> list = roleMapper.queryByPage(name, deleted, date, pageBO.beginPosition(), pageBO.getPageSize());
         pageBO.setTotal(total);
         pageBO.setList(list);
     }

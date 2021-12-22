@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import io.swagger.models.auth.In;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -21,9 +22,14 @@ import java.util.Date;
  * @date: 2020/10/14 23:14
  **/
 @ApiModel(value="GetRecordsByMonthVO对象", description="获取记账记录对象")
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 public class GetRecordsByMonthVO extends PageVO{
+
+    private Integer recordBookId;
+
+    private Integer recordAccountId;
 
     @ApiModelProperty(required = true, value = "年月（yyyy-MM）")
     @JsonFormat(pattern="yyyy-MM",timezone = "GMT+8")

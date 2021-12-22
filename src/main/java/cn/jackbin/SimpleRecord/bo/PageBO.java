@@ -33,10 +33,6 @@ public class PageBO<T> {
     // 总数
     int total;
 
-    public int currentPage() {
-        return pageNo -1;
-    }
-
     public int beginPosition() {
         return (pageNo -1) * pageSize;
     }

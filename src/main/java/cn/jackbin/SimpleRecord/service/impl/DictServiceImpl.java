@@ -27,7 +27,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, DictDO> implements 
 
     @Override
     public void getByPage(String name, String code, Integer status, PageBO<DictDO> pageBO) {
-        IPage<DictDO> page = new Page<>(pageBO.currentPage(), pageBO.getPageSize());
+        IPage<DictDO> page = new Page<>(pageBO.getPageNo(), pageBO.getPageSize());
         QueryWrapper<DictDO> queryWrapper = new QueryWrapper<>();
         if (StringUtils.isNoneBlank(name)) {
             queryWrapper.like("name", name);

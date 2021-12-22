@@ -4,11 +4,8 @@ import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.common.LocalUserId;
 import cn.jackbin.SimpleRecord.common.anotations.HandleDict;
 import cn.jackbin.SimpleRecord.common.anotations.LoginRequired;
-import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
 import cn.jackbin.SimpleRecord.dto.RecordDetailDTO;
-import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
-import cn.jackbin.SimpleRecord.exception.BusinessException;
 import cn.jackbin.SimpleRecord.service.RecordDetailContext;
 import cn.jackbin.SimpleRecord.service.impl.ExpendRecordDetail;
 import cn.jackbin.SimpleRecord.vo.PageVO;
@@ -75,12 +72,22 @@ public class RecordDetailController {
     }
 
     @HandleDict
-    @ApiOperation(value = "分页获取某个月份记账记录")
-    @PostMapping("/monthList")
-    public Result<?> getListByMonth(@RequestBody  @Validated GetRecordsByMonthVO vo) {
+    @ApiOperation(value = "分页获取某个月份账本记账记录")
+    @PostMapping("/monthBookRecords")
+    public Result<?> getMonthBookRecords(@RequestBody  @Validated GetRecordsByMonthVO vo) {
         PageBO<RecordDetailDTO> pageBO = new PageBO<>(vo.getPageNo(), vo.getPageSize());
         Long userId = LocalUserId.get();
-        recordDetailService.getListByMonth(userId, vo.getMonth(), vo.getOccurTime(), vo.getKeyWord(), pageBO);
+        recordDetailService.getMonthBookRecords(vo.getRecordBookId(), userId.intValue(), vo.getMonth(), vo.getOccurTime(), vo.getKeyWord(), pageBO);
+        return Result.success(pageBO);
+    }
+
+    @HandleDict
+    @ApiOperation(value = "分页获取某个月份账户流水")
+    @PostMapping("/monthAccountRecords")
+    public Result<?> getMonthAccountRecords(@RequestBody  @Validated GetRecordsByMonthVO vo) {
+        PageBO<RecordDetailDTO> pageBO = new PageBO<>(vo.getPageNo(), vo.getPageSize());
+        Long userId = LocalUserId.get();
+        recordDetailService.getMonthAccountRecords(vo.getRecordAccountId(), userId.intValue(), vo.getMonth(), vo.getOccurTime(), vo.getKeyWord(), pageBO);
         return Result.success(pageBO);
     }
 
@@ -90,7 +97,7 @@ public class RecordDetailController {
     public Result<?> getRecoverableList(@RequestBody  @Validated PageVO vo) {
         PageBO<RecordDetailDTO> pageBO = new PageBO<>(vo.getPageNo(), vo.getPageSize());
         Long userId = LocalUserId.get();
-        recordDetailService.getRecoverableList(userId, RecordConstant.TO_RECOVERABLE, pageBO);
+        recordDetailService.getRecoverableList(userId.intValue(), RecordConstant.TO_RECOVERABLE, pageBO);
         return Result.success(pageBO);
     }
 
