@@ -1,42 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.jackbin.SimpleRecord.mapper.RecordDetailMapper">
-    <select id="querySpendTotalByMonth" resultType="Double">
-        select t3.amount spendTotal from
-        (SELECT SUM(amount) amount
+    <select id="queryTotalByMonth" resultType="Double">
+        SELECT SUM(abs(amount)) total
         FROM
             tb_record_detail t1
-            LEFT JOIN tb_spend_category t2 on t1.spend_category_id = t2.id
         where t1.user_id = #{userId}
-            and t2.record_type_id = (select id from tb_record_type where code = #{recordTypeCode})
+            and t1.record_type = #{recordType}
             and date_format(t1.occur_time, '%Y-%m') = date_format(#{date}, '%Y-%m')
             and t1.delete_time is null
-        ) t3
     </select>
 
     <select id="querySpendSpendCategoryTotalByMonth" resultType="cn.jackbin.SimpleRecord.dto.SpendCategoryTotalDTO">
-        SELECT t1.spend_category_id spendCategoryId,t2.name spendCategoryName,SUM(amount) total
+        SELECT t1.record_category spendCategoryName,SUM(abs(amount)) total
         FROM
             tb_record_detail t1
-            LEFT JOIN tb_spend_category t2 on t1.spend_category_id = t2.id
         where t1.user_id = #{userId}
-            and t2.record_type_id = (select id from tb_record_type where code = #{recordTypeCode})
+            and t1.record_type = #{recordType}
             and date_format(t1.occur_time, '%Y-%m') = date_format(#{date}, '%Y-%m')
             and t1.delete_time is null
-            group by t1.spend_category_id ORDER BY total desc
+            group by t1.record_category ORDER BY total desc
             LIMIT #{begin},#{end}
     </select>
 
     <select id="querySpendSpendCategoryTotalByYear" resultType="cn.jackbin.SimpleRecord.dto.SpendCategoryTotalDTO">
-        SELECT t1.spend_category_id spendCategoryId,t2.name spendCategoryName,SUM(amount) total
+        SELECT
+            t1.record_category,
+            SUM( abs( t1.amount ) ) total
         FROM
             tb_record_detail t1
-            LEFT JOIN tb_spend_category t2 on t1.spend_category_id = t2.id
-        where t1.user_id = #{userId}
-            and t2.record_type_id = (select id from tb_record_type where code = #{recordTypeCode})
-            and date_format(t1.occur_time, '%Y') = date_format(#{date}, '%Y')
-            and t1.delete_time is null
-            group by t1.spend_category_id ORDER BY total desc
+        WHERE
+            t1.user_id = #{userId}
+            AND t1.record_type = #{recordType}
+            AND date_format( t1.occur_time, '%Y' ) = date_format(#{date}, '%Y')
+            AND t1.delete_time IS NULL
+        GROUP BY
+            t1.record_category
+        ORDER BY
+            total DESC
     </select>
 
     <select id="queryByMonthAndBook" resultType="cn.jackbin.SimpleRecord.dto.RecordDetailDTO">
@@ -106,20 +107,22 @@
         ORDER BY t1.occur_time desc
     </select>
 
-    <select id="queryByInterval" resultType="cn.jackbin.SimpleRecord.dto.RecordDetailDTO">
-        select
-            t1.amount amount, t1.occur_time occurTime,
-            t2.name spendCategoryName, t2.code spendCagegoryCode
-        from
+    <select id="queryByInterval" resultType="cn.jackbin.SimpleRecord.dto.MonthRecordAnalysisDTO">
+        SELECT
+            sum( amount ) total,
+            date_format( t1.occur_time, '%Y-%m' ) occur_month
+        FROM
             tb_record_detail t1
-            LEFT JOIN tb_spend_category t2 on t2.id = t1.spend_category_id
-        where
+        WHERE
             t1.user_id = #{userId}
-            and t2.record_type_id = (select id from tb_record_type where code = #{recordTypeCode})
-            and date_format(#{endDate}, '%Y-%m') > date_format(t1.occur_time, '%Y-%m')
-            and date_format(t1.occur_time, '%Y-%m') >= date_format(#{beginDate}, '%Y-%m')
-            and t1.delete_time is null
-        ORDER BY t1.occur_time asc
+            AND t1.record_type = #{recordType}
+            AND date_format(t1.occur_time, '%Y-%m') >= date_format(#{beginDate}, '%Y-%m')
+            AND date_format(#{endDate}, '%Y-%m') > date_format(t1.occur_time, '%Y-%m')
+            AND t1.delete_time IS NULL
+        GROUP BY
+            occur_month
+        ORDER BY
+            date_format( t1.occur_time, '%Y-%m' ) ASC
 
     </select>
 

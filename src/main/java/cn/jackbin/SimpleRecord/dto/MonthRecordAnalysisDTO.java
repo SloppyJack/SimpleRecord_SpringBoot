@@ -1,4 +1,4 @@
-package cn.jackbin.SimpleRecord.bo;
+package cn.jackbin.SimpleRecord.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -14,10 +14,9 @@ import java.util.Date;
  **/
 @Data
 @NoArgsConstructor
-public class MonthRecordBO {
+public class MonthRecordAnalysisDTO {
     // 月份
-    @JsonFormat(pattern="yyyy-MM",timezone = "GMT+8")
-    private Date occurMonth;
+    private String occurMonth;
 
     // 总额
     private Double total = 0.0;

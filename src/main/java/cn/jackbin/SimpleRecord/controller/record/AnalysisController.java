@@ -1,15 +1,12 @@
 package cn.jackbin.SimpleRecord.controller.record;
 
-import cn.jackbin.SimpleRecord.bo.MonthRecordBO;
-import cn.jackbin.SimpleRecord.common.LocalUser;
+import cn.jackbin.SimpleRecord.dto.MonthRecordAnalysisDTO;
 import cn.jackbin.SimpleRecord.common.LocalUserId;
 import cn.jackbin.SimpleRecord.common.anotations.CommonLog;
-import cn.jackbin.SimpleRecord.common.anotations.LoginRequired;
 import cn.jackbin.SimpleRecord.common.enums.BusinessType;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
 import cn.jackbin.SimpleRecord.dto.SpendCategoryTotalDTO;
-import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.service.RecordDetailService;
 import cn.jackbin.SimpleRecord.utils.DateUtil;
 import cn.jackbin.SimpleRecord.vo.GetSixMonthRecordsVO;
@@ -65,7 +62,7 @@ public class AnalysisController {
             return Result.error(CodeMsg.RECORD_TYPE_CODE_ERROR);
         }
         Long userId = LocalUserId.get();
-        List<MonthRecordBO> list = recordDetailService.getLatestSixMonthList(userId.intValue(), vo.getRecordTypeCode(),
+        List<MonthRecordAnalysisDTO> list = recordDetailService.getLatestSixMonthList(userId.intValue(), vo.getRecordTypeCode(),
                 vo.getBeginDate(), DateUtil.addMonth(vo.getBeginDate(), 6));
         return Result.success(list);
     }

@@ -23,5 +23,6 @@
         WHERE
             t1.delete_time is null
             and user_id = #{userId}
+        order by order_no asc
     </select>
 </mapper>

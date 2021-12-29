@@ -13,15 +13,11 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class SpendCategoryTotalDTO {
-    /**
-     * 花费类别Id
-     */
-    private Long spendCategoryId;
 
     /**
      * 花费类别名称
      */
-    private String spendCategoryName;
+    private String recordCategory;
 
     /**
      * 花费总额

@@ -1,5 +1,6 @@
 package cn.jackbin.SimpleRecord.mapper;
 
+import cn.jackbin.SimpleRecord.dto.MonthRecordAnalysisDTO;
 import cn.jackbin.SimpleRecord.dto.RecordDetailBookSumDTO;
 import cn.jackbin.SimpleRecord.dto.SpendCategoryTotalDTO;
 import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
@@ -24,11 +25,11 @@ public interface RecordDetailMapper extends BaseMapper<RecordDetailDO> {
     /**
      * 根据月份查询总额
      * @param userId 用户Id
-     * @param recordTypeCode 记录类型Code
+     * @param recordType 记录类型Id
      * @param date 时间
      * @return List
      */
-    Double querySpendTotalByMonth(Integer userId, String recordTypeCode, Date date);
+    Double queryTotalByMonth(Integer userId, Integer recordType, Date date);
 
     /**
      * 获取花费类别的消费总额
@@ -39,9 +40,9 @@ public interface RecordDetailMapper extends BaseMapper<RecordDetailDO> {
      * @param end 索引
      * @return
      */
-    List<SpendCategoryTotalDTO> querySpendSpendCategoryTotalByMonth(Integer userId, String recordTypeCode, Date date, int begin, int end);
+    List<SpendCategoryTotalDTO> querySpendSpendCategoryTotalByMonth(Integer userId, Integer recordType, Date date, int begin, int end);
 
-    List<SpendCategoryTotalDTO> querySpendSpendCategoryTotalByYear(Integer userId, String recordTypeCode, Date date);
+    List<SpendCategoryTotalDTO> querySpendSpendCategoryTotalByYear(Integer userId, Integer recordType, Date date);
 
     /**
      * 查询用户某个月内的记账记录
@@ -55,7 +56,7 @@ public interface RecordDetailMapper extends BaseMapper<RecordDetailDO> {
      */
     IPage<RecordDetailDTO> queryRecoverableList(Page<?> page, Integer userId, Integer recoverableStatus);
 
-    List<RecordDetailDTO> queryByInterval(Integer userId, String recordTypeCode, Date beginDate, Date endDate);
+    List<MonthRecordAnalysisDTO> queryByInterval(Integer userId, Integer recordType, Date beginDate, Date endDate);
 
     /**
      * 获取账本的总计
