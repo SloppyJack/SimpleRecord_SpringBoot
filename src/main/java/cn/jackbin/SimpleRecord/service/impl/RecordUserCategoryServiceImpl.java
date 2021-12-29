@@ -91,4 +91,19 @@ public class RecordUserCategoryServiceImpl extends ServiceImpl<RecordUserCategor
         });
         saveBatch(ret); // 批量保存
     }
+
+    @Override
+    public void saveOrUpdate(Long id, Integer userId, String recordTypeCode, String name, Integer orderNo) {
+        DictDO dictDO = dictService.getByCode(RecordConstant.RECORD_TYPE);
+        DictItemDO dictItemDO = dictItemService.getByValue(dictDO.getId().intValue(), recordTypeCode);
+        RecordUserCategoryDO recordUserCategoryDO = new RecordUserCategoryDO();
+        if (id != null){
+            recordUserCategoryDO.setId(id);
+        }
+        recordUserCategoryDO.setUserId(userId);
+        recordUserCategoryDO.setType(dictItemDO.getId().intValue());
+        recordUserCategoryDO.setName(name);
+        recordUserCategoryDO.setOrderNo(orderNo);
+        saveOrUpdate(recordUserCategoryDO);
+    }
 }

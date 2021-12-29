@@ -19,4 +19,6 @@ public interface RecordUserCategoryService extends IService<RecordUserCategoryDO
     void getByPage(Integer userId, String recordTypeCode, PageBO<RecordUserCategoryDO> pageBO);
 
     void reset(Integer userId);
+
+    void saveOrUpdate(Long id, Integer userId, String recordTypeCode, String name, Integer orderNo);
 }
