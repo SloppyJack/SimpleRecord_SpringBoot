@@ -110,10 +110,11 @@ public class RecordBookServiceImpl extends ServiceImpl<RecordBookMapper, RecordB
     }
 
     @Override
-    public void getByName(String name) {
+    public RecordBookDO getByName(Integer userId, String name) {
         QueryWrapper<RecordBookDO> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", userId);
         queryWrapper.eq("name", name);
-        recordBookMapper.selectOne(queryWrapper);
+        return recordBookMapper.selectOne(queryWrapper);
     }
 
     @Override

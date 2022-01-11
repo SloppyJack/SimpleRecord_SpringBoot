@@ -59,7 +59,8 @@ public enum CodeMsg {
     SOURCE_RECORD_ACCOUNT_PAYMENT_ONLY(700014, "源账户只能为应收应付类型"),
     SOURCE_RECORD_ACCOUNT_NOT_PAYMENT(700015, "源账户不能为应收应付类型"),
     TARGET_RECORD_ACCOUNT_PAYMENT_ONLY(700016, "目标账户只能为应收应付类型"),
-    RECORD_CATEGORY_ERROR(700017, "记账类别错误")
+    RECORD_CATEGORY_ERROR(700017, "记账类别错误"),
+    RECORD_BOOK_NAME_REPEAT(700018, "记账账本名称不可重复"),
     ;
 
     private final int retCode;

@@ -19,7 +19,7 @@ public interface RecordBookService extends IService<RecordBookDO> {
 
     void add(Integer userId, String name, String remark, Integer orderNo);
 
-    void getByName(String name);
+    RecordBookDO getByName(Integer userId, String name);
 
     /**
      * 获取用户默认账本

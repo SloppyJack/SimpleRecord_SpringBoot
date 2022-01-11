@@ -41,37 +41,32 @@ public class RecordAccountController {
         return Result.success(list);
     }
 
-    @LoginRequired
     @PostMapping
     public Result<?> addRecordAccount(@Validated @RequestBody RecordAccountVO vo) {
-        UserDO userDO = LocalUser.get();
+        Long userId = LocalUserId.get();
         // check
-        if (recordAccountService.getListByUserId(userDO.getId().intValue()).size() > 10) {
+        if (recordAccountService.getListByUserId(userId.intValue()).size() > 10) {
             throw new BusinessException(CodeMsg.RECORD_ACCOUNT_SIZE_TOO_MUCH);
         }
-        recordAccountService.add(userDO.getId().intValue(), vo.getType(), vo.getName(),
+        recordAccountService.add(userId.intValue(), vo.getType(), vo.getName(),
                 vo.getInNetAssets() ? RecordConstant.BUSINESS_YES : RecordConstant.BUSINESS_NOT, vo.getOrderNo());
         return Result.success();
     }
 
-    @LoginRequired
     @PutMapping("/{id}")
     public Result<?> editRecordAccount(@PathVariable("id") @Validated @Positive(message = "id需为正数") Long id,  @Validated @RequestBody RecordAccountVO vo) {
         Long userId = LocalUserId.get();
         // check
-        RecordAccountDO accountDO = recordAccountService.getById(id);
-        if (accountDO == null || userId.intValue() != accountDO.getUserId()){
-            throw new BusinessException(CodeMsg.OPERATE_RECORD_FORBIDDEN);
-        }
+        checkOperateRecordAccount(id, userId);
         recordAccountService.update(id, vo.getType(), vo.getName(), vo.getInNetAssets() ? RecordConstant.BUSINESS_YES : RecordConstant.BUSINESS_NOT,
                 vo.getOrderNo());
         return Result.success();
     }
 
-    @LoginRequired
     @DeleteMapping("/{id}")
     public Result<?> deleteRecordAccount(@PathVariable("id") @Validated @Positive(message = "id需为正数") Long id) {
-        checkOperateRecordAccount(id);
+        Long userId = LocalUserId.get();
+        checkOperateRecordAccount(id, userId);
         recordAccountService.removeById(id);
         return Result.success();
     }
@@ -87,14 +82,13 @@ public class RecordAccountController {
     /**
      * 校验
      */
-    private void checkOperateRecordAccount(Long id) {
-        UserDO userDO = LocalUser.get();
+    private void checkOperateRecordAccount(Long id, Long userId) {
         RecordAccountDO originDO = recordAccountService.getById(id);
         // check
         if (originDO == null) {
             throw new BusinessException(CodeMsg.NOT_FIND_DATA);
         }
-        if (originDO.getUserId() != userDO.getId().intValue()) {
+        if (originDO.getUserId() != userId.intValue()) {
             throw new BusinessException(CodeMsg.OPERATE_RECORD_ACCOUNT_FORBIDDEN);
         }
     }

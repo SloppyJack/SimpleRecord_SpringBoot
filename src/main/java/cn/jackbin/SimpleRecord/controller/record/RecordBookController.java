@@ -47,6 +47,10 @@ public class RecordBookController {
     @PostMapping
     public Result<?> addRecordBook(@RequestBody @Validated AddRecordBookVO vo) {
         Long userId = LocalUserId.get();
+        // 名称不能重复
+        if (recordBookService.getByName(userId.intValue(), vo.getName()) != null) {
+            throw new BusinessException(CodeMsg.RECORD_BOOK_NAME_REPEAT);
+        }
         recordBookService.add(userId.intValue(), vo.getName(), vo.getRemark(), vo.getOrderNo());
         return Result.success();
     }
@@ -71,6 +75,11 @@ public class RecordBookController {
         // 只允许有一个默认账单
         if (defaultBook.getId().equals(id) && !vo.getIsUserDefault()) {
             throw new BusinessException(CodeMsg.ONE_DEFAULT_RECORD_BOOK);
+        }
+        // 名称不能重复
+        RecordBookDO updateRecordBook = recordBookService.getByName(userId.intValue(), vo.getName());
+        if (updateRecordBook != null && id.intValue() != updateRecordBook.getId()) {
+            throw new BusinessException(CodeMsg.RECORD_BOOK_NAME_REPEAT);
         }
         // 新的默认账单
         if (!defaultBook.getId().equals(id) && vo.getIsUserDefault()) {
