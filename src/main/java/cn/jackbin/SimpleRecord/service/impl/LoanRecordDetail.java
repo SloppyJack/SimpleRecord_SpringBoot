@@ -42,10 +42,10 @@ public class LoanRecordDetail implements RecordDetailHandler {
     public void handleAdd(Integer userId, RecordDetailBO bo) {
         // 源账户减去金额
         int sid = recordDetailService.add(userId, bo.getSourceAccountId(), null, bo.getTargetAccountId(), bo.getRecordBookId(),
-                null, bo.getRecordTypeId(), "借贷", -bo.getAmount(), bo.getOccurTime(), null, bo.getRemark(), null);
+                null, bo.getRecordTypeId(), bo.getRecordCategory(), -bo.getAmount(), bo.getOccurTime(), null, bo.getRemark(), null);
         // 目标账户增加金额
         int tid = recordDetailService.add(userId, bo.getTargetAccountId(), bo.getSourceAccountId(), null, bo.getRecordBookId(), sid, bo.getRecordTypeId(),
-                "借贷", bo.getAmount(), bo.getOccurTime(), null, bo.getRemark(), null);
+                bo.getRecordCategory(), bo.getAmount(), bo.getOccurTime(), null, bo.getRemark(), null);
         recordDetailService.updateRId((long) sid, tid);
     }
 
