@@ -1,5 +1,6 @@
 package cn.jackbin.SimpleRecord.controller.record;
 
+import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.common.LocalUser;
 import cn.jackbin.SimpleRecord.common.LocalUserId;
 import cn.jackbin.SimpleRecord.common.anotations.HandleDict;
@@ -8,9 +9,11 @@ import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
 import cn.jackbin.SimpleRecord.dto.RecordAccountAnalysisDTO;
 import cn.jackbin.SimpleRecord.entity.RecordAccountDO;
+import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.exception.BusinessException;
 import cn.jackbin.SimpleRecord.service.RecordAccountService;
+import cn.jackbin.SimpleRecord.service.RecordDetailService;
 import cn.jackbin.SimpleRecord.vo.RecordAccountVO;
 import cn.jackbin.SimpleRecord.vo.Result;
 import io.swagger.annotations.Api;
@@ -33,6 +36,8 @@ import java.util.List;
 public class RecordAccountController {
     @Autowired
     private RecordAccountService recordAccountService;
+    @Autowired
+    private RecordDetailService recordDetailService;
 
     @HandleDict
     @GetMapping
@@ -48,6 +53,10 @@ public class RecordAccountController {
         if (recordAccountService.getListByUserId(userId.intValue()).size() > 10) {
             throw new BusinessException(CodeMsg.RECORD_ACCOUNT_SIZE_TOO_MUCH);
         }
+        // 账户名不能重复
+        if (recordAccountService.getByName(userId.intValue(), vo.getName()) != null){
+            throw new BusinessException(CodeMsg.RECORD_ACCOUNT_NAME_REPEAT);
+        }
         recordAccountService.add(userId.intValue(), vo.getType(), vo.getName(),
                 vo.getInNetAssets() ? RecordConstant.BUSINESS_YES : RecordConstant.BUSINESS_NOT, vo.getOrderNo());
         return Result.success();
@@ -58,6 +67,11 @@ public class RecordAccountController {
         Long userId = LocalUserId.get();
         // check
         checkOperateRecordAccount(id, userId);
+        // 账户名不能重复
+        RecordAccountDO updateRecordAccount = recordAccountService.getByName(userId.intValue(), vo.getName());
+        if (updateRecordAccount != null && id.intValue() != updateRecordAccount.getId().intValue()){
+            throw new BusinessException(CodeMsg.RECORD_ACCOUNT_NAME_REPEAT);
+        }
         recordAccountService.update(id, vo.getType(), vo.getName(), vo.getInNetAssets() ? RecordConstant.BUSINESS_YES : RecordConstant.BUSINESS_NOT,
                 vo.getOrderNo());
         return Result.success();
@@ -67,6 +81,11 @@ public class RecordAccountController {
     public Result<?> deleteRecordAccount(@PathVariable("id") @Validated @Positive(message = "id需为正数") Long id) {
         Long userId = LocalUserId.get();
         checkOperateRecordAccount(id, userId);
+        PageBO<RecordDetailDO> pageBO = new PageBO<>(1, 1);
+        recordDetailService.getListByRecordAccountId(userId.intValue(), id.intValue(), pageBO);
+        if (pageBO.getTotal() > 0){
+            throw new BusinessException(CodeMsg.RECORD_ACCOUNT_RELATED);
+        }
         recordAccountService.removeById(id);
         return Result.success();
     }

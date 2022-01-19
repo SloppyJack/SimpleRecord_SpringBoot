@@ -49,16 +49,6 @@ public interface RecordDetailService extends IService<RecordDetailDO> {
     void removeByRId(Long rid);
 
     /**
-     * 获取当前登录用户的记账记录
-     */
-    List<RecordDetailDO> getRecordsByUserId(Integer userId);
-
-    /**
-     * 分页获取当前登录用户的记账记录
-     */
-    List<RecordDetailDO> getRecordsByByPage(Long userId, int pageIndex, int pageSize);
-
-    /**
      * 获取支出
      */
     List<Double> getSpendTotalByMonth(Integer userId, Date date);
@@ -88,4 +78,14 @@ public interface RecordDetailService extends IService<RecordDetailDO> {
     List<MonthRecordAnalysisDTO> getLatestSixMonthList(Integer userId, String recordTypeCode, Date beginDate, Date endDate);
 
     List<RecordDetailBookSumDTO> getSumByRecordBookIds(Integer recordTypeId, List<Integer> recordBookIds);
+
+    /**
+     * 分页获取账本记账记录
+     */
+    void getListByRecordBookId(Integer userId, Integer recordBookId, PageBO<RecordDetailDO> pageBO);
+
+    /**
+     * 分页获取账户记账记录
+     */
+    void getListByRecordAccountId(Integer userId, Integer recordAccountId, PageBO<RecordDetailDO> pageBO);
 }

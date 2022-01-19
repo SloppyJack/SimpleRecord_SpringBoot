@@ -86,8 +86,9 @@ public class RecordUserCategoryServiceImpl extends ServiceImpl<RecordUserCategor
             temp.setUserId(userId);
             temp.setType(n.getType());
             temp.setName(n.getName());
-            temp.setCode(n.getKey());
+            temp.setCode(n.getCode());
             temp.setOrderNo(n.getOrderNo());
+            ret.add(temp);
         });
         saveBatch(ret); // 批量保存
     }

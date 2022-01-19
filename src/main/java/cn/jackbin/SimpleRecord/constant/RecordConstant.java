@@ -13,6 +13,8 @@ public class RecordConstant {
 
     public static final String RECORD_TYPE = "recordType";
 
+    public static final String ACCOUNT_TYPE = "accountType";
+
     public static final String PAYMENT_ACCOUNT = "payment"; // 应收应付账户类型
 
     public static final String BXK = "报销款";
@@ -51,5 +53,10 @@ public class RecordConstant {
      * 已报销
      */
     public static final int IS_RECOVERABLE = 3;
+
+    /**
+     * 默认账单名称
+     */
+    public static final String DEFAULT_RECORD_BOOK_NAME = "默认账单";
 
 }

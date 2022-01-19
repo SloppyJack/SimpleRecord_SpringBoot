@@ -131,22 +131,6 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
     }
 
     @Override
-    public List<RecordDetailDO> getRecordsByUserId(Integer userId) {
-        QueryWrapper<RecordDetailDO> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id",userId);
-        return recordDetailMapper.selectList(queryWrapper);
-    }
-
-    @Override
-    public List<RecordDetailDO> getRecordsByByPage(Long userId, int pageIndex, int pageSize) {
-        IPage<RecordDetailDO> page = new Page<>(pageIndex, pageSize);//参数一是当前页，参数二是每页个数
-        QueryWrapper<RecordDetailDO> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id", userId);
-        page = recordDetailMapper.selectPage(page, queryWrapper);
-        return page.getRecords();
-    }
-
-    @Override
     public List<Double> getSpendTotalByMonth(Integer userId, Date date) {
         List<Double> list = new ArrayList<>();
         DictDO dictDO = dictService.getByCode(RecordConstant.RECORD_TYPE);
@@ -234,5 +218,27 @@ public class RecordDetailServiceImpl extends ServiceImpl<RecordDetailMapper, Rec
     @Override
     public List<RecordDetailBookSumDTO> getSumByRecordBookIds(Integer recordTypeId, List<Integer> recordBookIds) {
         return recordDetailMapper.querySumByRecordBookIds(recordTypeId, recordBookIds);
+    }
+
+    @Override
+    public void getListByRecordBookId(Integer userId, Integer recordBookId, PageBO<RecordDetailDO> pageBO) {
+        IPage<RecordDetailDO> page = new Page<>(pageBO.getPageNo(), pageBO.getPageSize());//参数一是当前页，参数二是每页个数
+        QueryWrapper<RecordDetailDO> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", userId);
+        queryWrapper.eq("record_book_id", recordBookId);
+        page = recordDetailMapper.selectPage(page, queryWrapper);
+        pageBO.setTotal((int) page.getTotal());
+        pageBO.setList(page.getRecords());
+    }
+
+    @Override
+    public void getListByRecordAccountId(Integer userId, Integer recordAccountId, PageBO<RecordDetailDO> pageBO) {
+        IPage<RecordDetailDO> page = new Page<>(pageBO.getPageNo(), pageBO.getPageSize());//参数一是当前页，参数二是每页个数
+        QueryWrapper<RecordDetailDO> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", userId);
+        queryWrapper.eq("record_account_id", recordAccountId);
+        page = recordDetailMapper.selectPage(page, queryWrapper);
+        pageBO.setTotal((int) page.getTotal());
+        pageBO.setList(page.getRecords());
     }
 }

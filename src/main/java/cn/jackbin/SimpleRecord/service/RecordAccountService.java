@@ -24,4 +24,11 @@ public interface RecordAccountService extends IService<RecordAccountDO> {
      * 获取各账户的流入流出金额
      */
     List<RecordAccountAnalysisDTO> analysisAccounts(Integer userId);
+
+    RecordAccountDO getByName(Integer userId, String name);
+
+    /**
+     * 记账账户初始化
+     */
+    void init(Integer userId);
 }

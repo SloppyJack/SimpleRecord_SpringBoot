@@ -61,6 +61,9 @@ public enum CodeMsg {
     TARGET_RECORD_ACCOUNT_PAYMENT_ONLY(700016, "目标账户只能为应收应付类型"),
     RECORD_CATEGORY_ERROR(700017, "记账类别错误"),
     RECORD_BOOK_NAME_REPEAT(700018, "记账账本名称不可重复"),
+    RECORD_BOOK_RELATED(700019, "账户仍有记账记录关联"),
+    RECORD_ACCOUNT_RELATED(700019, "账户仍有记账记录关联"),
+    RECORD_ACCOUNT_NAME_REPEAT(700020, "记账账户名称不可重复"),
     ;
 
     private final int retCode;

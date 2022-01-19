@@ -8,9 +8,11 @@ import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
 import cn.jackbin.SimpleRecord.dto.RecordBookAnalysisDTO;
 import cn.jackbin.SimpleRecord.entity.RecordBookDO;
+import cn.jackbin.SimpleRecord.entity.RecordDetailDO;
 import cn.jackbin.SimpleRecord.entity.UserDO;
 import cn.jackbin.SimpleRecord.exception.BusinessException;
 import cn.jackbin.SimpleRecord.service.RecordBookService;
+import cn.jackbin.SimpleRecord.service.RecordDetailService;
 import cn.jackbin.SimpleRecord.vo.AddRecordBookVO;
 import cn.jackbin.SimpleRecord.vo.EditRecordBookVO;
 import cn.jackbin.SimpleRecord.vo.PageVO;
@@ -35,6 +37,8 @@ import java.util.List;
 public class RecordBookController {
     @Autowired
     private RecordBookService recordBookService;
+    @Autowired
+    private RecordDetailService recordDetailService;
 
     @PostMapping("/page")
     public Result<?> getPage(@RequestBody @Validated PageVO vo) {
@@ -57,11 +61,16 @@ public class RecordBookController {
 
 
     @DeleteMapping("/{id}")
-    public Result<?> delRecordBook(@PathVariable @Validated @Positive(message = "Id需为正数") Integer id) {
+    public Result<?> delRecordBook(@PathVariable @Validated @Positive(message = "Id需为正数") Long id) {
         Long userId = LocalUserId.get();
         RecordBookDO recordBookDO = recordBookService.getById(id);
         if (recordBookDO == null || recordBookDO.getUserId() != userId.intValue()) {
             throw new BusinessException(CodeMsg.DEL_RECORD_BOOK_ERROR);
+        }
+        PageBO<RecordDetailDO> pageBO = new PageBO<>(1, 1);
+        recordDetailService.getListByRecordBookId(userId.intValue(), id.intValue(), pageBO);
+        if (pageBO.getTotal() > 0){
+            throw new BusinessException(CodeMsg.RECORD_BOOK_RELATED);
         }
         recordBookService.removeById(id);
         return Result.success();

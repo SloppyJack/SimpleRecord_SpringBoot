@@ -55,6 +55,12 @@ public class WechatAuthServiceImpl extends ServiceImpl<WechatUserMapper, WechatU
     private MenuService menuService;
     @Autowired
     private RedisUtil redisUtil;
+    @Autowired
+    private RecordUserCategoryService recordUserCategoryService;
+    @Autowired
+    private RecordBookService recordBookService;
+    @Autowired
+    private RecordAccountService recordAccountService;
 
     @Override
     public WechatUserDO getByOpenId(String openId) {
@@ -69,12 +75,18 @@ public class WechatAuthServiceImpl extends ServiceImpl<WechatUserMapper, WechatU
         UserDO userDO;
         WechatUserDO wechatUserDO = getByOpenId(vo.getOpenId());
         if (wechatUserDO == null) {
-            // 先注册
+            // 1. 先注册
             UserDO userTemp = new UserDO();
             BeanUtils.copyProperties(vo, userTemp);
             userTemp.setCredential(PasswordUtil.encoder(PasswordUtil.randomPsw()));
-            // 保存用户
+            // 2. 保存用户
             userService.saveWithDefaultRole(userTemp);
+            // 3. 从系统中初始化类别
+            recordUserCategoryService.reset(userTemp.getId().intValue());
+            // 4. 初始化账单
+            recordBookService.init(userTemp.getId().intValue());
+            // 5. 初始化记账账户
+            recordAccountService.init(userTemp.getId().intValue());
             userDO = userService.getByName(vo.getUsername());
             WechatUserDO wechatUserTemp = new WechatUserDO();
             wechatUserTemp.setUserId(userDO.getId());

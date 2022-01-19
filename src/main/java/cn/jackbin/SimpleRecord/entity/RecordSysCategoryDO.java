@@ -39,7 +39,7 @@ public class RecordSysCategoryDO extends BaseDO implements Serializable {
     /**
      * 类别Key
      */
-    private String key;
+    private String code;
 
     /**
      * 排序

@@ -37,4 +37,9 @@ public interface RecordBookService extends IService<RecordBookDO> {
      * 获取用户的所有账本
      */
     List<RecordBookDO> getList(Integer userId);
+
+    /**
+     * 初始化账单
+     */
+    void init(Integer userId);
 }

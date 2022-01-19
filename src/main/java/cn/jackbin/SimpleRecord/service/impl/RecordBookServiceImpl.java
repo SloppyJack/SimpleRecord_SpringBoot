@@ -151,4 +151,16 @@ public class RecordBookServiceImpl extends ServiceImpl<RecordBookMapper, RecordB
         queryWrapper.orderByAsc("order_no");
         return recordBookMapper.selectList(queryWrapper);
     }
+
+    @Override
+    public void init(Integer userId) {
+        RecordBookDO recordBookDO = new RecordBookDO();
+        recordBookDO.setUserId(userId);
+        recordBookDO.setName(RecordConstant.DEFAULT_RECORD_BOOK_NAME);
+        recordBookDO.setOrderNo(1);
+        recordBookDO.setStatus(CommonConstants.STATUS_NORMAL);
+        // 新增的账本为非用户默认
+        recordBookDO.setIsUserDefault(RecordConstant.USER_DEFAULT);
+        recordBookMapper.insert(recordBookDO);
+    }
 }
