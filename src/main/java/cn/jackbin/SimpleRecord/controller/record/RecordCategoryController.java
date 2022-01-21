@@ -2,7 +2,9 @@ package cn.jackbin.SimpleRecord.controller.record;
 
 import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.common.LocalUserId;
+import cn.jackbin.SimpleRecord.common.anotations.CommonLog;
 import cn.jackbin.SimpleRecord.common.anotations.HandleDict;
+import cn.jackbin.SimpleRecord.common.enums.BusinessType;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
 import cn.jackbin.SimpleRecord.entity.RecordUserCategoryDO;
@@ -53,6 +55,7 @@ public class RecordCategoryController {
         return Result.success(pageBO);
     }
 
+    @CommonLog(title = "重置记账类别", businessType = BusinessType.UPDATE)
     @PutMapping(value = "/reset")
     public Result<?> resetRecordCategories(){
         Long userId = LocalUserId.get();
@@ -60,6 +63,7 @@ public class RecordCategoryController {
         return Result.success();
     }
 
+    @CommonLog(title = "新增记账类别", businessType = BusinessType.INSERT)
     @PostMapping
     public Result<?> addRecordCategory(@RequestBody @Validated RecordCategoryVO vo) {
         String recordTypeCode = vo.getRecordTypeCode();
@@ -71,6 +75,7 @@ public class RecordCategoryController {
         return Result.success();
     }
 
+    @CommonLog(title = "修改记账类别", businessType = BusinessType.UPDATE)
     @PutMapping("/{id}")
     public Result<?> editRecordCategory(@PathVariable("id") @Validated @Positive(message = "id需为正数") Long id,
                                         @RequestBody @Validated RecordCategoryVO vo){
@@ -84,6 +89,7 @@ public class RecordCategoryController {
 
     }
 
+    @CommonLog(title = "删除记账类别", businessType = BusinessType.DELETE)
     @DeleteMapping("/{id}")
     public Result<?> delRecordCategory(@PathVariable("id") @Validated @Positive(message = "id需为正数") Long id){
         Long userId = LocalUserId.get();

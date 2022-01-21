@@ -2,8 +2,10 @@ package cn.jackbin.SimpleRecord.controller.record;
 
 import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.common.LocalUserId;
+import cn.jackbin.SimpleRecord.common.anotations.CommonLog;
 import cn.jackbin.SimpleRecord.common.anotations.HandleDict;
 import cn.jackbin.SimpleRecord.common.anotations.LoginRequired;
+import cn.jackbin.SimpleRecord.common.enums.BusinessType;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
 import cn.jackbin.SimpleRecord.dto.RecordDetailDTO;
 import cn.jackbin.SimpleRecord.service.RecordDetailContext;
@@ -54,6 +56,7 @@ public class RecordDetailController {
         return Result.success();
     }
 
+    @CommonLog(title = "修改当前登录用户的记账记录", businessType = BusinessType.UPDATE)
     @ApiOperation(value = "修改当前登录用户的记账记录")
     @PutMapping("/{id}")
     public Result<?> updateRecord(@PathVariable("id") @Validated @Positive(message = "id需为正数") Long id, @RequestBody @Validated RecordDetailVO vo) {
@@ -63,6 +66,7 @@ public class RecordDetailController {
         return Result.success();
     }
 
+    @CommonLog(title = "删除当前登录用户的记账记录", businessType = BusinessType.DELETE)
     @ApiOperation(value = "删除当前登录用户的记账记录")
     @DeleteMapping("/{id}")
     public Result<?> deleteRecord(@PathVariable("id") @Positive(message = "{id}") Integer id) {
@@ -71,6 +75,7 @@ public class RecordDetailController {
         return Result.success();
     }
 
+    @CommonLog(title = "分页获取某个月份账本记账记录", businessType = BusinessType.QUERY)
     @HandleDict
     @ApiOperation(value = "分页获取某个月份账本记账记录")
     @PostMapping("/monthBookRecords")
@@ -81,6 +86,7 @@ public class RecordDetailController {
         return Result.success(pageBO);
     }
 
+    @CommonLog(title = "分页获取某个月份账户流水", businessType = BusinessType.QUERY)
     @HandleDict
     @ApiOperation(value = "分页获取某个月份账户流水")
     @PostMapping("/monthAccountRecords")
@@ -91,6 +97,7 @@ public class RecordDetailController {
         return Result.success(pageBO);
     }
 
+    @CommonLog(title = "分页获取某个月份报销记录", businessType = BusinessType.QUERY)
     @HandleDict
     @ApiOperation(value = "分页获取某个月份报销记录")
     @PostMapping("/recoverable")
@@ -101,6 +108,7 @@ public class RecordDetailController {
         return Result.success(pageBO);
     }
 
+    @CommonLog(title = "批量报销", businessType = BusinessType.UPDATE)
     @ApiOperation(value = "批量报销")
     @PutMapping("/recover")
     public Result<?> recoverRecords(@RequestBody List<Long> ids){

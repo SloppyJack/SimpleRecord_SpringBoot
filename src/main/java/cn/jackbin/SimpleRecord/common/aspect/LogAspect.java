@@ -105,7 +105,7 @@ public class LogAspect implements Ordered {
             // 设置返回结果
             logDO.setJsonResult(JSON.toJSONString(jsonResult));
             logDO.setRequestUrl(ServletUtil.getRequest().getRequestURL().toString());
-            logDO.setOperId(userId.intValue());
+            logDO.setOperId(userId != null ? userId.intValue(): null);
             logDO.setOperIp(ip);
             if (e != null)
             {

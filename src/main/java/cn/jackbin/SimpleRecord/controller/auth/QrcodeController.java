@@ -1,6 +1,8 @@
 package cn.jackbin.SimpleRecord.controller.auth;
 
 import cn.jackbin.SimpleRecord.bo.QrCodeInfoBO;
+import cn.jackbin.SimpleRecord.common.anotations.CommonLog;
+import cn.jackbin.SimpleRecord.common.enums.BusinessType;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.service.WechatAuthService;
 import cn.jackbin.SimpleRecord.utils.*;
@@ -34,6 +36,7 @@ public class QrcodeController {
     @Autowired
     private SpringContextUtil springContextUtil;
 
+    @CommonLog(title = "二维码生成", businessType = BusinessType.GRANT)
     @ApiOperation(value = "二维码生成")
     @GetMapping
     public void getQrcode(String uuid) {
@@ -66,6 +69,7 @@ public class QrcodeController {
         }
     }
 
+    @CommonLog(title = "生成UUID", businessType = BusinessType.GRANT)
     @ApiOperation(value = "生成UUID")
     @GetMapping("/uuid")
     public Result<?> generateUUID() {
@@ -76,6 +80,7 @@ public class QrcodeController {
         return Result.success(uuid);
     }
 
+    @CommonLog(title = "扫描二维码", businessType = BusinessType.GRANT)
     @ApiOperation(value = "扫描二维码")
     @PutMapping("/scan")
     public Result<?> scanQrcode(String uuid) {
@@ -93,6 +98,7 @@ public class QrcodeController {
         return Result.success();
     }
 
+    @CommonLog(title = "扫描二维码", businessType = BusinessType.GRANT)
     @ApiOperation(value = "授权登录")
     @PutMapping("/authorize")
     public Result<?> confirm(@RequestBody @Validated QrcodeAuthorizationVO vo) {

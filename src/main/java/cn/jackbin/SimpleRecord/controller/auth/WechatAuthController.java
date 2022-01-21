@@ -38,6 +38,7 @@ public class WechatAuthController {
     @Autowired
     private WechatAuthService wechatAuthService;
 
+    @CommonLog(title = "获取微信openId", businessType = BusinessType.GRANT)
     @ApiOperation(value = "获取微信openId")
     @GetMapping("/openId/{code}")
     public Result<?> getOpenId(@Validated @NotNull(message = "code不能为空") @PathVariable("code") String code) {

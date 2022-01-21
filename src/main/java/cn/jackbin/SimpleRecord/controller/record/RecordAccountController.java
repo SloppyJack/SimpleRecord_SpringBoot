@@ -3,8 +3,10 @@ package cn.jackbin.SimpleRecord.controller.record;
 import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.common.LocalUser;
 import cn.jackbin.SimpleRecord.common.LocalUserId;
+import cn.jackbin.SimpleRecord.common.anotations.CommonLog;
 import cn.jackbin.SimpleRecord.common.anotations.HandleDict;
 import cn.jackbin.SimpleRecord.common.anotations.LoginRequired;
+import cn.jackbin.SimpleRecord.common.enums.BusinessType;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
 import cn.jackbin.SimpleRecord.dto.RecordAccountAnalysisDTO;
@@ -46,6 +48,7 @@ public class RecordAccountController {
         return Result.success(list);
     }
 
+    @CommonLog(title = "添加记账账户", businessType = BusinessType.INSERT)
     @PostMapping
     public Result<?> addRecordAccount(@Validated @RequestBody RecordAccountVO vo) {
         Long userId = LocalUserId.get();
@@ -62,6 +65,7 @@ public class RecordAccountController {
         return Result.success();
     }
 
+    @CommonLog(title = "修改记账账户", businessType = BusinessType.UPDATE)
     @PutMapping("/{id}")
     public Result<?> editRecordAccount(@PathVariable("id") @Validated @Positive(message = "id需为正数") Long id,  @Validated @RequestBody RecordAccountVO vo) {
         Long userId = LocalUserId.get();
@@ -77,6 +81,7 @@ public class RecordAccountController {
         return Result.success();
     }
 
+    @CommonLog(title = "删除记账账户", businessType = BusinessType.DELETE)
     @DeleteMapping("/{id}")
     public Result<?> deleteRecordAccount(@PathVariable("id") @Validated @Positive(message = "id需为正数") Long id) {
         Long userId = LocalUserId.get();
@@ -90,6 +95,7 @@ public class RecordAccountController {
         return Result.success();
     }
 
+    @CommonLog(title = "获取资产分析", businessType = BusinessType.QUERY)
     @HandleDict
     @GetMapping("/statistics")
     public Result<?> accountStatistics() {

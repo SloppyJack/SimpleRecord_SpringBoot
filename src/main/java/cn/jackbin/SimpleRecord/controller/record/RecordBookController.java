@@ -3,7 +3,9 @@ package cn.jackbin.SimpleRecord.controller.record;
 import cn.jackbin.SimpleRecord.bo.PageBO;
 import cn.jackbin.SimpleRecord.common.LocalUser;
 import cn.jackbin.SimpleRecord.common.LocalUserId;
+import cn.jackbin.SimpleRecord.common.anotations.CommonLog;
 import cn.jackbin.SimpleRecord.common.anotations.LoginRequired;
+import cn.jackbin.SimpleRecord.common.enums.BusinessType;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.constant.RecordConstant;
 import cn.jackbin.SimpleRecord.dto.RecordBookAnalysisDTO;
@@ -48,6 +50,7 @@ public class RecordBookController {
         return Result.success(pageBO);
     }
 
+    @CommonLog(title = "新增记账账本", businessType = BusinessType.INSERT)
     @PostMapping
     public Result<?> addRecordBook(@RequestBody @Validated AddRecordBookVO vo) {
         Long userId = LocalUserId.get();
@@ -60,6 +63,7 @@ public class RecordBookController {
     }
 
 
+    @CommonLog(title = "删除记账账本", businessType = BusinessType.DELETE)
     @DeleteMapping("/{id}")
     public Result<?> delRecordBook(@PathVariable @Validated @Positive(message = "Id需为正数") Long id) {
         Long userId = LocalUserId.get();
@@ -76,6 +80,7 @@ public class RecordBookController {
         return Result.success();
     }
 
+    @CommonLog(title = "修改记账账本", businessType = BusinessType.UPDATE)
     @PutMapping("/{id}")
     public Result<?> editRecordBook(@PathVariable("id") @Validated @Positive(message = "id需为正数") Long id,
                                     @RequestBody @Validated EditRecordBookVO vo) {
