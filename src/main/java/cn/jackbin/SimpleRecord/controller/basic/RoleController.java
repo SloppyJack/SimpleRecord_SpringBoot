@@ -3,6 +3,8 @@ package cn.jackbin.SimpleRecord.controller.basic;
 
 import cn.jackbin.SimpleRecord.bo.MenuBO;
 import cn.jackbin.SimpleRecord.bo.PageBO;
+import cn.jackbin.SimpleRecord.common.anotations.CommonLog;
+import cn.jackbin.SimpleRecord.common.enums.BusinessType;
 import cn.jackbin.SimpleRecord.constant.CodeMsg;
 import cn.jackbin.SimpleRecord.constant.RoleConstant;
 import cn.jackbin.SimpleRecord.entity.MenuDO;
@@ -40,6 +42,7 @@ public class RoleController {
     @Autowired
     private MenuService menuService;
 
+    @CommonLog(title = "获取角色列表", businessType = BusinessType.QUERY)
     @ApiOperation(value = "获取角色列表")
     @PreAuthorize("hasAuthority('system:role:view')")
     @PostMapping("/page")

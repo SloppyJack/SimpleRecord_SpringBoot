@@ -10,25 +10,32 @@ import cn.jackbin.SimpleRecord.utils.IpUtil;
 import cn.jackbin.SimpleRecord.utils.ServletUtil;
 import cn.jackbin.SimpleRecord.utils.StringUtil;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.support.spring.PropertyPreFilters;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.protocol.HTTP;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.Ordered;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -100,10 +107,10 @@ public class LogAspect implements Ordered {
             // 是否需要保存request，参数和值
             if (annotationLog.isSaveRequestData()) {
                 // 获取参数的信息，传入到数据库中。
-                logDO.setRequestParam(getRequestParams());
+                setRequestParams(joinPoint, logDO);
             }
             // 设置返回结果
-            logDO.setJsonResult(JSON.toJSONString(jsonResult));
+            logDO.setJsonResult(StringUtil.substring(JSON.toJSONString(jsonResult), 0, 2000));
             logDO.setRequestUrl(ServletUtil.getRequest().getRequestURL().toString());
             logDO.setOperId(userId != null ? userId.intValue(): null);
             logDO.setOperIp(ip);
@@ -139,41 +146,81 @@ public class LogAspect implements Ordered {
      * 获取请求的参数
      *
      */
-    private String getRequestParams()
+    private void setRequestParams(JoinPoint joinPoint, CommonLogDO logDO)
     {
-        HttpServletRequest req = ServletUtil.getRequest();
-        String contentType = req.getContentType();
-        String params ="";
-        // 判断contentType类型
-        if (contentType == null) {
-
-            Map<String, String[]> map = req.getParameterMap();
-            if (StringUtil.isNotEmpty(map))
-            {
-                PropertyPreFilters.MySimplePropertyPreFilter excludefilter = new PropertyPreFilters().addFilter();
-                excludefilter.addExcludes(EXCLUDE_PROPERTIES);
-                params = JSONObject.toJSONString(map, excludefilter);
-
-            }
-        } else if (contentType.contains("application/json")) {
-            // 从流中读取请求数据
-            ServletInputStream is;
-            try {
-                is = req.getInputStream();
-                int nRead = 1;
-                int nTotalRead = 0;
-                byte[] bytes = new byte[10240];
-                while (nRead > 0) {
-                    nRead = is.read(bytes, nTotalRead, bytes.length - nTotalRead);
-                    if (nRead > 0)
-                        nTotalRead = nTotalRead + nRead;
-                }
-                params = new String(bytes, 0, nTotalRead, StandardCharsets.UTF_8);
-            } catch (IOException e) {
-                e.printStackTrace();
+        String requestMethod = logDO.getRequestMethod();
+        if (HttpMethod.PUT.name().equals(requestMethod) || HttpMethod.POST.name().equals(requestMethod))
+        {
+            String params = argsArrayToString(joinPoint.getArgs());
+            logDO.setRequestParam(StringUtil.substring(params, 0, 2000));
+        } else if (HttpMethod.GET.name() .equals(requestMethod)){
+            // 判断参数是否不为空
+            Map<String, String[]> map = ServletUtil.getRequest().getParameterMap();
+            if (map.size() > 0){
+                logDO.setRequestParam(JSON.toJSONString(map));
             }
         }
-        return params;
+    }
+
+    /**
+     * 参数拼装
+     */
+    private String argsArrayToString(Object[] paramsArray)
+    {
+        String params = "";
+        if (paramsArray != null && paramsArray.length > 0)
+        {
+            for (Object o : paramsArray)
+            {
+                if (o != null && !isFilterObject(o))
+                {
+                    try
+                    {
+                        Object jsonObj = JSON.toJSON(o);
+                        params += jsonObj.toString() + " ";
+                    }
+                    catch (Exception e)
+                    {
+                    }
+                }
+            }
+        }
+        return params.trim();
+    }
+
+    /**
+     * 判断是否需要过滤的对象。
+     *
+     * @param o 对象信息。
+     * @return 如果是需要过滤的对象，则返回true；否则返回false。
+     */
+    @SuppressWarnings("rawtypes")
+    public boolean isFilterObject(final Object o)
+    {
+        Class<?> clazz = o.getClass();
+        if (clazz.isArray())
+        {
+            return clazz.getComponentType().isAssignableFrom(MultipartFile.class);
+        }
+        else if (Collection.class.isAssignableFrom(clazz))
+        {
+            Collection collection = (Collection) o;
+            for (Object value : collection)
+            {
+                return value instanceof MultipartFile;
+            }
+        }
+        else if (Map.class.isAssignableFrom(clazz))
+        {
+            Map map = (Map) o;
+            for (Object value : map.entrySet())
+            {
+                Map.Entry entry = (Map.Entry) value;
+                return entry.getValue() instanceof MultipartFile;
+            }
+        }
+        return o instanceof MultipartFile || o instanceof HttpServletRequest || o instanceof HttpServletResponse
+                || o instanceof BindingResult;
     }
 
     @Override

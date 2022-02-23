@@ -98,7 +98,7 @@ public class QrcodeController {
         return Result.success();
     }
 
-    @CommonLog(title = "扫描二维码", businessType = BusinessType.GRANT)
+    @CommonLog(title = "授权登录", businessType = BusinessType.GRANT)
     @ApiOperation(value = "授权登录")
     @PutMapping("/authorize")
     public Result<?> confirm(@RequestBody @Validated QrcodeAuthorizationVO vo) {
