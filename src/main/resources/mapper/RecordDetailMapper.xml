@@ -65,7 +65,7 @@
             </if>
             and t1.delete_time is null
             and t1.target_account_id is null   -- 流出账户为空
-        ORDER BY t1.occur_time desc
+        ORDER BY t1.occur_time desc, t1.create_time desc
     </select>
 
     <select id="queryByMonthAndAccount" resultType="cn.jackbin.SimpleRecord.dto.RecordDetailDTO">
