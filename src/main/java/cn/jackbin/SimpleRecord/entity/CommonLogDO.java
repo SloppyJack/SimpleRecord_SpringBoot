@@ -61,6 +61,11 @@ public class CommonLogDO extends BaseDO implements Serializable {
     private String requestParam;
 
     /**
+     * 操作人平台
+     */
+    private String operPlatform;
+
+    /**
      * 操作人IP
      */
     private String operIp;
